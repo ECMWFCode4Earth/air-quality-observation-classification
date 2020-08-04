@@ -18,7 +18,7 @@ for class_value in range(2):
 	# create scatter of these samples
 	pyplot.scatter(X[row_ix, 0], X[row_ix, 1])
 # show the plot
-    print('Dataset')
+    # print('Dataset')
 pyplot.show()
 
 

@@ -109,12 +109,12 @@ def Get_OpenAQ_nearestroad_to_location_from_GoogleMaps_RoadAPI(lat, lng):
     
     print(Location_info)
     
-    gmaps = googlemaps.Client(key='AIzaSyARmyW7iU8LGmXgzVb1JWQp0-kJeK1L15E')
+    gmaps = googlemaps.Client(key='')
     
         
     Results = gmaps.nearest_roads(Location_info)
   
-  #  Results2 = gmaps.snapped_speed_limits(Location_info)
+    Results2 = gmaps.snapped_speed_limits(Location_info)
         
   #  print(Results2)
     
@@ -180,7 +180,7 @@ lng1 = Dataset.coordinates.iloc[100]['longitude']
 print(lat1)
 print(lng1)
 
-Results_nearestroad = Get_OpenAQ_nearestroad_to_location_from_GoogleMaps_RoadAPI(lat1, lng1)
+# Results_nearestroad = Get_OpenAQ_nearestroad_to_location_from_GoogleMaps_RoadAPI(lat1, lng1)
 
 
 print(Dataset.dtypes)
@@ -466,7 +466,7 @@ Test_results_output_length = len(Test_results_output)
 
 Results_openAQ = pd.DataFrame(Test_results_output)
 print(len(Results_openAQ))   
-Results_openAQ.to_csv(r'D:\AirNode\TechnicalStack\AirNode_Dependencies\Functionality\L_IoT\Gatherminer-master\example_data\openAQ_dataset.csv',index=False)                       
+Results_openAQ.to_csv(r'D:\AirNode\TechnicalStack\AirNode_Dependencies\Functionality\L_IoT\Gatherminer-master\example_data\openAQ_dataset100.csv',index=False)                       
     
 
 # Initialize logger

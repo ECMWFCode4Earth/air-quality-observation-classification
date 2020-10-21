@@ -71,13 +71,15 @@ def Get_OpenAQ_import_nearestroad_to_location_from_GoogleMaps_RoadAPI(df):
     Dataset_result = []
     
     for index, OpenAQlng in df.iterrows():
-       print(OpenAQlng['latitude'])
+  #     print(OpenAQlng['latitude'])
         
        Dataset_results = Get_OpenAQ_nearestroad_to_location_from_GoogleMaps_RoadAPI(df, OpenAQlng['latitude'], OpenAQlng['longitude'])
        
        Dataset_results.append(OpenAQlng['location'])
        Dataset_result.append(Dataset_results) 
-       print(Dataset_results)
+ #      print(Dataset_results)
+       
+       print(OpenAQlng['latitude'],',',OpenAQlng['longitude'],'|')
        
     return Dataset_result
     
@@ -155,7 +157,7 @@ def Get_OpenAQ_imports_import_nearestroad_to_location_from_GoogleMaps_RoadAPI(df
     print(Results['latitude'][0])
     print(Results['longitude'][1])
    
-#    Get_OpenAQ_import_nearestroad_to_location_from_GoogleMaps_RoadAPI(Location_Subset)
+    Get_OpenAQ_import_nearestroad_to_location_from_GoogleMaps_RoadAPI(Location_Subset)
     
 #    Results.to_csv(r'D:\AirNode\TechnicalStack\AirNode_Dependencies\Functionality\L_IoT\Gatherminer-master\example_data\openAQ_attr.csv',index=False)                       
     return Results                
@@ -175,16 +177,10 @@ def Get_OpenAQ_Imported_import_nearestroad_to_location_from_GoogleMaps_RoadAPI(d
 
 data_file1 = 'openaq_PM25_copy_3_copy.xlsx';
 
-dataset1 = '2017-08-11_test.xlsx'
-
 #df4 = pd.read_csv (r'openAQ_PM25_3_copy_2.csv',index_col=0)
 
 
-#df = pd.read_excel(data_file1, index_col=0)
-
-
-df = pd.read_excel(dataset1, index_col=0)
-
+df = pd.read_excel(data_file1, index_col=0)
 
 #Get_OpenAQ_Imported_import_nearestroad_to_location_from_GoogleMaps_RoadAPI(df)
 

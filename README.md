@@ -8,19 +8,20 @@ Validating and removing errors outliers from surface air quality observations fr
 
 Milestone1_Importing-datasets-from-OpenAQ
 
+Importing OpenAQ datasets to dataframes
+
 Milestone2_Identifying_reliable_stations
+
+Analytics on OpenAQ datasets
 
 Milestone3_Pecos_Quality_Control
 
-GMM Kmeans
+Pecos Quality Control evaluation on OpenAQ datasets
 
-Cluster Measure
+Milestone7_Interface_OpenAQ_Outlier_Error_Identification_Gatherminder
 
-Randscore
+Presentation of results of outliers using Gatherminer
 
-Presentation results
-
-Using Gatherminer
 
 # Dependencies
 

@@ -27,6 +27,7 @@ Presentation of results of outliers using Gatherminer
 
 1 Pecos for Milestone 3
 
+https://pecos.readthedocs.io/en/latest/installation.html
 
 2 Gatherminer for Milestone 7 
 An interactive visual tool for time series analysis.

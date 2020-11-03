@@ -8,6 +8,8 @@ Validating and removing errors outliers from surface air quality observations fr
 
 Milestone1_Importing-datasets-from-OpenAQ
 
+Milestone2_Identifying_reliable_stations
+
 
 
 GMM Kmeans

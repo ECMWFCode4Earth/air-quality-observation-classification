@@ -9,7 +9,7 @@ and ESoWC 2020
 
 # Implementation 
 
-Milestone 3 Classification of AQ Stations 
+Milestone 1 Importing datasets from OpenAQ
 
 Aims 
 1 Import OpenAQ dataset from many sources i.e. csv, ndjson or through api 

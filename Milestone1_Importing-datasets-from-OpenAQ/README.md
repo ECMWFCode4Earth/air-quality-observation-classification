@@ -20,7 +20,23 @@ Aims
 
 # User Manual
 
+
+Importing from a csv 
+
+Step 1 Download OpenAQ dataset from openAQ
+
+Step 2 Convert to csv 
+
+Step 3 Change csv requested in the script
+
+Milestone_1_Import_OpenAQ_applying_Datasetcsv.py
+
+
+Other scripts
+
 In the script
+
+
 
 Python Scripts 
 
@@ -33,8 +49,9 @@ Import cities that have openAQ locations for chosen country
 Import countries that have openAQ locations
 
 
+3 Milestone_1_Import_OpenAQ_applying_Datasetcsv.py
 
-
+Import OpenAQ dataset from a csv that has been downloaded from openAQ
 
 4 Milestone1_Import_OpenAQ_API_Download.py
 

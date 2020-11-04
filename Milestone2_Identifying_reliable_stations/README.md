@@ -9,32 +9,16 @@ and ESoWC 2020
 
 Implementation 
 
-Milestone 3 Classification of AQ Stations 
+Milestone 1 Identifying reliable stations
 
-Aims 
-1 Choose an upper bound of values and identify value over to be outliers
-2 Choose a lower bound of values 
-3 Choose an increment on measurements that is acceptable for both increasing and decreasing values 
-4 Find How many stations don’t measure every 15 minutes through a day and when are these are
-5 Find stagnant measurements that don't change over a chosen amount 
-
-User Manual
-
-UserManual_Milestone_3_Pecos_Quality_Control_Classification_of_Stations.pdf
-(This is for Milestone3_Pecos_Importing_OpenAQ_API_Dataset_Classification_of_Measurements.py)
+1 Histogram of OpenAQ Stations
 
 
-Parameters 
-1 Higher bound
-2 Lower Bound 
-3 Timestep of expected measurements
-4 The higher bound and lower bound that designate stagnant measurements  
-5 Increment over measurements 
+2 Boxplot of OpenAQ stations 
 
-Presentation results
+a. From Csv import 
 
-The scripts utput to test_results.csv and monitoring_report.html
-(There are examples of these in the github)
+
 
 Python Scripts 
 

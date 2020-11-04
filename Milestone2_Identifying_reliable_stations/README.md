@@ -15,9 +15,13 @@ Milestone 1 Identifying reliable stations
 
 (Milestone_2_Import_OpenAQ_Dataset_Histogram.py)
 
+Default is 
+
 2 Boxplot of OpenAQ stations 
 
 (Milestone2_Analytics_OpenAQ_Station_Boxplot_Import_OpenAQ_Pandas_Analysis_csv.py )
+
+Defualt openAQ dataset download is OpenAQ_Dataset_Sample_Pm25_csv.csv
 
 a. From Csv import 
 

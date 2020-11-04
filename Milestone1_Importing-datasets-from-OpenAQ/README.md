@@ -34,6 +34,15 @@ Import countries that have openAQ locations
 
 
 
+
+
+4 Milestone1_Import_OpenAQ_API_Download.py
+
+Queries the openAQ api for every stations measurements
+
+It sometimes timesout while doing the query and should be done a few times to retry
+
+
 Parameters: 
 
 1 Milestone1_Import_OpenAQ_Cities.py

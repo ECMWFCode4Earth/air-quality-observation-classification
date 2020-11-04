@@ -7,7 +7,7 @@ Validating and removing errors outliers from surface air quality observations fr
 Completed for ECMWF European Centre for Medium Weather Forecast 2020 
 and ESoWC 2020
 
-Implementation 
+#Implementation 
 
 Milestone 1 Identifying reliable stations
 
@@ -16,6 +16,8 @@ Milestone 1 Identifying reliable stations
 (Milestone_2_Import_OpenAQ_Dataset_Histogram.py)
 
 2 Boxplot of OpenAQ stations 
+
+(Milestone2_Analytics_OpenAQ_Station_Boxplot_Import_OpenAQ_Pandas_Analysis_csv.py )
 
 a. From Csv import 
 
@@ -27,9 +29,20 @@ Python Scripts
 
 Histogram of OpenAQ stations 
 
-2 
+2 Milestone2_Analytics_OpenAQ_Station_Boxplot_Import_OpenAQ_Pandas_Analysis_csv.py 
+
+Box plot OpenAQ Station
 
 
+#User Manual 
+
+2 Milestone2_Analytics_OpenAQ_Station_Boxplot_Import_OpenAQ_Pandas_Analysis_csv.py 
+
+Step 1 Download Dataset for one AQ Station from the dataset from openAQ.org
+
+Step 2 Convert to csv 
+
+Step 3 Change the csv requested in the script to chosen OpenAQ Stations 
 
 
 Dependencies

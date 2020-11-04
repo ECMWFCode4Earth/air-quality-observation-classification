@@ -15,7 +15,7 @@ Milestone 1 Identifying reliable stations
 
 (Milestone_2_Import_OpenAQ_Dataset_Histogram.py)
 
-Default is 
+Default is openAQ_PM25_year.csv
 
 2 Boxplot of OpenAQ stations 
 

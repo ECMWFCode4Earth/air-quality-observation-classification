@@ -13,6 +13,7 @@ Milestone 1 Identifying reliable stations
 
 1 Histogram of OpenAQ Stations
 
+(Milestone_2_Import_OpenAQ_Dataset_Histogram.py)
 
 2 Boxplot of OpenAQ stations 
 
@@ -22,58 +23,13 @@ a. From Csv import
 
 Python Scripts 
 
-1 Milestone3_Pecos_6Month_Importing_OpenAQ_API_Dataset_Classification_of_Measurements_6Months.py
-2 Milestone3_Pecos_Importing_OpenAQ_API_Dataset_Classification_of_Measurements.py
+1 Milestone_2_Import_OpenAQ_Dataset_Histogram.py
 
-2 Milestone3_Pecos_Importing_OpenAQ_API_Dataset_Classification_of_Measurements.py
+Histogram of OpenAQ stations 
 
-A Script for importing OpenAQ dataset for One country and one parameter 
+2 
 
-1 Milestone3_Pecos_6Month_Importing_OpenAQ_API_Dataset_Classification_of_Measurements_6Months.py
 
-A Script to get 6 Months of OpenAQ dataset from one station and one parameter. The defaults are parameter pm25 and station US Diplomatic Post: Hyderabad 
-
-Parameters: 
-
-OpenAQ Location: Line 33
-
-"res_1 = api.measurements(location='US Diplomatic Post: Hyderabad', parameter='pm25', date_to=dt_end, date_from=dt_begin, limit=10000, df=True)
-"
-
-OpenAQ Parameter: Line 33
-                                                                                 
-"res_1 = api.measurements(location='US Diplomatic Post: Hyderabad', parameter='pm25', date_to=dt_end, date_from=dt_begin, limit=10000, df=True)"
-
-OpenAQ Date Range: Line 21 and 22
-
-"dt_begin = date(2020,3,1)
-dt_end = date(2020,9,1)"
-
-1 Higher bound: Step 6 Line 87
-
-"pm.check_range([0, 200], key='value')"
-
-"pm.check_range([Lower Bound, High Bound], key='value')"
-
-2 Lower Bound: Step 6 Line 87 
-
-"pm.check_range([0, 200], key='value')"
-
-"pm.check_range([Lower Bound, High Bound], key='value')"
-
-3 Timestep of expected measurements: Step 4 Line 65
-
-"pm.check_timestamp(900)"
-
-4 The higher bound and lower bound that designate stagnant measurements:  Step 7 Line 106  
-
-"pm.check_delta([None, 10], window=3600, key='value')"
-
-5 Increment over measurements: Step 8 Line 124
-
-pm.check_increment([None, 20], key='value') 
-
- 
 
 
 Dependencies

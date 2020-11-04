@@ -20,32 +20,25 @@ Aims
 
 # User Manual
 
-UserManual_Milestone_3_Pecos_Quality_Control_Classification_of_Stations.pdf
-(This is for Milestone3_Pecos_Importing_OpenAQ_API_Dataset_Classification_of_Measurements.py)
-
-
-Parameters 
-1 Higher bound
-2 Lower Bound 
-3 Timestep of expected measurements
-4 The higher bound and lower bound that designate stagnant measurements  
-5 Increment over measurements 
+In the script
 
 Python Scripts 
 
-1 
-2 Milestone3_Pecos_Importing_OpenAQ_API_Dataset_Classification_of_Measurements.py
+1 Milestone1_Import_OpenAQ_Cities.py
 
-2 Milestone3_Pecos_Importing_OpenAQ_API_Dataset_Classification_of_Measurements.py
+Import cities that have openAQ locations for chosen country
 
-A Script for importing OpenAQ dataset for One country and one parameter 
+2 Milestone1_Import_OpenAQ_Countries.py
 
-1 Milestone3_Pecos_6Month_Importing_OpenAQ_API_Dataset_Classification_of_Measurements_6Months.py
+Import countries that have openAQ locations
 
-A Script to get 6 Months of OpenAQ dataset from one station and one parameter. The defaults are parameter pm25 and station US Diplomatic Post: Hyderabad 
+
 
 Parameters: 
 
+1 Milestone1_Import_OpenAQ_Cities.py
+
+Chosen country
 
 
 # Dependencies

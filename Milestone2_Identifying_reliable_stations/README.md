@@ -51,4 +51,8 @@ Step 3 Change the csv requested in the script to chosen OpenAQ Stations
 
 # Dependencies
 
+matplotlib.pyplot
 
+pandas
+
+numpy 

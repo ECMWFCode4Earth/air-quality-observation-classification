@@ -52,12 +52,19 @@ Import countries that have openAQ locations
 
 Import OpenAQ Dataset from ndjson 
 
-4 Milestone_1_Import_OpenAQ_applying_Datasetcsv.py
+4 Milestone1_Import_OpenAQ_Measurements_Country.py
+
+Import OpenAQ Measurement from a chosen country 
+
+5 Milestone1_Import_OpenAQ_Measurements_OpenAQStation.py 
+
+Import OpenAQ Measurements from chosen Station
+
+6 Milestone_1_Import_OpenAQ_applying_Datasetcsv.py
 
 Import OpenAQ dataset from a csv that has been downloaded from openAQ
 
-
-5 Milestone1_Import_OpenAQ_API_Download.py
+7 Milestone1_Import_OpenAQ_API_Download.py
 
 Queries the openAQ api for every stations measurements
 

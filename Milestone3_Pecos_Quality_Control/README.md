@@ -20,9 +20,11 @@ Milestone 3 Pecos Quality Control
 
 # User Manual
 
-Search OpenAQ Dataset 
+1 Search OpenAQ Dataset 
 
-Complete Pecos Quality Control 
+ECMWF_AQQC_Search_OpenAQ_M3_UserManual.pdf
+
+2 Complete Pecos Quality Control 
 
 UserManual_Milestone_3_Pecos_Quality_Control_Classification_of_Stations.pdf
 (This is for Milestone3_Pecos_Importing_OpenAQ_API_Dataset_Classification_of_Measurements.py)

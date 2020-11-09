@@ -9,7 +9,7 @@ and ESoWC 2020
 
 # Implementation 
 
-Milestone 3 Classification of AQ Stations 
+Milestone 3 Pecos Quality Control 
 
 # Aims 
 1 Choose an upper bound of values and identify value over to be outliers by searching openAQ dataset

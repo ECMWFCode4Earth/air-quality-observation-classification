@@ -18,7 +18,7 @@ Milestone 3 Pecos Quality Control
 4 Find How many stations don’t measure every 15 minutes through a day and when are these are
 5 Find stagnant measurements that don't change over a chosen amount 
 
-User Manual
+# User Manual
 
 Search OpenAQ Dataset 
 

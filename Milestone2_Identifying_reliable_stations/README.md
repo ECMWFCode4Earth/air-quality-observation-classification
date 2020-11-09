@@ -9,7 +9,7 @@ and ESoWC 2020
 
 # Implementation 
 
-Milestone 1 Identifying reliable stations
+Milestone 2 Identifying reliable stations
 
 1 Histogram of OpenAQ Stations
 

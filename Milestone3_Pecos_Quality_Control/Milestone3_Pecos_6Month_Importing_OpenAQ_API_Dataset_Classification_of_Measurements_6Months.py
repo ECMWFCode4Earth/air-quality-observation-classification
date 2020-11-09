@@ -27,9 +27,17 @@ dt_start = date.today()
 
 print(dt_begin)
 print(dt_start)
-#Step 1 Choose the measurement country to import and parameter
-res1 = api.measurements(country='IN', parameter='pm25', date_to=dt_end, date_from=dt_begin, limit=10000, df=True)
 
+#Step 1 Choose the measurement country to import and parameter
+#
+# Sometime it does not fetch a large amount 
+#
+# To test it change the res1 to res_1 
+
+#res1 = api.measurements(country='IN', parameter='pm25', date_to=dt_end, date_from=dt_begin, limit=10000, df=True)
+
+
+#Step 1 Choose the measurement location
 res_1 = api.measurements(location='US Diplomatic Post: Hyderabad', parameter='pm25', date_to=dt_end, date_from=dt_begin, limit=10000, df=True)
 
 # 

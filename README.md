@@ -22,6 +22,11 @@ Milestone7_Interface_OpenAQ_Outlier_Error_Identification_Gatherminder
 
 Presentation of results of outliers using Gatherminer
 
+# Aims 
+
+A Quality Control of openAQ dataset
+
+Allowing further analysis of openAQ dataset
 
 # Dependencies
 

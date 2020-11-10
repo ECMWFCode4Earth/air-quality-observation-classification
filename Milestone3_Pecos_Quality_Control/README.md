@@ -7,15 +7,45 @@ Validating and removing errors outliers from surface air quality observations fr
 Completed for ECMWF European Centre for Medium Weather Forecast 2020 
 and ESoWC 2020
 
+# Features 
+
+1 Search through openAQ dataset to analyse what are high measurements and trends 
+
+2 Choose Search criteria for Pecos Quality Control i.e. higher bound, increment and corrupt values 
+
+3 Process the Pecos Quality control on various openAQ datasets for countries, stations, parameters and 6 months or other 
+
 # Implementation 
 
-Milestone 3 Pecos Quality Control 
+
+1 Search OpenAQ dataset 
+
+   Open in a browser to get interface 
+ 
+http://gordonrates.co.uk/Air_Quality/workshop/Apps/F_DATASTORE_A_IMPORT_SubFunct5_Attach_Compt1_AirQuality_Dataset/openaq-browser/src/index2_copy.html
+
+   Choose lastest measurements, locations, countries or other pages 
+
+   Choose Search of openAQ dataset. Use the user manual ECMWF_AQQC_Search_OpenAQ_M3_UserManual.pdf
+
+   Find a high bound for measurements on station, region or parameter
+
+   Scroll down to choose Pecos Search Criteria and enter to selection and submit 
+  
+2 Milestone 3 Pecos Quality Control and choose Pecos Quality Control search criteria 
+
+3 Process Pecos Quality Control analysis 
 
 # Aims 
+
 1 Choose an upper bound of values and identify value over to be outliers by searching openAQ dataset
+
 2 Choose a lower bound of values 
+
 3 Choose an increment on measurements that is acceptable for both increasing and decreasing values 
+
 4 Find How many stations don’t measure every 15 minutes through a day and when are these are
+
 5 Find stagnant measurements that don't change over a chosen amount 
 
 # User Manual

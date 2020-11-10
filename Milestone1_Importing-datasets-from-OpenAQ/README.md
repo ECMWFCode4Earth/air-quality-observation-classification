@@ -11,12 +11,18 @@ and ESoWC 2020
 
 Milestone 1 Importing datasets from OpenAQ
 
-Aims 
+# Aims 
+
 1 Import OpenAQ dataset from many sources i.e. csv, ndjson or through api 
+
 2 Import latest measurements for chosen OpenAQ stations
+
 3 Import measurements for 6 months for choosen OpenAQ stations  
+
 4 Import measurements for 18 months for choosen OpenAQ stations
+
 5 Import measurements for every OpenAQ station and parameter
+
 
 # User Manual
 

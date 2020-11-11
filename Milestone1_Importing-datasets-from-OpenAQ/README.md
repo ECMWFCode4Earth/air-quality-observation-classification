@@ -9,7 +9,11 @@ and ESoWC 2020
 
 # Implementation 
 
-Milestone 1 Importing datasets from OpenAQ
+Milestone 1 Importing datasets from OpenAQ from csv 
+
+Importing datasets from API  
+
+Milestone1_Import_OpenAQ_Measurements_OpenAQStation.py
 
 # Aims 
 

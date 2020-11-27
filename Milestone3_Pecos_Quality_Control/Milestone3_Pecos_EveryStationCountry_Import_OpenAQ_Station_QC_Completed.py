@@ -131,25 +131,30 @@ def Milestone1_Get_Import_OpenAQ_Dataset_One_Staton(OpenAQStation, parameter, it
 
    print(OpenAQStation)  
 
-  # Step 1 Get Measurements for station
+   Completedreq = 0
+   
+   # Step 1 Get Measurements for station
    try: 
      res_1 = api.measurements(location=OpenAQStation, parameter=parameter, date_to=dt_end, date_from=dt_begin, limit=10000, df=True)
-
+     Completedreq = 1
    except:
      pass   
        
  # print(res_1.dtypes)
 
  # Step 2 Set utc to index 
-   
-   OpenAQ_Dataset_ImportAPI = Milestone2_Get_OpenAQ_Dataset_Wrangling_utc_index(res_1)
+   if(Completedreq == 1):
+     OpenAQ_Dataset_ImportAPI = Milestone2_Get_OpenAQ_Dataset_Wrangling_utc_index(res_1)
 
  # Step 3 Remove missing -999.0 measurements
 
-   OpenAQ_Dataset_ImportAPI = Milestone2_Remove_neg_attribute(OpenAQ_Dataset_ImportAPI)
+     OpenAQ_Dataset_ImportAPI = Milestone2_Remove_neg_attribute(OpenAQ_Dataset_ImportAPI)
 
-   Milestone1_Get_Measurements_OpenAQStation(OpenAQ_Dataset_ImportAPI, OpenAQStation, iterationamount)
+     Milestone1_Get_Measurements_OpenAQStation(OpenAQ_Dataset_ImportAPI, OpenAQStation, iterationamount)
 
+   else: 
+     OpenAQ_Dataset_ImportAPI = 0
+     
   # print(OpenAQ_Dataset_ImportAPI)
  #  print(OpenAQ_Dataset_ImportAPI['value'])
 
@@ -235,7 +240,7 @@ def Milestone3_Pecos_Complete_QualityControl_One_OpenAQStation(OpenAQStation_Ope
 
    # Step 9 Compute the quality control index for value
    mask = pm.mask[['value']]
-   QCI = pecos.metrics.qci(mask, pm.tfilter)
+   QCI = pecos.metrics.qci(mask)
 
    custom = 'custom' + iteration_OpenAQStations + '.png'
 
@@ -278,9 +283,11 @@ def Milestone3_Pecos_Quality_Control_EveryStation(OpenAQ_Stations, parameter, Co
         OpenAQStation_Dataset = Milestone1_Get_Import_OpenAQ_Dataset_One_Staton(OpenAQStation, parameter, iteration1[iterationamount])
 
     #    print(OpenAQStation_Dataset)
-
-        QC_Pecos_OpenAQ_result = Milestone3_Pecos_Complete_QualityControl_One_OpenAQStation(OpenAQStation_Dataset, OpenAQStation, iteration1[iterationamount])
-
+        if(OpenAQStation_Dataset != 0): 
+          QC_Pecos_OpenAQ_result = Milestone3_Pecos_Complete_QualityControl_One_OpenAQStation(OpenAQStation_Dataset, OpenAQStation, iteration1[iterationamount])
+        else:
+          QC_Pecos_OpenAQ_result = 0 
+          
         QC_Pecos_OpenAQ.append(QC_Pecos_OpenAQ_result)
 
       iterationamount = iterationamount + 1
@@ -371,7 +378,7 @@ api = openaq.OpenAQ()
 #
 #
 
-CountryCode = 'IN'
+CountryCode = 'TR'
 
 print("Choose from ")
 

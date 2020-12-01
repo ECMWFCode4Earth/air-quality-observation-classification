@@ -54,11 +54,15 @@ http://gordonrates.co.uk/Air_Quality/workshop/Apps/F_DATASTORE_A_IMPORT_SubFunct
 
 ECMWF_AQQC_Search_OpenAQ_M3_UserManual.pdf
 
-2 Complete Pecos Quality Control 
+2 Choose Pecos Quality Control Criteria 
+
+ECMWF_AQQC_Search_OpenAQ_M3_UserManual.pdf
+
+3 Complete Pecos Quality Control 
 
 UserManual_Milestone_3_Pecos_Quality_Control_Classification_of_Stations.pdf
-(This is for Milestone3_Pecos_Importing_OpenAQ_API_Dataset_Classification_of_Measurements.py)
 
+(This is for Milestone3_Pecos_Importing_OpenAQ_API_Dataset_Classification_of_Measurements.py)
 
 Parameters 
 1 Higher bound
@@ -72,20 +76,40 @@ Parameters
 The scripts output to test_results.csv and monitoring_report.html
 (There are examples of these in the github)
 
-Python Scripts 
+# Python Scripts 
 
-1 Milestone3_Pecos_6Month_Importing_OpenAQ_API_Dataset_Classification_of_Measurements_6Months.py
-2 Milestone3_Pecos_Importing_OpenAQ_API_Dataset_Classification_of_Measurements.py
+ ## 1. The Pecos Quality Control for one OpenAQ Station
 
-2 Milestone3_Pecos_Importing_OpenAQ_API_Dataset_Classification_of_Measurements.py
+
+"Milestone3_Pecos_QualityControl_OpenAQStationimportOpenAQAPIdataset_Completed.py"
+
+ ## 2. The Pecos Quality Control for the stations in chosen country
+
+"Milestone3_Pecos_EveryStationCountry_Import_OpenAQ_Station_QC_Completed.py"
 
 A Script for importing OpenAQ dataset for One country and one parameter 
+
+ ## 3. The Pecos Quality Control for station within a coordinate center Latitude and longitude and a radius.
+
+"Milestone3_Pecos_QualityControl_OpenAQCoordinatesOpenAQAPIdataset_Completed.py"
+
+## 4. The Pecos Quality control for station with Change points analysis.
+
+For One OpenAQ station
+
+"Milestone3_Pecos_QualityControl_OpenAQStationOpenAQAPIdataset_ChangePoints_Completed.py"
+
+For Coordinates and Radius 
+
+"Milestone3_Pecos_QualityControl_OpenAQCoordinatesOpenAQAPIdataset_ChangePoints_Completed.py"
+
+# Test 
 
 1 Milestone3_Pecos_6Month_Importing_OpenAQ_API_Dataset_Classification_of_Measurements_6Months.py
 
 A Script to get 6 Months of OpenAQ dataset from one station and one parameter. The defaults are parameter pm25 and station US Diplomatic Post: Hyderabad 
 
-Parameters: 
+# Edit Parameters: 
 
 OpenAQ Location: Line 33
 
@@ -125,7 +149,6 @@ dt_end = date(2020,9,1)"
 
 pm.check_increment([None, 20], key='value') 
 
- 
 
 
 # Dependencies

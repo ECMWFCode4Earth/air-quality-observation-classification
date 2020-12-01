@@ -27,7 +27,7 @@ def Milestone3_Get_Import_OpenAQ_EveryStation_inChoosenCountry(OpenAQ_StationCou
     
    result1 = api.cities(country=OpenAQ_StationCountry, df=True, limit=10000)
     
-   print(result1)
+ #  print(result1)
     
    for index, res1 in result1.iterrows():
        
@@ -64,11 +64,11 @@ def Milestone3_Get_Import_OpenAQ_EveryStation(OpenAQ_Countries):
     
        #   print(df4.dtypes)
     
-      print(respC[0])
+   #   print(respC[0])
     
       result1 = api.cities(country=respC[0], df=True, limit=10000)
     
-      print(result1)
+    #  print(result1)
     
 #      result1 = api.locations(country=respC[0], df=True)
 
@@ -76,11 +76,11 @@ def Milestone3_Get_Import_OpenAQ_EveryStation(OpenAQ_Countries):
     
       for index, res1 in result1.iterrows():
        
-         print(res1['city']) 
+      #   print(res1['city']) 
           
          result = api.locations(city=res1['city'], df=True)
 
-         print(result.dtypes)         
+      #   print(result.dtypes)         
          
          for index1, res2 in result.iterrows():
              
@@ -117,7 +117,7 @@ def Milestone3_Get_Import_OpenAQ_Countries():
 
    df3 = pd.DataFrame(df2)
 
-   print(resp_attribute)
+ #  print(resp_attribute)
 
 #   print(resp_attribute.code)
 

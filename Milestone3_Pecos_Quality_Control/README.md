@@ -18,7 +18,7 @@ and ESoWC 2020
 # Implementation 
 
 
-1 Search OpenAQ dataset 
+## 1 Search OpenAQ dataset 
 
    Open in a browser to get interface 
  
@@ -32,9 +32,9 @@ http://gordonrates.co.uk/Air_Quality/workshop/Apps/F_DATASTORE_A_IMPORT_SubFunct
 
    Scroll down to choose Pecos Search Criteria and enter to selection and submit 
   
-2 Milestone 3 Pecos Quality Control and choose Pecos Quality Control search criteria 
+## 2 Milestone 3 Pecos Quality Control and choose Pecos Quality Control search criteria 
 
-3 Process Pecos Quality Control analysis 
+## 3 Process Pecos Quality Control analysis 
 
 # Aims 
 
@@ -50,19 +50,18 @@ http://gordonrates.co.uk/Air_Quality/workshop/Apps/F_DATASTORE_A_IMPORT_SubFunct
 
 # User Manual
 
-1 Search OpenAQ Dataset 
+## 1 Search OpenAQ Dataset 
 
 ECMWF_AQQC_Search_OpenAQ_M3_UserManual.pdf
 
-2 Choose Pecos Quality Control Criteria 
+## 2 Choose Pecos Quality Control Criteria 
 
 Milestone3_Pecos_QualityControl_Choose_Search_Criteria_UserManual.pdf
 
-3 Complete Pecos Quality Control 
+## 3 Complete Pecos Quality Control 
 
-UserManual_Milestone_3_Pecos_Quality_Control_Classification_of_Stations.pdf
+UserManual_Milestone_3_Pecos_Quality_Control.pdf
 
-(This is for Milestone3_Pecos_Importing_OpenAQ_API_Dataset_Classification_of_Measurements.py)
 
 Parameters 
 1 Higher bound
@@ -108,6 +107,10 @@ For Coordinates and Radius
 1 Milestone3_Pecos_6Month_Importing_OpenAQ_API_Dataset_Classification_of_Measurements_6Months.py
 
 A Script to get 6 Months of OpenAQ dataset from one station and one parameter. The defaults are parameter pm25 and station US Diplomatic Post: Hyderabad 
+
+UserManual_Milestone_3_Pecos_Quality_Control_Classification_of_Stations.pdf
+
+(This is for Milestone3_Pecos_Importing_OpenAQ_API_Dataset_Classification_of_Measurements.py)
 
 # Edit Parameters: 
 

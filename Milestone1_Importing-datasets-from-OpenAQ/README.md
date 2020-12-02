@@ -28,6 +28,7 @@ Milestone1_Import_OpenAQ_Measurements_OpenAQStation.py
 
 5 Import measurements for every OpenAQ station and parameter
 
+6 Import measurements for Stations, Cities, Country or Choosen Coordinate Centre and Radius
 
 # User Manual
 

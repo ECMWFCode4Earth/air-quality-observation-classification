@@ -91,7 +91,7 @@ A Script for importing OpenAQ dataset for One country and one parameter
 
  ## 3. The Pecos Quality Control for station within a coordinate center Latitude and longitude and a radius.
 
-"Milestone3_Pecos_QualityControl_OpenAQCoordinatesOpenAQAPIdataset_Completed.py"
+"Milestone3_Pecos_QualityControl_Coordinates_OpenAQ_Deployed.py"
 
 ## 4. The Pecos Quality control for station with Change points analysis.
 

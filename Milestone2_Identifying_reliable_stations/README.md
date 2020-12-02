@@ -25,9 +25,14 @@ Defualt openAQ dataset download is OpenAQ_Dataset_Sample_Pm25_csv.csv
 
 a. From Csv import 
 
+# Aims
+
+1 Data Wrangling so can be applied to further analysis 
+
+2 Visual Analytics of Histograms, Line Plots or Boxplots of Stations, Cities, Country or Choosen Coordinate Centre and Radius
 
 
-Python Scripts 
+# Python Scripts 
 
 1 Milestone_2_Import_OpenAQ_Dataset_Histogram.py
 
@@ -56,3 +61,5 @@ matplotlib.pyplot
 pandas
 
 numpy 
+
+Seaborn

@@ -9,16 +9,41 @@ and ESoWC 2020
 
 # Implementation 
 
-Milestone 1 Importing datasets from OpenAQ from csv 
+# 1 Importing from CSV, Ndjson and API 
 
-Importing datasets from API  
+## Milestone 1 Importing datasets from OpenAQ from csv 
 
-Milestone1_Import_OpenAQ_Measurements_OpenAQStation.py
+"Milestone_1_Import_OpenAQ_applying_Datasetcsv.py"
+
+## Importing from ndjson 
+
+"Milestone_1_Import_OpenAQ_applying_Dataset_Wrangling.py"
+
+## Importing datasets from pyAPI  
+
+"Milestone1_Import_OpenAQ_Measurements_OpenAQStation.py"
+
+## Import from OpenAQ API
+
+"Milestone1_Import_OpenAQ_API_Download.py"
+
+# 2 Import from choose stations 
+
+Edit the Station in above
+
+# 7 About the OpenAQ Dataset
+
+## Getting Cities in Choosen Country
+
+"Milestone1_Import_OpenAQ_Cities.py"
+
+## Getting Station in Choosen Country 
+
+"Milestone1_Import_OpenAQ_Countries.py"
 
 # Aims 
 
 1 Import OpenAQ dataset from many sources i.e. csv, ndjson or through api 
-
 
 2 Import latest measurements for chosen OpenAQ stations
 
@@ -30,10 +55,11 @@ Milestone1_Import_OpenAQ_Measurements_OpenAQStation.py
 
 6 Import measurements for Stations, Cities, Country or Choosen Coordinate Centre and Radius
 
+7 About OpenAQ Dataset 
+
 # User Manual
 
-
-Importing from a csv 
+## Importing from a csv 
 
 Step 1 Download OpenAQ dataset from openAQ
 
@@ -41,16 +67,14 @@ Step 2 Convert to csv
 
 Step 3 Change csv requested in the script
 
-Milestone_1_Import_OpenAQ_applying_Datasetcsv.py
+in "Milestone_1_Import_OpenAQ_applying_Datasetcsv.py"
+
+## Other implementations
+
+In the python script
 
 
-Other scripts
-
-In the script
-
-
-
-Python Scripts 
+# Python Scripts 
 
 1 Milestone1_Import_OpenAQ_Cities.py
 

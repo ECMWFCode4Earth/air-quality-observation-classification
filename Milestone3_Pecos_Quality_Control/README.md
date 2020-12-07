@@ -56,7 +56,7 @@ ECMWF_AQQC_Search_OpenAQ_M3_UserManual.pdf
 
 ## 2 Choose Pecos Quality Control Criteria 
 
-Milestone3_Pecos_QualityControl_Choose_Search_Criteria_UserManual.pdf
+Milestone3_3_Pecos_QualityControl_Choose_Search_Criteria_UserManual.pdf
 
 ## 3 Complete Pecos Quality Control 
 

@@ -9,148 +9,29 @@ and ESoWC 2020
 
 # Features 
 
-1 Search through openAQ dataset to analyse what are high measurements and trends 
+1 Plot Outliers with Dataset
 
-2 Choose Search criteria for Pecos Quality Control i.e. higher bound, increment and corrupt values 
+2 Performance metrics of Dataset 
 
-3 Process the Pecos Quality control on various openAQ datasets for countries, stations, parameters and 6 months or other 
+3 Reliability report for every Station
 
 # Implementation 
 
 
-## 1 Search OpenAQ dataset 
+## 1 Plot Outliers and OpenAQ dataset 
 
-   Open in a browser to get interface 
- 
-http://gordonrates.co.uk/Air_Quality/workshop/Apps/F_DATASTORE_A_IMPORT_SubFunct5_Attach_Compt1_AirQuality_Dataset/openaq-browser/src/index2_copy.html
+Milestone 3 Pecos Quality control plots outliers
 
-   Choose lastest measurements, locations, countries or other pages 
-
-   Choose Search of openAQ dataset. Use the user manual ECMWF_AQQC_Search_OpenAQ_M3_UserManual.pdf
-
-   Find a high bound for measurements on station, region or parameter
-
-   Scroll down to choose Pecos Search Criteria and enter to selection and submit 
-  
-## 2 Milestone 3 Pecos Quality Control and choose Pecos Quality Control search criteria 
+## 2 Milestone 3 Dashboard with performance metric and link to monitoring report
 
 ## 3 Process Pecos Quality Control analysis 
 
-# Aims 
-
-1 Choose an upper bound of values and identify value over to be outliers by searching openAQ dataset
-
-2 Choose a lower bound of values 
-
-3 Choose an increment on measurements that is acceptable for both increasing and decreasing values 
-
-4 Find How many stations don’t measure every 15 minutes through a day and when are these are
-
-5 Find stagnant measurements that don't change over a chosen amount 
-
-# User Manual
-
-## 1 Search OpenAQ Dataset 
-
-ECMWF_AQQC_Search_OpenAQ_M3_UserManual.pdf
-
-## 2 Choose Pecos Quality Control Criteria 
-
-Milestone3_Pecos_QualityControl_Choose_Search_Criteria_UserManual.pdf
-
-## 3 Complete Pecos Quality Control 
-
-UserManual_Milestone_3_Pecos_Quality_Control.pdf
-
-
-Parameters 
-1 Higher bound
-2 Lower Bound 
-3 Timestep of expected measurements
-4 The higher bound and lower bound that designate stagnant measurements  
-5 Increment over measurements 
+Milestone 3 prints out a monitoring report
 
 # Presentation results
 
 The scripts output to test_results.csv and monitoring_report.html
 (There are examples of these in the github)
-
-# Python Scripts 
-
- ## 1. The Pecos Quality Control for one OpenAQ Station
-
-
-"Milestone3_Pecos_QualityControl_OpenAQStationimportOpenAQAPIdataset_Completed.py"
-
- ## 2. The Pecos Quality Control for the stations in chosen country
-
-"Milestone3_Pecos_EveryStationCountry_Import_OpenAQ_Station_QC_Completed.py"
-
-A Script for importing OpenAQ dataset for One country and one parameter 
-
- ## 3. The Pecos Quality Control for station within a coordinate center Latitude and longitude and a radius.
-
-"Milestone3_Pecos_QualityControl_Coordinates_OpenAQ_Deployed.py"
-
-## 4. The Pecos Quality control for station with Change points analysis.
-
-For One OpenAQ station
-
-"Milestone3_Pecos_QualityControl_OpenAQStationOpenAQAPIdataset_ChangePoints_Completed.py"
-
-For Coordinates and Radius 
-
-"Milestone3_Pecos_QualityControl_OpenAQCoordinatesOpenAQAPIdataset_ChangePoints_Completed.py"
-
-# Test 
-
-1 Milestone3_Pecos_6Month_Importing_OpenAQ_API_Dataset_Classification_of_Measurements_6Months.py
-
-A Script to get 6 Months of OpenAQ dataset from one station and one parameter. The defaults are parameter pm25 and station US Diplomatic Post: Hyderabad 
-
-UserManual_Milestone_3_Pecos_Quality_Control_Classification_of_Stations.pdf
-
-(This is for Milestone3_Pecos_Importing_OpenAQ_API_Dataset_Classification_of_Measurements.py)
-
-# Edit Parameters: 
-
-OpenAQ Location: Line 33
-
-"res_1 = api.measurements(location='US Diplomatic Post: Hyderabad', parameter='pm25', date_to=dt_end, date_from=dt_begin, limit=10000, df=True)
-"
-
-OpenAQ Parameter: Line 33
-                                                                                 
-"res_1 = api.measurements(location='US Diplomatic Post: Hyderabad', parameter='pm25', date_to=dt_end, date_from=dt_begin, limit=10000, df=True)"
-
-OpenAQ Date Range: Line 21 and 22
-
-"dt_begin = date(2020,3,1)
-dt_end = date(2020,9,1)"
-
-1 Higher bound: Step 6 Line 87
-
-"pm.check_range([0, 200], key='value')"
-
-"pm.check_range([Lower Bound, High Bound], key='value')"
-
-2 Lower Bound: Step 6 Line 87 
-
-"pm.check_range([0, 200], key='value')"
-
-"pm.check_range([Lower Bound, High Bound], key='value')"
-
-3 Timestep of expected measurements: Step 4 Line 65
-
-"pm.check_timestamp(900)"
-
-4 The higher bound and lower bound that designate stagnant measurements:  Step 7 Line 106  
-
-"pm.check_delta([None, 10], window=3600, key='value')"
-
-5 Increment over measurements: Step 8 Line 124
-
-pm.check_increment([None, 20], key='value') 
 
 
 

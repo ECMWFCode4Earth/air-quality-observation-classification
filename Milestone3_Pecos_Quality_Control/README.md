@@ -79,12 +79,11 @@ The scripts output to test_results.csv and monitoring_report.html
 
  ## 1. The Pecos Quality Control for one OpenAQ Station
 
-
 "Milestone3_Pecos_QualityControl_OpenAQStationimportOpenAQAPIdataset_Completed.py"
 
  ## 2. The Pecos Quality Control for the stations in chosen country
 
-"Milestone3_Pecos_EveryStationCountry_Import_OpenAQ_Station_QC_Completed.py"
+"Milestone3_2_Pecos_QualityControl_Country_OpenAQ_Deployed.py"
 
 A Script for importing OpenAQ dataset for One country and one parameter 
 

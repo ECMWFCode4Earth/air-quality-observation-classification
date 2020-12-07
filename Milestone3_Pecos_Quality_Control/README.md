@@ -56,7 +56,7 @@ ECMWF_AQQC_Search_OpenAQ_M3_UserManual.pdf
 
 ## 2 Choose Pecos Quality Control Criteria 
 
-Milestone3_3_Pecos_QualityControl_Choose_Search_Criteria_UserManual.pdf
+Milestone3_Pecos_QualityControl_Choose_Search_Criteria_UserManual.pdf
 
 ## 3 Complete Pecos Quality Control 
 
@@ -90,7 +90,7 @@ A Script for importing OpenAQ dataset for One country and one parameter
 
  ## 3. The Pecos Quality Control for station within a coordinate center Latitude and longitude and a radius.
 
-"Milestone3_Pecos_QualityControl_Coordinates_OpenAQ_Deployed.py"
+"Milestone3_3_Pecos_QualityControl_Coordinates_OpenAQ_Deployed.py"
 
 ## 4. The Pecos Quality control for station with Change points analysis.
 

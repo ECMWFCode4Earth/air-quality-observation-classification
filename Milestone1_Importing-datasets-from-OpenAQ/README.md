@@ -9,93 +9,115 @@ and ESoWC 2020
 
 # Implementation 
 
-Milestone 3 Classification of AQ Stations 
+# 1 Importing from CSV, Ndjson and API 
 
-Aims 
-1 Choose an upper bound of values and identify value over to be outliers
-2 Choose a lower bound of values 
-3 Choose an increment on measurements that is acceptable for both increasing and decreasing values 
-4 Find How many stations don’t measure every 15 minutes through a day and when are these are
-5 Find stagnant measurements that don't change over a chosen amount 
+## Milestone 1 Importing datasets from OpenAQ from csv 
 
-User Manual
+"Milestone_1_Import_OpenAQ_applying_Datasetcsv.py"
 
-UserManual_Milestone_3_Pecos_Quality_Control_Classification_of_Stations.pdf
-(This is for Milestone3_Pecos_Importing_OpenAQ_API_Dataset_Classification_of_Measurements.py)
+## Importing from ndjson 
+
+"Milestone_1_Import_OpenAQ_applying_Dataset_Wrangling.py"
+
+## Importing datasets from pyAPI  
+
+"Milestone1_Import_OpenAQ_Measurements_OpenAQStation.py"
+
+## Import from OpenAQ API
+
+"Milestone1_Import_OpenAQ_API_Download.py"
+
+# 2 Import from choose stations 
+
+Edit the Station in above
+
+# 7 About the OpenAQ Dataset
+
+## Getting Cities in Choosen Country
+
+"Milestone1_Import_OpenAQ_Cities.py"
+
+## Getting Station in Choosen Country 
+
+"Milestone1_Import_OpenAQ_Countries.py"
+
+# Aims 
+
+1 Import OpenAQ dataset from many sources i.e. csv, ndjson or through api 
+
+2 Import latest measurements for chosen OpenAQ stations
+
+3 Import measurements for 6 months for choosen OpenAQ stations  
+
+4 Import measurements for 18 months for choosen OpenAQ stations
+
+5 Import measurements for every OpenAQ station and parameter
+
+6 Import measurements for Stations, Cities, Country or Choosen Coordinate Centre and Radius
+
+7 About OpenAQ Dataset 
+
+# User Manual
+
+## Importing from a csv 
+
+Step 1 Download OpenAQ dataset from openAQ
+
+Step 2 Convert to csv 
+
+Step 3 Change csv requested in the script
+
+in "Milestone_1_Import_OpenAQ_applying_Datasetcsv.py"
+
+## Other implementations
+
+In the python script
 
 
-Parameters 
-1 Higher bound
-2 Lower Bound 
-3 Timestep of expected measurements
-4 The higher bound and lower bound that designate stagnant measurements  
-5 Increment over measurements 
+# Python Scripts 
 
-Presentation results
+1 Milestone1_Import_OpenAQ_Cities.py
 
-The scripts utput to test_results.csv and monitoring_report.html
-(There are examples of these in the github)
+Import cities that have openAQ locations for chosen country
 
-Python Scripts 
+2 Milestone1_Import_OpenAQ_Countries.py
 
-1 Milestone3_Pecos_6Month_Importing_OpenAQ_API_Dataset_Classification_of_Measurements_6Months.py
-2 Milestone3_Pecos_Importing_OpenAQ_API_Dataset_Classification_of_Measurements.py
+Import countries that have openAQ locations
 
-2 Milestone3_Pecos_Importing_OpenAQ_API_Dataset_Classification_of_Measurements.py
+3 Milestone_1_Import_OpenAQ_applying_Dataset_Wrangling.py
 
-A Script for importing OpenAQ dataset for One country and one parameter 
+Import OpenAQ Dataset from ndjson 
 
-1 Milestone3_Pecos_6Month_Importing_OpenAQ_API_Dataset_Classification_of_Measurements_6Months.py
+4 Milestone1_Import_OpenAQ_Measurements_Country.py
 
-A Script to get 6 Months of OpenAQ dataset from one station and one parameter. The defaults are parameter pm25 and station US Diplomatic Post: Hyderabad 
+Import OpenAQ Measurement from a chosen country 
+
+5 Milestone1_Import_OpenAQ_Measurements_OpenAQStation.py 
+
+Import OpenAQ Measurements from chosen Station
+
+6 Milestone_1_Import_OpenAQ_applying_Datasetcsv.py
+
+Import OpenAQ dataset from a csv that has been downloaded from openAQ
+
+7 Milestone1_Import_OpenAQ_API_Download.py
+
+Queries the openAQ api for every stations measurements
+
+It sometimes timesout while doing the query and should be done a few times to retry
+
 
 Parameters: 
 
-OpenAQ Location: Line 33
+1 Milestone1_Import_OpenAQ_Cities.py
 
-"res_1 = api.measurements(location='US Diplomatic Post: Hyderabad', parameter='pm25', date_to=dt_end, date_from=dt_begin, limit=10000, df=True)
-"
-
-OpenAQ Parameter: Line 33
-                                                                                 
-"res_1 = api.measurements(location='US Diplomatic Post: Hyderabad', parameter='pm25', date_to=dt_end, date_from=dt_begin, limit=10000, df=True)"
-
-OpenAQ Date Range: Line 21 and 22
-
-"dt_begin = date(2020,3,1)
-dt_end = date(2020,9,1)"
-
-1 Higher bound: Step 6 Line 87
-
-"pm.check_range([0, 200], key='value')"
-
-"pm.check_range([Lower Bound, High Bound], key='value')"
-
-2 Lower Bound: Step 6 Line 87 
-
-"pm.check_range([0, 200], key='value')"
-
-"pm.check_range([Lower Bound, High Bound], key='value')"
-
-3 Timestep of expected measurements: Step 4 Line 65
-
-"pm.check_timestamp(900)"
-
-4 The higher bound and lower bound that designate stagnant measurements:  Step 7 Line 106  
-
-"pm.check_delta([None, 10], window=3600, key='value')"
-
-5 Increment over measurements: Step 8 Line 124
-
-pm.check_increment([None, 20], key='value') 
-
- 
+Chosen country
 
 
-Dependencies
+# Dependencies
 
-Pecos Package 
+Numpy 
 
-https://pecos.readthedocs.io/en/stable/overview.html
-https://github.com/sandialabs/pecos
+Pandas 
 
+openAQ

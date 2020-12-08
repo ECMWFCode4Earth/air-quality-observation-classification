@@ -12,9 +12,9 @@ and ESoWC 2020
 
 1 Import OpenAQ dataset from many sources i.e. csv, ndjson or through api 
 
-2 Import latest measurements for chosen OpenAQ stations
+2 Import latest measurements for chosen OpenAQ stations 
 
-3 Import measurements for 6 months for choosen OpenAQ stations  
+3 Import measurement for 6 months for choosen OpenAQ stations  
 
 4 Import measurements for 18 months for choosen OpenAQ stations
 
@@ -38,7 +38,9 @@ and ESoWC 2020
 
 ## Importing datasets from pyAPI  
 
-"Milestone1_Import_OpenAQ_Measurements_OpenAQStation.py"
+Coordinates and Radius 
+
+"Milestone1_Import_API_CoordinateRadius_OpenAQ.py"
 
 ## Import from OpenAQ API
 

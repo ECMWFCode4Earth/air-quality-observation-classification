@@ -26,7 +26,23 @@ and ESoWC 2020
 
 # Implementation 
 
-# 1 Importing from CSV, Ndjson and API 
+# 1 Importing from API and export to CSV 
+
+## Importing datasets from pyAPI  
+
+One Station
+"Milestone1_Import_API_OpenAQStation_OpenAQ.py"
+
+Coordinates and Radius 
+
+"Milestone1_Import_API_CoordinateRadius_OpenAQ.py"
+
+Country 
+
+
+# 2 Importing from CSV, Ndjson and API 
+
+In the wegiangb-patch1
 
 ## Milestone 1 Importing datasets from OpenAQ from csv 
 
@@ -35,12 +51,6 @@ and ESoWC 2020
 ## Importing from ndjson 
 
 "Milestone_1_Import_OpenAQ_applying_Dataset_Wrangling.py"
-
-## Importing datasets from pyAPI  
-
-Coordinates and Radius 
-
-"Milestone1_Import_API_CoordinateRadius_OpenAQ.py"
 
 ## Import from OpenAQ API
 
@@ -71,7 +81,6 @@ Change selection in above
 ## Getting Station in Choosen Country 
 
 "Milestone1_Import_OpenAQ_Countries.py"
-
 
 
 # User Manual

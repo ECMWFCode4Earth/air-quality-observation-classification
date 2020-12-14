@@ -34,13 +34,11 @@ a. From Csv import
 
 # Python Scripts 
 
-1 Milestone_2_Import_OpenAQ_Dataset_Histogram.py
+1 Histogram of OpenAQ stations  
 
-Histogram of OpenAQ stations 
 
-2 Milestone2_Analytics_OpenAQ_Station_Boxplot_Import_OpenAQ_Pandas_Analysis_csv.py 
+"Milestone2_VisualAnalytics_Evaluate_Coordinates_OpenAQ_Deployed_OpenAQ_Completed.py"
 
-Box plot OpenAQ Station
 
 
 # User Manual 

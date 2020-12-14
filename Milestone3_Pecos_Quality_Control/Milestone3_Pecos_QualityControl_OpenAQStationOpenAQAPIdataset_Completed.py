@@ -20,7 +20,7 @@ import matplotlib.pyplot as plt
 
 from datetime import datetime, date, time, timezone
 
-
+import csv
 
 
 def Milestone2_Remove_neg_attribute(OpenAQ_Dataset_ImportAPI):
@@ -56,20 +56,39 @@ def Milestone2_Get_OpenAQ_Dataset_Wrangling_utc_index(OpenAQ_Dataset_ImportAPI):
    
    OpenAQ_Dataset_ImportAPI = OpenAQ_Dataset_ImportAPI.set_index(Formating)
 
-  # OpenAQ_Dataset_ImportAPI = OpenAQ_Dataset_ImportAPI.set_index('date.utc')
-
-   print(OpenAQ_Dataset_ImportAPI)
-
-   print(OpenAQ_Dataset_ImportAPI['value'])
-
-   print(OpenAQ_Dataset_ImportAPI['date.utc'])
-
-
- #  print(OpenAQ_Dataset_ImportAPI['value'])
 
    return OpenAQ_Dataset_ImportAPI
    
 
+
+def Milestone3_Get_Imported_OpenAQ_Dataset(): 
+    
+   OpenAQ_Dataset_LatlngCSV_Download = "../Milestone1_Importing-datasets-from-OpenAQ/OpenAQ_Dataset Unique selection pm25 One Station 2020-03-01 to 2020-09-01.csv"
+
+   
+
+
+#   df = pd.read_csv('../Milestone1_Importing-datasets-from-OpenAQ/OpenAQ_Dataset Unique selection pm25 CoordinateCentreandRadius 2020-03-01 to 2020-09-01.csv')
+   
+##   
+   
+  # print(df['value'])
+   
+   OpenAQdatasetsLatLng = []
+   ImportOpenAQimported = pd.read_csv(OpenAQ_Dataset_LatlngCSV_Download)
+    
+   delimiterOpenAQ = ' '
+   with open(OpenAQ_Dataset_LatlngCSV_Download,'r') as dest_f:
+       
+  
+    data_iter = csv.reader(dest_f, delimiter=delimiterOpenAQ)
+    
+    for dataset in data_iter:
+       OpenAQdatasetsLatLng.append(dataset)
+  
+   
+   
+   return ImportOpenAQimported # OpenAQdatasetsLatLng
 
 
 def Milestone3_Pecos_Complete_QualityControl_One_OpenAQStation(OpenAQStation, OpenAQStation_Dataset, iteration_OpenAQStations):
@@ -255,19 +274,15 @@ print("OpenAQ pyOpenAPI begun")
 #
 #
 
-
-#res1 = api.measurements(coordinates=40.23,34.17, df=True, limit=10000)
-#resp = api.cities(df=True, limit=10000)
-
-#res1 = api.measurements(city='Delhi', df=True, limit=10000)
-
 print("  STEP 5 ")
 
 print("********")
 
 print("Getting Measurements from OpenAQ API source")
 
-res2 = Milestone1_Get_OpnenAQ_Dataset_Measurement_perStation(OpenAQStationCountry, parameter)
+res2 = Milestone3_Get_Imported_OpenAQ_Dataset()
+
+
 
 #print(Measurements1)
 

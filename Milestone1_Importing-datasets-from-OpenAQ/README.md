@@ -95,7 +95,7 @@ Step 2 Convert to csv
 
 Step 3 Change csv requested in the script
 
-in "Milestone_1_Import_OpenAQ_applying_Datasetcsv.py"
+in "Milestone1_Import_API_CoordinateRadius_OpenAQ.py"
 
 ## Other implementations
 

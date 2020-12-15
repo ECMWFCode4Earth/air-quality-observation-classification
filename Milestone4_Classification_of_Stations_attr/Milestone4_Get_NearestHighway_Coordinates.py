@@ -87,7 +87,11 @@ def Milestone3_Get_Imported_OpenAQ_Dataset():
     
    OpenAQ_Dataset_LatlngCSV_Download = 'OpenAQ_DatasetUniquepm25CoordinateCentreandRadius2020-03-01to2020-09-01.csv'
 
-   df = pd.read_csv('OpenAQ_Dataset1pm25Country2020-03-01to2020-09-01.csv')
+
+   OpenAQ_Dataset_LatlngCSV_Download = "../Milestone1_Importing-datasets-from-OpenAQ/OpenAQ_Dataset Unique selection pm25 One Station 2020-03-01 to 2020-09-01.csv"
+   
+
+   df = pd.read_csv(OpenAQ_Dataset_LatlngCSV_Download) # 'OpenAQ_Dataset1pm25Country2020-03-01to2020-09-01.csv')
    
    
    
@@ -119,7 +123,7 @@ def Milestone3_Get_Imported_OpenAQ_Dataset():
 
 def Milestone4_Get_NearestHighway_OpenAQStations():
   
-   OpenAQ_Dataset_LatlngCSV_Download = "OpenAQLatlngNearestHighway.csv"
+   OpenAQ_Dataset_LatlngCSV_Download = "OpenAQ_Latlng_DistancetoNearestHighway.csv"  # OpenAQLatlngNearestHighway.csv"
 
     
    OpenAQdatasetsLatLng = []
@@ -169,6 +173,29 @@ def Milestone4_Get_NearestHighway_OpenAQStations_OneStation(OpenAQLatlng, OpenAQ
    
    
    return OpenAQStation_NearestDistance
+
+
+
+def Milestone4_Get_NearestHighway_OpenAQStations():
+  
+   OpenAQ_Dataset_LatlngCSV_Download = "OpenAQLatlngNearestHighway.csv"
+
+    
+   OpenAQdatasetsLatLng = []
+   
+   delimiterOpenAQ = ','
+   with open(OpenAQ_Dataset_LatlngCSV_Download,'r') as dest_f:
+    data_iter = csv.reader(dest_f, delimiter=delimiterOpenAQ)
+    
+    for dataset in data_iter:
+       OpenAQdatasetsLatLng.append(dataset)
+   #    print(dataset)
+       
+  #  OpenAQDataset = np.asarray(OpenAQdatasetsLatLng)
+   
+   
+   return OpenAQdatasetsLatLng
+
 
 def Milestone4_Get_NearestHighway_OpenAQStations_Station(df4, parameter, OpenAQStationunique):
    
@@ -247,3 +274,61 @@ OpenAQStationunique = OpenAQAPIdataset['location'].unique()
 
 Milestone4_Get_NearestHighway_OpenAQStations_Station(OpenAQAPIdataset, parameter, OpenAQStationunique)
 
+
+
+
+
+
+print("Found these Stations in selection")
+
+print(OpenAQStationunique)
+
+# Step 4 Visual Analytics of OpenAQ Dataset 
+#
+# Visual Analytics for Every Station or not
+#
+#  Change VisualAnalytics_Complete = 1 
+#
+#  1 - Every station 
+#
+#  0 - Only one histogram for OpenAQ Dataset
+
+VisualAnalytics_Complete = 1
+
+# Step 5 When OpenAQ API fails add Station failed on and retry
+#
+# 1 Change the variable to next number of statation after last completed 
+#
+# 2 Change Completed_QC_Processes 
+#
+# i.e. when 3 report completed change to 4 
+
+Completed_QC_Processes = 0
+
+OpenAQNearestHighway = Milestone4_Get_NearestHighway_OpenAQStations()
+
+# QC_Pecos_OpenAQ_Results = Milestone3_Pecos_Quality_Control_EveryStation(OpenAQStations, parameter, Completed_QC_Processes, VisualAnalytics_Complete, OpenAQNearestHighway)
+
+
+
+
+print("Get Distance to Nearest Highway")
+
+# OpenAQStationLatlng = Milestone1_Get_OpenAQStation_Latlng(OpenAQStationCountry)
+
+# OpenAQStationLatlng_NearestHighway = Milestone4_Get_NearestHighway_OpenAQStations(OpenAQStationLatlng)
+
+# print(OpenAQAPIdataset['value'].describe())
+
+print("Distance to the nearest Highway in Km ")
+
+# print(OpenAQStationLatlng_NearestHighway[4])
+
+title="Distance Nearest Highway"
+   
+xlabel='Distance to Nearest Highway in Km'
+   
+ylabel='Mean of Measurements'
+   
+# Milestone2_Import_OpenAQ_Scatter(OpenAQAPIuniqueDataset, OpenAQAPIdatasetuniqueDataset, parameter, title, xlabel, ylabel)
+   

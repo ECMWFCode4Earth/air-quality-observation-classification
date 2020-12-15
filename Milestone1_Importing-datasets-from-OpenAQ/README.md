@@ -102,46 +102,6 @@ in "Milestone1_Import_API_CoordinateRadius_OpenAQ.py"
 In the python script
 
 
-# Python Scripts 
-
-1 Milestone1_Import_OpenAQ_Cities.py
-
-Import cities that have openAQ locations for chosen country
-
-2 Milestone1_Import_OpenAQ_Countries.py
-
-Import countries that have openAQ locations
-
-3 Milestone_1_Import_OpenAQ_applying_Dataset_Wrangling.py
-
-Import OpenAQ Dataset from ndjson 
-
-4 Milestone1_Import_OpenAQ_Measurements_Country.py
-
-Import OpenAQ Measurement from a chosen country 
-
-5 Milestone1_Import_OpenAQ_Measurements_OpenAQStation.py 
-
-Import OpenAQ Measurements from chosen Station
-
-6 Milestone_1_Import_OpenAQ_applying_Datasetcsv.py
-
-Import OpenAQ dataset from a csv that has been downloaded from openAQ
-
-7 Milestone1_Import_OpenAQ_API_Download.py
-
-Queries the openAQ api for every stations measurements
-
-It sometimes timesout while doing the query and should be done a few times to retry
-
-
-Parameters: 
-
-1 Milestone1_Import_OpenAQ_Cities.py
-
-Chosen country
-
-
 # Dependencies
 
 Numpy 

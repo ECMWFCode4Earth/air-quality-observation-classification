@@ -11,19 +11,10 @@ and ESoWC 2020
 
 Milestone 2 Identifying reliable stations
 
-1 Histogram of OpenAQ Stations
+1 Histogram of OpenAQ stations or OpenAQ download  
 
-(Milestone_2_Import_OpenAQ_Dataset_Histogram.py)
+"Milestone2_VisualAnalytics_Evaluate_Coordinates_OpenAQ_Deployed_OpenAQ_Completed.py"
 
-Default is openAQ_PM25_year.csv
-
-2 Boxplot of OpenAQ stations 
-
-(Milestone2_Analytics_OpenAQ_Station_Boxplot_Import_OpenAQ_Pandas_Analysis_csv.py )
-
-Defualt openAQ dataset download is OpenAQ_Dataset_Sample_Pm25_csv.csv
-
-a. From Csv import 
 
 # Aims
 
@@ -36,14 +27,10 @@ a. From Csv import
 
 1 Histogram of OpenAQ stations  
 
-
 "Milestone2_VisualAnalytics_Evaluate_Coordinates_OpenAQ_Deployed_OpenAQ_Completed.py"
 
 
-
 # User Manual 
-
-2 Milestone2_Analytics_OpenAQ_Station_Boxplot_Import_OpenAQ_Pandas_Analysis_csv.py 
 
 Step 1 Download Dataset for one AQ Station from the dataset from openAQ.org
 

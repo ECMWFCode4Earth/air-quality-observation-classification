@@ -11,16 +11,33 @@ from datetime import date
 
 def retrieve_station_measurements(api, station_name, parameter, dt_begin, dt_end):
 
-    res1 = api.measurements (location=station_name,
-                                parameter=parameter,
-                                date_from=dt_begin,
-                                date_to=dt_end,
-                                limit=10000,
-                                df=True,
-                                index='utc',
-                                order_by='date',
-                                sort='asc')
+    #     print(
+    #         f"""location={station_name},
+    # parameter={parameter},
+    # date_from={dt_begin},
+    # date_to={dt_end},
+    # limit=10000,
+    # df=True,
+    # index="utc",
+    # order_by="date",
+    # sort="asc" """
+    #     )
+
+    res1 = api.measurements(
+        location=station_name,
+        parameter=parameter,
+        date_from=dt_begin,
+        date_to=dt_end,
+        limit=10000,
+        df=True,
+        index="utc",
+        order_by="date",
+        sort="asc",
+    )
     return res1
+
+
+### >>> a = api.measurements(location=location, parameter=parameter, date_from=date(2018, 1, 1), date_to=date(2018, 10, 1), df=True, index="utc", order_by="date.utc", sort="asc")
 
 
 def main():

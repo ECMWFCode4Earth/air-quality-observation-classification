@@ -11,10 +11,6 @@ import openaq
 
 import pandas as pd
 
-import pecos
-
-import seaborn as sns
-
 from pandas import json_normalize
 
 import matplotlib.pyplot as plt

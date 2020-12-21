@@ -27,35 +27,6 @@ import csv
 
 
 
-def Milestone1_Get_OpenAQStation_Latlng(OpenAQStationCountry):
-    
-    
-   OpenAQLatLng = api.locations(location=OpenAQStationCountry, df=True)
-
-   OpenAQLatlngDataset = []
-
-
-   print(OpenAQLatLng)
-   
-   OpenAQLatlngDataset.append(OpenAQLatLng['coordinates.latitude'])
- 
-   OpenAQLatlngDataset.append(OpenAQLatLng['coordinates.longitude'])
-
-   return OpenAQLatlngDataset
-
-
-def Milestone1_Get_OpnenAQ_Dataset_Measurement_perStation(StationOpenAQCoordinates, Radius, parameter, dt_begin, dt_end):
-    
-#Step 1 Choose the measurement country to import and parameter 
-   
-   res1 = api.measurements(coordinates=StationOpenAQCoordinates, parameter=parameter, radius=Radius, date_to=dt_end, date_from=dt_begin, df=True, limit=10000)
-
-   print("Completed measurements ")
-
-   return res1
-
-
-
 def Milestone2_Get_OpenAQ_Dataset_Wrangling_utc_index(OpenAQ_Dataset_ImportAPI):
 
    format = '%Y-%m-%d %H:%M:%S'
@@ -85,6 +56,9 @@ def Milestone2_Remove_negative_attribute(OpenAQ_Dataset_ImportAPI):
 
     return OpenAQ_Dataset_ImportAPI
 
+
+
+
 def Milestone2_OpenAQ_Dataset_VisualAnalytics_Histogram_Unique(df4, OpenAQStationunique, xaxis, yaxis, parameter, OpenAQDataset_VisualAnalytics, xlabel='Value', ylabel='Amount of Measurements', dpi=100):
    
    for OpenAQunique in OpenAQStationunique:
@@ -93,9 +67,19 @@ def Milestone2_OpenAQ_Dataset_VisualAnalytics_Histogram_Unique(df4, OpenAQStatio
        
       OpenAQAPIdatasetunique = df4[df4['location'] == OpenAQunique]
       
-      Milestone2_OpenAQ_Dataset_VisualAnalytics_Histogram(OpenAQAPIdataset, parameter, title=OpenAQDataset_VisualAnalytics, xlabel='Value', ylabel='Amount of Measurements', dpi=100)
+      OpenAQDatasetUnit = OpenAQAPIdatasetunique['unit'].unique()
       
-      Milestone2_Import_OpenAQ_CSV_plot(OpenAQAPIdataset, xaxis, yaxis, parameter, title=OpenAQDataset_VisualAnalytics, xlabel='Value', ylabel='Amount of Measurements', dpi=100)
+      print("Parameter")
+      
+      print(parameter)
+      
+      print("Parameter Unit")
+      
+      print(OpenAQDatasetUnit)
+      
+      Milestone2_OpenAQ_Dataset_VisualAnalytics_Histogram(OpenAQAPIdataset, parameter, title=OpenAQDataset_VisualAnalytics + "OpenAQ Station : " + OpenAQunique, xlabel='Value', ylabel='Amount of Measurements', dpi=100)
+      
+      Milestone2_Import_OpenAQ_CSV_plot(OpenAQAPIdataset, xaxis, yaxis, parameter, title=OpenAQDataset_VisualAnalytics + OpenAQunique, xlabel='Value', ylabel='Amount of Measurements', dpi=100)
 
 
 def Milestone2_Import_OpenAQ_CSV_plot_Unique(df4, OpenAQStationunique, xaxis, yaxis, parameter, OpenAQDataset_VisualAnalytics, xlabel='Value', ylabel='Amount of Measurements', dpi=100):
@@ -109,13 +93,13 @@ def Milestone2_Import_OpenAQ_CSV_plot_Unique(df4, OpenAQStationunique, xaxis, ya
       Milestone2_Import_OpenAQ_CSV_plot(OpenAQAPIdataset, xaxis, yaxis, parameter, title=OpenAQDataset_VisualAnalytics, xlabel='Value', ylabel='Amount of Measurements', dpi=100)
 
 
-def Milestone2_OpenAQ_Dataset_VisualAnalytics_Histogram(df4, parameter, title="", xlabel='Value', ylabel='Amount of Measurements', dpi=100):
+def Milestone2_OpenAQ_Dataset_VisualAnalytics_Histogram(df4, parameter, title="", xlabel='Value' , ylabel='Amount of Measurements', dpi=100):
     
 # Step Create a Histogram of the OpenAQ Dataset for parameter
    
-   print("Histrgram of OpenAQ Dataset from OpenAQ API download") 
+   print("Histogram of OpenAQ Dataset from OpenAQ API download") 
     
-   plt.gca().set(title=title, xlabel=xlabel, ylabel=ylabel)
+   plt.gca().set(title=title, xlabel=xlabel + parameter, ylabel=ylabel)
    
    plt.hist(df4['value'], bins=np.arange(1,df4['value'].max()))
    plt.show()
@@ -135,26 +119,6 @@ def Milestone2_Import_OpenAQ_CSV_plot(df4, xaxis, yaxis, parameter, title="", xl
 
 
 
-def Milestone2_Import_OpenAQ_Line_Stations(res):
-
-   fig, ax = plt.subplots(1, figsize=(10, 6))
-
-   for group, df in res.groupby('location'):
-    # Query the data to only get positive values and resample to hourly
-      _df = df.query("value >= 0.0").resample('1h').mean()
-
-      _df.value.plot(ax=ax, label=group)
-
-      ax.legend(loc='best')
-      ax.set_ylabel("$PM_{2.5}$  [$\mu g m^{-3}$]", fontsize=20)
-      ax.set_xlabel("")
-      sns.despine(offset=5)
-
-      plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
-
-      plt.show()
-
-
 def Milestone2_Import_OpenAQ_Scatter(Xaxis_Measurement, Yaxis, parameter, title, xlabel, ylabel):
     
    fig, ax = plt.subplots()
@@ -167,13 +131,33 @@ def Milestone2_Import_OpenAQ_Scatter(Xaxis_Measurement, Yaxis, parameter, title,
    
    plt.show()
 
-
-def Milestone3_Get_Imported_OpenAQ_Dataset(): 
+def Milestone3_Get_Imported_OpenAQ_Dataset_parameter_unique_Test(OpenAQDatasetparameter, TestId, Test_Analysis):
     
-   OpenAQ_Dataset_LatlngCSV_Download = '../Milestone1_Importing-datasets-from-OpenAQ/OpenAQ_Dataset Unique selection pm25 CoordinateCentreandRadius 2020-03-01 to 2020-09-01.csv'
+   OpenAQStationparameter = OpenAQDatasetparameter['parameter'].unique()
 
-  # df = pd.read_csv('../Milestone1_Importing-datasets-from-OpenAQ/OpenAQ_Dataset Unique selection pm25 CoordinateCentreandRadius 2020-03-01 to 2020-09-01.csv')
-      
+   if(len(OpenAQStationparameter) == 0):
+     parameter = OpenAQStationparameter[0]
+  
+   else:
+     parameter = Parameter_Default  
+    
+     
+   return parameter
+   
+def Milestone3_Get_Imported_OpenAQ_Dataset_Test(OpenAQ_Dataset_OpenAQCSV_Download_Test, TestId, Test_Analysis):
+    
+   Milestone3_Get_Imported_OpenAQ_Dataset(OpenAQ_Dataset_OpenAQCSV_Download_Test)
+    
+
+def Milestone3_Get_Imported_OpenAQ_Dataset(OpenAQ_Dataset_OpenAQCSV_Download): 
+    
+   OpenAQ_Dataset_LatlngCSV_Download = '../Milestone1_Importing-datasets-from-OpenAQ/'
+    
+   OpenAQ_Dataset_LatlngCSV_Download = OpenAQ_Dataset_LatlngCSV_Download + OpenAQ_Dataset_OpenAQCSV_Download
+   
+   
+   print(OpenAQ_Dataset_OpenAQCSV_Download)
+   
    OpenAQdatasetsLatLng = []
    ImportOpenAQimported = pd.read_csv(OpenAQ_Dataset_LatlngCSV_Download)
     
@@ -190,106 +174,142 @@ def Milestone3_Get_Imported_OpenAQ_Dataset():
    return ImportOpenAQimported # OpenAQdatasetsLatLng
 
 
-print("Get the OpenAQ measurements for stations within raduis of chosen Coordinates from OpenAQ and doing Quality Control on it")
-
-#Step 1 Choose the measurement country to import and parameter
+# Step 1 Get Measurements from openAQ API 
 #
-# Choose the station
+#  1 Change the OpenAQ dataset CSV to latest downloaded from Milestone 1 Using Cooridnate and Radius 
 #
-# OpenAQStationCountry = ''
-
+#    Change OpenAQDatasetSelected to OpenAQ Dataset 
+#
+#    The address is printed out after completing Milestone 1 Process
+#
+#
+#  Limitations
+#
+#   It must be the OpenAQ Dataset downloaded using Coordinate and Radius 
+#
+#  Test 
+#
+#
+#  OpenAQDatasetSelected_Test = 'OpenAQ_Dataset Unique selection pm25 CoordinateCentreandRadius 2020-03-01 to 2020-09-01.csv'
+#
+#  Milestone3_Get_Imported_OpenAQ_Dataset_Test(OpenAQDatasetSelected_Test, 1, "Test Coordindate")
 
 print("  STEP 1 ")
 
 print("********")
 
-print("Chosen OpenAQ Coordinates and Radius: ")
-     
-OpenAQStationCountry = "24.4244,54.43375" #Edit
+print("Getting Measurements from OpenAQ API source imported in Milestone 1 from Coordinate and Radius")
 
-Radius = 25000 # Edit in metres 
 
-OpenAQStationdfDatasetCountry = 'US Diplomatic Post Abu Dhabi'
+#### Edit 
 
-print(OpenAQStationCountry)
+OpenAQDatasetSelected = 'OpenAQ_Dataset Unique selection pm25 CoordinateCentreandRadius 2020-03-01 to 2020-09-01.csv'
 
+ImportedOpenAQimport = Milestone3_Get_Imported_OpenAQ_Dataset(OpenAQDatasetSelected)
 
 print("Completed Step 1 ")
 
 print(">")
 
-# Step 2 Choose parameter
 
 print("  STEP 2 ")
 
 print("********")
 
+print("OpenAQ Dataset imported ")
 
-print("Parameter chosen")
+print(OpenAQDatasetSelected)
 
-parameter = 'pm25'
-
-print(parameter)
+print(ImportedOpenAQimport.dtypes)
 
 
-#Step 3 Choose time schedule 
-#
-# 
-# 1 Change Time Schedule from 6 months to other in dt_begin
-#  and dt_end
-#
-#  dt_begin =  date(2020,3,1) 1 March 2020 
-#
-#  dt_end =  date(2020,9,1) 1 September 2020
+print("Completed Step 2 ")
 
-dt_begin = date(2020,3,1) # Edit
-
-dt_end = date(2020,9,1) # Edit
-
-# dt_start = date.today()
+print(">")
 
 print("  STEP 3 ")
 
 print("********")
 
 
-print("Getting OpenAQ dataset imported by applying pyOpenAQ API from ") 
-print(dt_begin)
-print(" to ")
-print(dt_end)
-print(" for one OpenAQ Station and one parameter ")
-
-
-
-# Step 4 Get Measurements from openAQ API 
-#
-#
-# Test 
-#
-#resp = api.cities(df=True, limit=10000)
-
-#res1 = api.measurements(city='Delhi', df=True, limit=10000)
-
-print("  STEP 4 ")
-
-print("********")
-
-print("Getting Measurements from OpenAQ API source")
-
-# res2 = Milestone1_Get_OpnenAQ_Dataset_Measurement_perStation(OpenAQStationCountry, Radius, parameter, dt_begin, dt_end)
-
-ImportedOpenAQimport = Milestone3_Get_Imported_OpenAQ_Dataset()
-
-print("Found these Stations in Coordinates")
+print("Found these Stations from Coordinates")
 
 OpenAQStationunique = ImportedOpenAQimport['location'].unique()
 
 print(OpenAQStationunique)
 
 
-#print(Measurements1)
 
-# Step 5 Choose to remove measurement that have -999.00
+print("Completed Step 3 ")
+
+print(">")
+
+
+print("  STEP 4 ")
+
+print("********")
+
+# Step 4 Find the parameter of OpenAQ Dataset
+#
+#  1 Edit to default parameter if not in OpenAQ dataset
+#
+# Test 
+#
+#  1 That is only one parameter 
+# 
+#
+print("Parameter")
+
+Parameter_Default = 'pm25' # Edit
+
+parameter = Milestone3_Get_Imported_OpenAQ_Dataset_parameter_unique_Test(ImportedOpenAQimport,1,"Test unique parameter")
+
+print(parameter)
+
+print("Completed Step 4 ")
+
+print(">")
+
+#Step 5 Finding time schedule 
+#
+# 
+# 1 Change default Time Schedule from 6 months to other in dt_begin
+#  and dt_end
+#
+#  dt_begin =  date(2020,3,1) 1 March 2020 
+#
+#  dt_end =  date(2020,9,1) 1 September 2020
+#
+# Change these
+#
+# dt1begin = date(2020,3,1) # Edit
+#
+# dt1end = date(2020,9,1) # Edit
+#
+# dt_begin = dt1begin
+#
+# dt_end = dt1end
+
+print("  STEP 5 ")
+
+print("********")
+
+dt_begin = min(ImportedOpenAQimport['date.utc'])
+
+dt_end = max(ImportedOpenAQimport['date.utc'])
+
+
+print(dt_begin)
+print(" to ")
+print(dt_end)
+print(" for one OpenAQ Stations and one parameter ")
+
+
+print("Completed Step 5 ")
+
+print(">")
+
+# Step 6 Choose to remove measurement that have -999.00
 #
 # 1 It only removes -999.0 that are missing measurements 
 #
@@ -310,7 +330,7 @@ print(OpenAQStationunique)
 #   1 - Remove negative measurements 
 
 
-print("  STEP 5 ")
+print("  STEP 6 ")
 
 print("********")
 
@@ -335,14 +355,19 @@ if(Remove_Negative_Measurements == Remove_Neg_YES):
   print("Removing measurement below 0")
   
   
-# Step 6 Do Data Wrangling on OpenAQ dataset  
+
+print("Completed Step 6 ")
+
+print(">")
+
+# Step 7 Do Data Wrangling on OpenAQ dataset  
 #
 # 1 It convert utc to DateTime for Pecos Quality Control and utc to index
 #
 #   
   
 
-print("  STEP 6 ")
+print("  STEP 7 ")
 
 print("********")
   
@@ -351,8 +376,6 @@ print("Data Wrangling OpenAQ dataset evaluating UTC date to Date format and sett
 ImportedOpenAQimport = Milestone2_Get_OpenAQ_Dataset_Wrangling_utc_index(ImportedOpenAQimport)
   
 
-# res2 = Milestone2_Get_OpenAQ_Dataset_Wrangling_utc_index(res2)
-
 print("Dataset Wrangling Completed")
 
 print("OpenAQ Dataset imported ")
@@ -360,31 +383,31 @@ print("OpenAQ Dataset imported ")
 print(ImportedOpenAQimport.dtypes)
 
 
-# Step 7 Import just Measurements to Dataframe with Date utc index for applying 
 
-print("  STEP 7 ")
+print("Completed Step 7 ")
+
+print(">")
+
+# Step 8 Import just Measurements to Dataframe with Date utc index for applying 
+
+print("  STEP 8 ")
 
 print("********")
 
 print("Get measurement to Dataframe")
 
+OpenAQAPIdataset = pd.DataFrame(ImportedOpenAQimport, columns=['value','location','unit'])
 
-# res2 = ImportedOpenAQimport
+print("Completed Step 8 ")
 
-OpenAQAPIdataset = pd.DataFrame(ImportedOpenAQimport, columns=['value','location'])
+print(">")
 
 
-# Step 10 Completing the Pecos Quality Control 
+#  Step 9 Plot OpenAQ Dataset to Line plot and Histogram
 #
-#  1 The Search Criteria are edited in the Method 
-#
-#  Milestone3_Pecos_Complete_QualityControl_One_OpenAQStation
-#
-#  2 The iteration can be change to document every time it is processed 
+#   1 The iteration can be change to document every time it is processed 
 #
 #   iteration_OpenAQStations = '0'
-
-#Step 9 Plot OpenAQ Dataset to Line plot and Histogram
 
 print("  STEP 9 ")
 
@@ -392,10 +415,12 @@ print("********")
 
 print("Graph of OpenAQ Dataset Measumrents")
 
+iteration_OpenAQStations = '0'
 
-Milestone2_Import_OpenAQ_Line_Stations(ImportedOpenAQimport)
-
-OpenAQDataset_VisualAnalytics = "OpenAQ Dataset Station " + OpenAQStationdfDatasetCountry + " " + parameter + " Time Schedule " + str(dt_begin) + " to " + str(dt_end)
+OpenAQDataset_VisualAnalytics = "OpenAQ Dataset Station " + " " + parameter + " Time Schedule " + str(dt_begin) + " to " + str(dt_end) + " Iteration " + iteration_OpenAQStations
 
 Milestone2_OpenAQ_Dataset_VisualAnalytics_Histogram_Unique(OpenAQAPIdataset, OpenAQStationunique, OpenAQAPIdataset.index, OpenAQAPIdataset['value'], parameter, OpenAQDataset_VisualAnalytics, xlabel='Value', ylabel='Amount of Measurements', dpi=100)
 
+print("Completed Step 9 ")
+
+print(">")

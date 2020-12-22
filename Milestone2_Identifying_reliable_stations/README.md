@@ -11,9 +11,9 @@ and ESoWC 2020
 
 Milestone 2 Identifying reliable stations
 
-1 Histogram of OpenAQ stations or OpenAQ download  
+1 Histogram and Line graph of OpenAQ stations or OpenAQ download 
 
-"Milestone2_VisualAnalytics_Evaluate_Coordinates_OpenAQ_Deployed_OpenAQ_Completed.py"
+"Milestone2_VisualAnalytics_Evaluate_Coordinates_OpenAQ_Deployed.py"
 
 
 # Aims
@@ -27,16 +27,14 @@ Milestone 2 Identifying reliable stations
 
 1 Histogram of OpenAQ stations  
 
-"Milestone2_VisualAnalytics_Evaluate_Coordinates_OpenAQ_Deployed_OpenAQ_Completed.py"
+"Milestone2_VisualAnalytics_Evaluate_Coordinates_OpenAQ_Deployed.py"
 
 
 # User Manual 
 
-Step 1 Download Dataset for one AQ Station from the dataset from openAQ.org
+Step 1 Download Dataset for one AQ Station from the dataset from openAQ.org using Milestone 1
 
-Step 2 Convert to csv 
-
-Step 3 Change the csv requested in the script to chosen OpenAQ Stations 
+Step 2 Change the csv requested in the 2Milestone2_VisualAnalytics_Evaluate_Coordinates_OpenAQ_Deployed.py" script to chosen OpenAQ Stations 
 
 
 # Dependencies

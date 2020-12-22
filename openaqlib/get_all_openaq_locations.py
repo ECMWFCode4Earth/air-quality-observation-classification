@@ -2,8 +2,6 @@ import openaq
 import json
 import time
 
-from openaq_tools import retrieve_station_measurements
-
 
 MAX_RETRIES = 5
 

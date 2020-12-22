@@ -23,6 +23,14 @@ def retrieve_station_measurements(api, station_name, parameter, dt_begin, dt_end
     # sort="asc" """
     #     )
 
+    # try:
+    #     status, resp = api.locations(page=page_num)
+    # except openaq.exceptions.ApiError:
+    #     time.sleep(1)
+    #     continue
+    # else:
+    #     break
+
     res1 = api.measurements(
         location=station_name,
         parameter=parameter,

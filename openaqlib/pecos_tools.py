@@ -10,6 +10,21 @@ import pecos
 RESULTSDIR = "/perm/mo/mod/tmp/openaq_results"
 
 
+def cleanup_dataframe(df, time_increment_mode):
+    """replace OpenAQ missing value with np.nan and insert nans where ther are gaps"""
+    start_index = df.index[0]
+    end_index = df.index[-1]
+    idx = pd.date_range(
+        start_index, end_index, freq="{}S".format(int(time_increment_mode))
+    )
+
+    df = df.reindex(idx, fill_value=np.nan)
+    # df.value.replace(-999, np.nan)
+    df[df < 0] = np.nan
+
+    return df
+
+
 def get_time_increment_mode(df):
 
     time_diff = (df.index[1:] - df.index[:-1]).values
@@ -23,10 +38,16 @@ def run_pecos_tests(df, location, parameter):
     pecos.logger.initialize()
     pm = pecos.monitoring.PerformanceMonitoring()
 
-    # Step 3 Append Dataframe to Pecos PerformanceMonitoring data object
+    time_increment_mode = get_time_increment_mode(df)
+
+    df = cleanup_dataframe(df, time_increment_mode)
+
+    no_missing_values = df.value.isna().sum()
+    data_availability = (len(df.index) - no_missing_values) / len(df.index)
+    print("data availabilty: ", no_missing_values, data_availability)
+
     pm.add_dataframe(df)
 
-    time_increment_mode = get_time_increment_mode(df)
     pm.check_timestamp(time_increment_mode)
 
     pm.check_missing()
@@ -53,7 +74,7 @@ def run_pecos_tests(df, location, parameter):
     mask = pm.mask[["value"]]
     QCI = pecos.metrics.qci(mask)
 
-    print(QCI)
+    # print(QCI)
     data_plot_path = f"{RESULTSDIR}/openaq_{location}_{parameter}.png"
     test_results_path = f"{RESULTSDIR}/pecos_{location}_{parameter}.png"
 
@@ -63,7 +84,7 @@ def run_pecos_tests(df, location, parameter):
     df.plot(y="value", figsize=(7.0, 3.5))
     plt.savefig(data_plot_path, format="png", dpi=300)
 
-    print(pm.test_results)
+    # print(pm.test_results)
 
     Report = f"{RESULTSDIR}/test_results_{location}_{parameter}.csv"
     MonitoringReport = f"{RESULTSDIR}/MonitoringReport_{location}_{parameter}.html"
@@ -78,7 +99,7 @@ def run_pecos_tests(df, location, parameter):
         filename=MonitoringReport,
     )
 
-    return pm
+    return (data_availability, QCI.value)
 
 
 def color_value(val):
@@ -89,6 +110,7 @@ def color_value(val):
         name="custom", colors=colors, N=nThresholds
     )
 
+    # print("color val", val)
     return_color = ""
     if np.isnan(val):
         return_color = "background-color: gray"
@@ -105,21 +127,36 @@ def color_value(val):
     return return_color
 
 
-# def generate_dashboard_cell(DA=DA, QCI=QCI, EPI=EPI):
+def generate_dashboard_cell(DA, QCI):
 
-#     metrics = pd.DataFrame(
-#         data=np.array([DA, QCI, EPI]), columns=[""], index=["DA", "QCI", "EPI"]
-#     )
+    metrics = pd.DataFrame(data=np.array([DA, QCI]), columns=[""], index=["DA", "QCI"])
 
-#     # Apply color and formatting to metrics table
-#     style_table = (
-#         metrics.style.format("{:.2f}")
-#         .applymap(color_value)
-#         .highlight_null(null_color="gray")
-#         .render()
-#     )
+    # Apply color and formatting to metrics table
+    style_table = (
+        metrics.style.format("{:.2f}")
+        .applymap(color_value)
+        .highlight_null(null_color="gray")
+        .render()
+    )
 
-#     # Store content to be displayed in the dashboard
-#     content = {"table": style_table}
-#     return content
+    # Store content to be displayed in the dashboard
+    content = {"table": style_table}
+    return content
 
+
+def create_pecos_dashboard(parameter_list, location_list, dashboard_content, FILENAME):
+    footnote = "DA = Data availability <br>QCI = Quality control index"
+
+    for location in location_list:
+        for parameter in parameter_list:
+            if (location, parameter) not in dashboard_content:
+                dashboard_content[(location, parameter)] = "&nbsp;"
+
+    pecos.io.write_dashboard(
+        parameter_list,
+        location_list,
+        dashboard_content,
+        footnote=footnote,
+        filename=FILENAME,
+    )
+    return

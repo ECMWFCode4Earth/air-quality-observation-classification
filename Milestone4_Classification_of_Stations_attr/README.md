@@ -13,8 +13,7 @@ Completed for ECMWF European Centre for Medium Weather Forecast 2020 and ESoWC 2
 
 1 Distance to Nearest Highway
 
-
-
+openAQ_100Latlngattr13000_OpenAQStations.csv
 
 1 - OpenAQ Lat
 
@@ -28,7 +27,7 @@ Completed for ECMWF European Centre for Medium Weather Forecast 2020 and ESoWC 2
 
 6 - Distance in Km 
 
-2 Get Nearest Highway 
+2 Get Nearest Highway and Mean of OpenAQ
 
 Milestone4_Latlng_Complete 
 

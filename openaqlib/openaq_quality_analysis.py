@@ -4,6 +4,7 @@ from random import randrange
 import pprint
 
 import openaq
+import pecos
 
 from openaq_tools import retrieve_station_measurements
 

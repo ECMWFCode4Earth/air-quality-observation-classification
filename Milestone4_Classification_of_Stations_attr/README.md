@@ -13,14 +13,20 @@ Completed for ECMWF European Centre for Medium Weather Forecast 2020 and ESoWC 2
 
 1 Distance to Nearest Highway
 
-OpenAQ_Latlng_DistancetoNearestHighway.csv
+
+
 
 1 - OpenAQ Lat
+
 2 - OpenAQ Lng
+
 3 - PlaceId
+
 4 - Nearest Highway Lat
+
 5 - Nearest Highway Lng
-6 - Distance
+
+6 - Distance in Km 
 
 2 Get Nearest Highway 
 

@@ -7,6 +7,7 @@ import openaq
 import pecos
 
 from openaq_tools import retrieve_station_measurements
+from pecos_tools import run_pecos_tests
 
 ETCDIR = "/home/mo/mod/git/esowc/code_2020/air-quality-observation-classification/etc"
 
@@ -16,7 +17,7 @@ locations = json.loads(f.read())
 N = len(locations)
 
 
-for ii in range(5):
+for ii in range(2):
     nr = randrange(N)
     api = openaq.OpenAQ()
 
@@ -34,3 +35,4 @@ for ii in range(5):
                 api, location, parameter, start_dt, end_dt
             )
             print(parameter, data.head())
+            run_pecos_tests(data, location)

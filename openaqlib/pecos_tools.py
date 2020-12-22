@@ -1,10 +1,13 @@
 import numpy as np
 from scipy import stats
+import pandas as pd
 import matplotlib.pyplot as plt
+from matplotlib.colors import LinearSegmentedColormap
+from matplotlib.colors import rgb2hex
 
 import pecos
 
-RESULTSDIR = "./results"
+RESULTSDIR = "/perm/mo/mod/tmp/openaq_results"
 
 
 def get_time_increment_mode(df):
@@ -15,7 +18,7 @@ def get_time_increment_mode(df):
     return time_increment_mode
 
 
-def run_pecos_tests(df, location):
+def run_pecos_tests(df, location, parameter):
 
     pecos.logger.initialize()
     pm = pecos.monitoring.PerformanceMonitoring()
@@ -51,27 +54,72 @@ def run_pecos_tests(df, location):
     QCI = pecos.metrics.qci(mask)
 
     print(QCI)
-    custom = f"{RESULTSDIR}/pecos_{location}.png"
+    data_plot_path = f"{RESULTSDIR}/openaq_{location}_{parameter}.png"
+    test_results_path = f"{RESULTSDIR}/pecos_{location}_{parameter}.png"
 
-    test_results_graphics = pecos.graphics.plot_test_results(pm.df, pm.test_results)
+    test_results_graphics = pecos.graphics.plot_test_results(
+        pm.df, pm.test_results, filename_root=test_results_path
+    )
     df.plot(y="value", figsize=(7.0, 3.5))
-    plt.savefig(custom, format="png", dpi=300)
+    plt.savefig(data_plot_path, format="png", dpi=300)
 
     print(pm.test_results)
 
-    Report = f"test_results_{location}.csv"
-
-    MonitoringReport = f"{RESULTSDIR}/MonitoringReport_{location}.html"
+    Report = f"{RESULTSDIR}/test_results_{location}_{parameter}.csv"
+    MonitoringReport = f"{RESULTSDIR}/MonitoringReport_{location}_{parameter}.html"
 
     pecos.io.write_test_results(pm.test_results, filename=Report)
     pecos.io.write_monitoring_report(
         pm.df,
         pm.test_results,
         test_results_graphics,
-        [custom],
+        [data_plot_path],
         QCI,
         filename=MonitoringReport,
     )
 
-    return pm.test_results
+    return pm
+
+
+def color_value(val):
+
+    nThresholds = 10
+    colors = [(0.75, 0.15, 0.15), (1, 0.75, 0.15), (0.15, 0.75, 0.15)]
+    cmap = LinearSegmentedColormap.from_list(
+        name="custom", colors=colors, N=nThresholds
+    )
+
+    return_color = ""
+    if np.isnan(val):
+        return_color = "background-color: gray"
+    elif val > 1:
+        return_color = "background-color: gray"
+    elif val < 0:
+        return_color = "background-color: gray"
+    else:
+        binned_value = int(np.floor(val * 10))
+        rgb_color = cmap(binned_value)[:3]
+        hex_color = rgb2hex(rgb_color)
+        return_color = "background-color: " + hex_color
+
+    return return_color
+
+
+# def generate_dashboard_cell(DA=DA, QCI=QCI, EPI=EPI):
+
+#     metrics = pd.DataFrame(
+#         data=np.array([DA, QCI, EPI]), columns=[""], index=["DA", "QCI", "EPI"]
+#     )
+
+#     # Apply color and formatting to metrics table
+#     style_table = (
+#         metrics.style.format("{:.2f}")
+#         .applymap(color_value)
+#         .highlight_null(null_color="gray")
+#         .render()
+#     )
+
+#     # Store content to be displayed in the dashboard
+#     content = {"table": style_table}
+#     return content
 

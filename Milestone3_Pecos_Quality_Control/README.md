@@ -34,7 +34,11 @@ http://gordonrates.co.uk/Air_Quality/workshop/Apps/F_DATASTORE_A_IMPORT_SubFunct
   
 ## 2 Milestone 3 Pecos Quality Control and choose Pecos Quality Control search criteria 
 
+Process "Milestone3_3_Pecos_QualityControl_Coordinates_OpenAQ_Deployed.py"
+
 ## 3 Process Pecos Quality Control analysis 
+
+
 
 # Aims 
 
@@ -63,7 +67,8 @@ Milestone3_Pecos_QualityControl_Choose_Search_Criteria_UserManual.pdf
 UserManual_Milestone_3_Pecos_Quality_Control.pdf
 
 
-Parameters 
+# Parameters 
+
 1 Higher bound
 2 Lower Bound 
 3 Timestep of expected measurements
@@ -81,77 +86,9 @@ The scripts output to test_results.csv and monitoring_report.html
 
 "Milestone3_Pecos_QualityControl_OpenAQStationimportOpenAQAPIdataset_Completed.py"
 
- ## 2. The Pecos Quality Control for the stations in chosen country
+ ## 2. The Pecos Quality Control for station within a coordinate center Latitude and longitude and a radius.
 
-"Milestone3_2_Pecos_QualityControl_Country_OpenAQ_Deployed.py"
-
-A Script for importing OpenAQ dataset for One country and one parameter 
-
- ## 3. The Pecos Quality Control for station within a coordinate center Latitude and longitude and a radius.
-
-"Milestone3_3_Pecos_QualityControl_Coordinates_OpenAQ_Deployed_Completed.py"
-
-## 4. The Pecos Quality control for station with Change points analysis.
-
-For One OpenAQ station
-
-"Milestone3_Pecos_QualityControl_OpenAQStationOpenAQAPIdataset_ChangePoints_Completed.py"
-
-For Coordinates and Radius 
-
-"Milestone3_Pecos_QualityControl_OpenAQCoordinatesOpenAQAPIdataset_ChangePoints_Completed.py"
-
-# Test 
-
-1 Milestone3_Pecos_6Month_Importing_OpenAQ_API_Dataset_Classification_of_Measurements_6Months.py
-
-A Script to get 6 Months of OpenAQ dataset from one station and one parameter. The defaults are parameter pm25 and station US Diplomatic Post: Hyderabad 
-
-UserManual_Milestone_3_Pecos_Quality_Control_Classification_of_Stations.pdf
-
-(This is for Milestone3_Pecos_Importing_OpenAQ_API_Dataset_Classification_of_Measurements.py)
-
-# Edit Parameters: 
-
-OpenAQ Location: Line 33
-
-"res_1 = api.measurements(location='US Diplomatic Post: Hyderabad', parameter='pm25', date_to=dt_end, date_from=dt_begin, limit=10000, df=True)
-"
-
-OpenAQ Parameter: Line 33
-                                                                                 
-"res_1 = api.measurements(location='US Diplomatic Post: Hyderabad', parameter='pm25', date_to=dt_end, date_from=dt_begin, limit=10000, df=True)"
-
-OpenAQ Date Range: Line 21 and 22
-
-"dt_begin = date(2020,3,1)
-dt_end = date(2020,9,1)"
-
-1 Higher bound: Step 6 Line 87
-
-"pm.check_range([0, 200], key='value')"
-
-"pm.check_range([Lower Bound, High Bound], key='value')"
-
-2 Lower Bound: Step 6 Line 87 
-
-"pm.check_range([0, 200], key='value')"
-
-"pm.check_range([Lower Bound, High Bound], key='value')"
-
-3 Timestep of expected measurements: Step 4 Line 65
-
-"pm.check_timestamp(900)"
-
-4 The higher bound and lower bound that designate stagnant measurements:  Step 7 Line 106  
-
-"pm.check_delta([None, 10], window=3600, key='value')"
-
-5 Increment over measurements: Step 8 Line 124
-
-pm.check_increment([None, 20], key='value') 
-
-
+"Milestone3_3_Pecos_QualityControl_Coordinates_OpenAQ_Deployed.py"
 
 # Dependencies
 

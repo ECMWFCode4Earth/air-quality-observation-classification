@@ -34,7 +34,7 @@ Milestone 2 Identifying reliable stations
 
 Step 1 Download Dataset for one AQ Station from the dataset from openAQ.org using Milestone 1
 
-Step 2 Change the csv requested in the 2Milestone2_VisualAnalytics_Evaluate_Coordinates_OpenAQ_Deployed.py" script to chosen OpenAQ Stations 
+Step 2 Change the csv requested in the "Milestone2_VisualAnalytics_Evaluate_Coordinates_OpenAQ_Deployed.py" script to chosen OpenAQ Stations 
 
 
 # Dependencies

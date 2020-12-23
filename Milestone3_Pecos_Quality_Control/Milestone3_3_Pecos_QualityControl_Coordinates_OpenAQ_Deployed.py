@@ -5,32 +5,22 @@ Created on Tue Dec  1 15:12:57 2020
 @author: wegia
 """
 
-
-
 import pandas as pd
-
 import pecos
-
 import seaborn as sns
-
 from pandas import json_normalize
-
 import matplotlib.pyplot as plt
-
 from datetime import datetime, date, time, timezone
-
 import numpy as np
-
 import csv
     
-
 def Milestone2_Get_OpenAQ_Dataset_Wrangling_utc_index(OpenAQ_Dataset_ImportAPI):
 
    format = '%Y-%m-%d %H:%M:%S'
     
    OpenAQ_Dataset_ImportAPI['date.utc'] = pd.to_datetime(OpenAQ_Dataset_ImportAPI['date.utc'], format=format).dt.tz_localize(None)
 
-   OpenAQ_Dataset_ImportAPI = OpenAQ_Dataset_ImportAPI[OpenAQ_Dataset_ImportAPI.value != -999.00]
+  # OpenAQ_Dataset_ImportAPI = OpenAQ_Dataset_ImportAPI[OpenAQ_Dataset_ImportAPI.value != -999.00]
 
    Formating = pd.DatetimeIndex(OpenAQ_Dataset_ImportAPI['date.utc'])
   
@@ -38,8 +28,6 @@ def Milestone2_Get_OpenAQ_Dataset_Wrangling_utc_index(OpenAQ_Dataset_ImportAPI):
 
    return OpenAQ_Dataset_ImportAPI
    
-
-
 def Milestone2_Remove_neg_attribute(OpenAQ_Dataset_ImportAPI):
     
     OpenAQ_Dataset_ImportAPI = OpenAQ_Dataset_ImportAPI[OpenAQ_Dataset_ImportAPI.value != -999.00]
@@ -78,6 +66,8 @@ def Milestone2_OpenAQ_Dataset_VisualAnalytics_Histogram_Unique(df4, OpenAQStatio
 
    return OpenAQ_Dataset_Graph
 
+
+
 def Milestone2_Import_OpenAQ_CSV_plot_Unique(df4, OpenAQStationunique, xaxis, yaxis, parameter, OpenAQDataset_VisualAnalytics, xlabel='Value', ylabel='Amount of Measurements', dpi=100):
    
    for OpenAQunique in OpenAQStationunique:
@@ -87,7 +77,6 @@ def Milestone2_Import_OpenAQ_CSV_plot_Unique(df4, OpenAQStationunique, xaxis, ya
       OpenAQAPIdatasetunique = df4[df4['location'] == OpenAQunique]
       
       Milestone2_Import_OpenAQ_CSV_plot(OpenAQAPIdataset, xaxis, yaxis, parameter, OpenAQ_Dataset, title=OpenAQDataset_VisualAnalytics, xlabel='Value', ylabel='Amount of Measurements', dpi=100)
-
 
 def Milestone2_OpenAQ_Dataset_VisualAnalytics_Histogram(df4, parameter, OpenAQDataset_VisualAnalytics_iteration, title="", xlabel='Value', ylabel='Amount of Measurements', dpi=100):
     
@@ -100,14 +89,12 @@ def Milestone2_OpenAQ_Dataset_VisualAnalytics_Histogram(df4, parameter, OpenAQDa
    plt.hist(df4['value'], bins=np.arange(1,df4['value'].max()))
    
    OpenAQ_Dataset = OpenAQDataset_VisualAnalytics_iteration + " Histogram" + ".png"
-   
-   
+      
    plt.savefig(OpenAQ_Dataset)
    
    plt.show()
 
    return OpenAQ_Dataset
-
 
 def Milestone2_Import_OpenAQ_CSV_plot(df4, xaxis, yaxis, parameter, OpenAQDataset_VisualAnalytics_iteration,  title="", xlabel='Date', ylabel='Value', dpi=100):
     
@@ -116,19 +103,21 @@ def Milestone2_Import_OpenAQ_CSV_plot(df4, xaxis, yaxis, parameter, OpenAQDatase
    plt.figure(figsize=(16,5), dpi=dpi)
    plt.plot(xaxis, yaxis, color='tab:blue')
    plt.gca().set(title=title, xlabel=xlabel, ylabel=ylabel)
-   
-    
+       
    OpenAQ_Dataset = OpenAQDataset_VisualAnalytics_iteration + " Line Graph" + ".png"
-    
-    
+        
    plt.savefig(OpenAQ_Dataset)
  
    plt.show()
 
    return OpenAQ_Dataset
 
-
-
+def Milestone1_Get_Parameter(DatasetOpenAQ, Parameter):
+       
+   DatasetOpenAQ = DatasetOpenAQ[DatasetOpenAQ.parameter==Parameter]
+  
+   return DatasetOpenAQ
+     
 def Milestone3_Get_Imported_OpenAQ_Dataset_parameter_unique_Test(OpenAQDatasetparameter, TestId, Test_Analysis):
     
    OpenAQStationparameter = OpenAQDatasetparameter['parameter'].unique()
@@ -139,20 +128,15 @@ def Milestone3_Get_Imported_OpenAQ_Dataset_parameter_unique_Test(OpenAQDatasetpa
    else:
      parameter = Parameter_Default  
     
-     
    return parameter
    
 def Milestone3_Get_Imported_OpenAQ_Dataset_Test(OpenAQ_Dataset_OpenAQCSV_Download_Test, TestId, Test_Analysis):
     
    Milestone3_Get_Imported_OpenAQ_Dataset(OpenAQ_Dataset_OpenAQCSV_Download_Test)
     
-
-
-
 def Milestone3_Get_VisualAnalytics(OpenAQDataset, OpenAQStation):
      
     OpenAQdfDataset = []
-    
     
     for OpenAQdatasetGraph in OpenAQDataset:
       
@@ -164,7 +148,6 @@ def Milestone3_Get_VisualAnalytics(OpenAQDataset, OpenAQStation):
            
 def Milestone3_Pecos_Complete_QC_QualityControl_OpenAQStation(OpenAQStation, OpenAQDataset_VisualAnalytics_iteration, OpenAQStationunique, OpenAQDataset):
     
-    
    for OpenAQunique in OpenAQStationunique:
         
       print(OpenAQunique) 
@@ -173,7 +156,22 @@ def Milestone3_Pecos_Complete_QC_QualityControl_OpenAQStation(OpenAQStation, Ope
       
       OpenAQCompleteDataset = Milestone3_Get_VisualAnalytics(OpenAQDataset, OpenAQunique)
       
-      Milestone3_Pecos_Complete_QualityControl_One_OpenAQStation(OpenAQStation, OpenAQDataset_VisualAnalytics_iteration, OpenAQDataset) 
+      OpenAQDataset_VisualAnalytics_iteration = OpenAQDataset_VisualAnalytics_iteration + " " + OpenAQunique
+      
+      Milestone3_Pecose_Quality_Control_parameters(OpenAQStation, OpenAQDataset_VisualAnalytics_iteration, OpenAQDataset)
+
+def Milestone3_Pecose_Quality_Control_parameters(OpenAQStation, OpenAQDataset_VisualAnalytics_iteration, OpenAQDataset):
+    
+    OpenAQparameterunique = OpenAQStation['parameter'].unique()
+    
+    for OpenAQStationparameter in OpenAQparameterunique:
+        
+       OpenAQDatasetStation = Milestone1_Get_Parameter(OpenAQStation, OpenAQStationparameter)
+
+       OpenAQDataset_VisualAnalytics_iteration = OpenAQDataset_VisualAnalytics_iteration + " " + OpenAQStationparameter 
+
+       Milestone3_Pecos_Complete_QualityControl_One_OpenAQStation(OpenAQDatasetStation, OpenAQDataset_VisualAnalytics_iteration, OpenAQDataset) 
+       
 
 def Milestone3_Pecos_Complete_QualityControl_One_OpenAQStation(OpenAQStation, OpenAQDataset_VisualAnalytics_iteration, OpenAQDataset):
 
@@ -182,16 +180,12 @@ def Milestone3_Pecos_Complete_QualityControl_One_OpenAQStation(OpenAQStation, Op
  
    pm = pecos.monitoring.PerformanceMonitoring()
 
-
    # Step 3 Append Dataframe to Pecos PerformanceMonitoring data object
    pm.add_dataframe(OpenAQStation)
-
 
    # Step 4 Check the expected frequency of the timestamp
    #
    # 1 Edit timestep when 900 is 15 mins     
-
-
 
    Timestep = 900 # Edit
    
@@ -203,7 +197,6 @@ def Milestone3_Pecos_Complete_QualityControl_One_OpenAQStation(OpenAQStation, Op
    
    print(Timestep)
    
-  
    # Step 5 Check for missing data
    pm.check_missing()
    
@@ -227,7 +220,6 @@ def Milestone3_Pecos_Complete_QualityControl_One_OpenAQStation(OpenAQStation, Op
 
    pm.check_range([LowerBound, HigherBound], key='value')
  
-
    print("*****")
    
    print("Criteria 2 : Lower Bound and Higher Bound ")
@@ -258,7 +250,7 @@ def Milestone3_Pecos_Complete_QualityControl_One_OpenAQStation(OpenAQStation, Op
  
    print("*****")
  
-   
+  
    print("Criteria 3 : Stagnant Measurements ")
   
    DeltaLowerBound = None # Edit
@@ -299,7 +291,7 @@ def Milestone3_Pecos_Complete_QualityControl_One_OpenAQStation(OpenAQStation, Op
 
    print("*****")
  
-   print("Criteria 4 : Stagnant Measurements ")
+   print("Criteria 4 : Maximum Increment of Measurements ")
 
    Increment_Increase = 20 # Edit
    
@@ -322,6 +314,8 @@ def Milestone3_Pecos_Complete_QualityControl_One_OpenAQStation(OpenAQStation, Op
    print("UpperBound")
 
    UpperBoundOutlier = 3 # Edit
+
+   LowerBoundOutlier = None # Edit
    
    print(UpperBoundOutlier)
    
@@ -331,13 +325,11 @@ def Milestone3_Pecos_Complete_QualityControl_One_OpenAQStation(OpenAQStation, Op
    
    print(TimeSchedule)
    
-   pm.check_outlier([None, UpperBoundOutlier], window=TimeSchedule, key='value')
+   pm.check_outlier([LowerBoundOutlier, UpperBoundOutlier], window=TimeSchedule, key='value')
 
    # Step 9 Compute the quality control index for value
    mask = pm.mask[['value']]
-   
-  
-   
+       
    QCI = pecos.metrics.qci(mask)
 
    print("*****")
@@ -379,6 +371,8 @@ def Milestone3_Pecos_Complete_QualityControl_One_OpenAQStation(OpenAQStation, Op
 
    print(pm.test_results)
 
+   OpenAQDataset_VisualAnalytics_iteration = OpenAQDataset_VisualAnalytics_iteration 
+
    # Step 11 Write test results and report files to test_results.csv and monitoringreport.html
 
    Report = 'test_results' + OpenAQDataset_VisualAnalytics_iteration  + ' Result' + '.csv' 
@@ -395,10 +389,10 @@ def Milestone3_Pecos_Complete_QualityControl_One_OpenAQStation(OpenAQStation, Op
    
    OpenAQDataset_VisualAnalytics_Results.append(MonitoringReport)
    
-   OpenAQDataset_VisualAnalytics_Results.append(OpenAQDataset_VisualAnalytics_iteration + 'metrics_file.csv')
+   OpenAQDataset_VisualAnalytics_Results.append(OpenAQDataset_VisualAnalytics_iteration + 'metrics.csv')
     
 
-   pecos.io.write_metrics(metricsOpenAQ, OpenAQDataset_VisualAnalytics_iteration + 'metrics_file.csv') 
+   pecos.io.write_metrics(metricsOpenAQ, OpenAQDataset_VisualAnalytics_iteration + 'metrics.csv') 
 
    return pm.test_results
 
@@ -421,8 +415,7 @@ def Milestone3_Get_Imported_OpenAQ_DatasetOutlier(OpenAQ_QC_Dataset):
    NotComplete = "Check for missing data"
     
    QCI = "QCI "
-   
-   
+ 
    if(OpenAQ_QC_Dataset == 0):
 
        print("Criteria 1 Time Stamp")
@@ -459,7 +452,6 @@ def Milestone3_Get_Imported_OpenAQ_DatasetOutlier(OpenAQ_QC_Dataset):
 
        print(QCI)
     
-    
 def Milestone3_Get_Imported_OpenAQ_Dataset(OpenAQDatasetSelect): 
     
    OpenAQ_Dataset_LatlngCSV_Download = '../Milestone1_Importing-datasets-from-OpenAQ/'
@@ -473,9 +465,6 @@ def Milestone3_Get_Imported_OpenAQ_Dataset(OpenAQDatasetSelect):
    
    return ImportOpenAQimported 
 
-
-
-
 def Milestone3_Get_Imported_OpenAQ_Dataset_OpenAQDataset_Test(): 
     
    OpenAQ_Dataset_LatlngCSV_Download = '../Milestone1_Importing-datasets-from-OpenAQ/OpenAQ_Dataset1pm25Country2018-03-01to2020-09-01.csv'
@@ -486,7 +475,6 @@ def Milestone3_Get_Imported_OpenAQ_Dataset_OpenAQDataset_Test():
    
 
    return ImportOpenAQimported 
-
 
 def Milestone3_Get_OpenAQresults(OpenAQDFResults, OpenAQDataset, QCI):
     
@@ -519,6 +507,22 @@ def Milestone3_Get_OpenAQresults(OpenAQDFResults, OpenAQDataset, QCI):
 
 
 OpenAQDataset_VisualAnalytics_Results = []
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Step 1 Get Measurements from openAQ API 
 #
@@ -554,10 +558,12 @@ print("Getting Measurements from OpenAQ API source imported in Milestone 1 from 
 
 #### Edit 
 
-OpenAQDatasetSelected = 'OpenAQ_Dataset Unique selection pm25 CoordinateCentreandRadius 2020-03-01 to 2020-09-01.csv'
+OpenAQDatasetSelected = 'OpenAQ_Dataset Unique selection pm25 CoordinateCentreandRadius 2020-03-01 to 2020-09-01.csv' # 'OpenAQ_Dataset AT4S406 pm25.csv' # 'OpenAQ_Dataset Unique selection pm25 CoordinateCentreandRadius 2020-03-01 to 2020-09-01.csv'
 
 ImportedOpenAQimport = Milestone3_Get_Imported_OpenAQ_Dataset(OpenAQDatasetSelected)
 
+
+print(ImportedOpenAQimport)
 
 print("Choosen Unique Iteration ")
 
@@ -626,9 +632,14 @@ print("Parameter")
 
 Parameter_Default = 'pm25' # Edit
 
+OnlyOneParameter = 0 # Edit 0 - No and 1 Yes
+
 parameter = Milestone3_Get_Imported_OpenAQ_Dataset_parameter_unique_Test(ImportedOpenAQimport,1,"Test unique parameter")
 
 print(parameter)
+
+if(OnlyOneParameter == 1):
+  ImportedOpenAQimport = Milestone1_Get_Parameter(ImportedOpenAQimport, Parameter_Default)
 
 print("Completed Step 4 ")
 
@@ -658,11 +669,21 @@ print("  STEP 5 ")
 
 print("********")
 
+ChooseTimeScheduleNoorYes = 0 # Edit 0 No and 1 Yes  
+
 dt_begin = min(ImportedOpenAQimport['date.utc'])
 
 dt_end = max(ImportedOpenAQimport['date.utc'])
 
 
+if(ChooseTimeScheduleNoorYes == 1):
+
+  dt_begin = date(2020,3,1)
+    
+  dt_end = date(2020,9,1)
+    
+    
+    
 print(dt_begin)
 print(" to ")
 print(dt_end)
@@ -778,9 +799,9 @@ print("Graph of OpenAQ Dataset Measumrents")
 
 OpenAQ_unit = str(ImportedOpenAQimport['unit'][0]) 
 
-OpenAQDataset_VisualAnalytics = "OpenAQ Dataset Station " + " " + parameter + " Time Schedule " + str(dt_begin) + " to " + str(dt_end)
+OpenAQDataset_VisualAnalytics = "OpenAQ Dataset QC" + " " + " Time Schedule " + str(dt_begin) + " to " + str(dt_end)
 
-OpenAQDataset_VisualAnalytics_iteration = "OpenAQ Dataset Station " + " " + parameter + " iteration " + iteration_OpenAQStations
+OpenAQDataset_VisualAnalytics_iteration = "OpenAQDataset QC " + " "  + " iteration " + iteration_OpenAQStations
 
 OpenAQDataset = Milestone2_OpenAQ_Dataset_VisualAnalytics_Histogram_Unique(OpenAQAPIdataset, OpenAQStationunique, OpenAQAPIdataset.index, OpenAQAPIdataset['value'], parameter, OpenAQDataset_VisualAnalytics, OpenAQDataset_VisualAnalytics_iteration, xlabel='Value', ylabel='Amount of Measurements', dpi=100)
 
@@ -819,7 +840,9 @@ Milestone3_Get_Imported_OpenAQ_DatasetOutlier(OpenAQ_QC_Dataset)
 
 print(" Results in Monitoring report")
 
-print(OpenAQDataset_VisualAnalytics_Results)
+for OpenAQDataset in OpenAQDataset_VisualAnalytics_Results:
+    
+   print(OpenAQDataset)
 
 print("Completed Step 10")
 

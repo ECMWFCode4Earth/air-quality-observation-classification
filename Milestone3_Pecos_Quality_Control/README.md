@@ -64,7 +64,7 @@ Milestone3_Pecos_QualityControl_Choose_Search_Criteria_UserManual.pdf
 
 ## 3 Complete Pecos Quality Control 
 
-UserManual_Milestone_3_Pecos_Quality_Control.pdf
+Milestone3_UserManual_Pecos_Quality_Control.pdf
 
 
 # Parameters 

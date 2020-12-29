@@ -7,7 +7,8 @@ from matplotlib.colors import rgb2hex
 
 import pecos
 
-RESULTSDIR = "/perm/mo/mod/tmp/openaq_results"
+ROOTDIR = "/Users/miha/git/esowc/air-quality-observation-classification"
+RESULTSDIR = f"{ROOTDIR}/results"
 
 
 def cleanup_dataframe(df, time_increment_mode):
@@ -20,7 +21,7 @@ def cleanup_dataframe(df, time_increment_mode):
 
     df = df.reindex(idx, fill_value=np.nan)
     # df.value.replace(-999, np.nan)
-    df[df < 0] = np.nan
+    df.value[df.value < 0] = np.nan
 
     return df
 
@@ -81,23 +82,34 @@ def run_pecos_tests(df, location, parameter):
     test_results_graphics = pecos.graphics.plot_test_results(
         pm.df, pm.test_results, filename_root=test_results_path
     )
-    df.plot(y="value", figsize=(7.0, 3.5))
-    plt.savefig(data_plot_path, format="png", dpi=300)
+    # df.plot(y="value", figsize=(7.0, 3.5))
+    # plt.savefig(data_plot_path, format="png", dpi=300)
 
-    # print(pm.test_results)
+    # # print(pm.test_results)
 
-    Report = f"{RESULTSDIR}/test_results_{location}_{parameter}.csv"
-    MonitoringReport = f"{RESULTSDIR}/MonitoringReport_{location}_{parameter}.html"
+    # Report = f"{RESULTSDIR}/test_results_{location}_{parameter}.csv"
+    # MonitoringReport = f"{RESULTSDIR}/MonitoringReport_{location}_{parameter}.html"
 
-    pecos.io.write_test_results(pm.test_results, filename=Report)
-    pecos.io.write_monitoring_report(
-        pm.df,
-        pm.test_results,
-        test_results_graphics,
-        [data_plot_path],
-        QCI,
-        filename=MonitoringReport,
-    )
+    # pecos.io.write_test_results(pm.test_results, filename=Report)
+    # pecos.io.write_monitoring_report(
+    #     pm.df,
+    #     pm.test_results,
+    #     test_results_graphics=test_results_graphics,
+    #     # [data_plot_path],
+    #     custom_graphics=[],
+    #     metrics=QCI,
+    #     filename=MonitoringReport,
+    #     title="Pecos Monitoring Report",
+    #     config={},
+    #     logo=False,
+    #     im_width_test_results=1,
+    #     im_width_custom=1,
+    #     im_width_logo=0.1,
+    #     encode=False,
+    #     file_format="html",
+    # )
+
+    plt.clf()
 
     return (data_availability, QCI.value)
 

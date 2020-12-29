@@ -2,7 +2,8 @@ import openaq
 import json
 import time
 
-
+ROOTDIR = "/Users/miha/git/esowc/air-quality-observation-classification"
+ETCDIR = f"{ROOTDIR}/etc"
 MAX_RETRIES = 5
 
 api = openaq.OpenAQ()
@@ -27,5 +28,5 @@ for page_num in range(2, no_pages + 1):
     all_locations += resp["results"]
     time.sleep(1)
 
-with open("all_openaq_locations.json", "w") as fout:
+with open(f"{ETCDIR}/all_openaq_locations.json", "w") as fout:
     json.dump(all_locations, fout)

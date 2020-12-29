@@ -1,11 +1,7 @@
 from datetime import datetime
 import json
-from random import randrange
-import pprint
 import time
-
 import openaq
-import pecos
 
 from openaq_tools import retrieve_station_measurements
 from pecos_tools import (
@@ -15,8 +11,9 @@ from pecos_tools import (
 )
 
 
-ETCDIR = "/home/mo/mod/git/esowc/code_2020/air-quality-observation-classification/etc"
-RESULTSPATH = "/perm/mo/mod/tmp/openaq_results"
+ROOTDIR = "/Users/miha/git/esowc/air-quality-observation-classification"
+ETCDIR = f"{ROOTDIR}/etc"
+RESULTSPATH = f"{ROOTDIR}/results"
 
 f = open(f"{ETCDIR}/all_openaq_locations.json")
 locations = json.loads(f.read())
@@ -29,7 +26,7 @@ dashboard_content = {}  # Initialize the dashboard content dictionary
 location_list = []
 parameter_list = []
 
-for nr in range(20):
+for nr in range(10):
     # nr = randrange(N)
 
     location = locations[nr]["location"]
@@ -43,23 +40,20 @@ for nr in range(20):
 
             print(nr, location, parameter)
 
-            try:
+            data = retrieve_station_measurements(
+                api, location, parameter, start_dt, end_dt
+            )
+            print(data.head())
+            (DA, QCI) = run_pecos_tests(data, location, parameter)
+            # print(parameter, data.head(), DA, QCI)
+            dashboard_cell = generate_dashboard_cell(DA, QCI)
+            dashboard_content[(location, parameter)] = dashboard_cell
 
-                data = retrieve_station_measurements(
-                    api, location, parameter, start_dt, end_dt
-                )
-                (DA, QCI) = run_pecos_tests(data, location, parameter)
-                # print(parameter, data.head(), DA, QCI)
-                dashboard_cell = generate_dashboard_cell(DA, QCI)
-                dashboard_content[(location, parameter)] = dashboard_cell
+            if parameter not in parameter_list:
+                parameter_list.append(parameter)
+            if location not in location_list:
+                location_list.append(location)
 
-                if parameter not in parameter_list:
-                    parameter_list.append(parameter)
-                if location not in location_list:
-                    location_list.append(location)
-
-            except:
-                time.sleep(1)
-                continue
+            time.sleep(10)
 
 create_pecos_dashboard(parameter_list, location_list, dashboard_content, DASHBOARDPATH)

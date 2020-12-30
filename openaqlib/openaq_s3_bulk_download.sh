@@ -2,11 +2,11 @@
 
 set -eux
 DATADIR=/tmp/openaq
-AWS=/home/mod/software/aws
+AWS=/home/mo/mod/bin/aws
 
 # for DATE in $dates; do
 startdate=2020-01-01
-enddate=2020-01-02
+enddate=2020-12-23
 
 DATE="$startdate"
 

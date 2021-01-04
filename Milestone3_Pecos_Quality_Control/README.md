@@ -69,7 +69,7 @@ The Outliers and Errors identified in a Excel Spreadsheet
 
 3 Choose an increment on measurements that is acceptable for both increasing and decreasing values 
 
-4 Find How many stations don’t measure every 15 minutes through a day and when are these are
+4 Find how many stations don’t measure every 15 minutes through a day and when are these are
 
 5 Find stagnant measurements that don't change over a chosen amount 
 
@@ -90,22 +90,53 @@ Milestone3_UserManual_Pecos_Quality_Control.pdf
 
 # Parameters 
 
+## Higher Bound
+
 1 Higher bound for OpenAQ Measurements 
+
+## Lower Bound 
 
 2 Lower Bound 
 
+## Timestep 
+
 3 Timestep of expected measurements
 
-4 The higher bound and lower bound that designate stagnant measurements  
+## Delta 
+
+4 The higher bound and lower bound that designate stagnant or measurements  
+
+## Increment
 
 5 Largest increment over measurements 
 
-6 Outlier high bound 
+## Outlier
+
+6 Outlier high bound over averaged dataset
+
+## Corrupt data
+
+7 Corrupt data
 
 # Presentation results
 
 The scripts output to test_results.csv and monitoring_report.html
 (There are examples of these in the github)
+
+## Outliers and Errors
+
+Parameter 1 and 2 Data < lower bound OR Data > upper bound
+
+Parameter 3 Duplicate timestamp or Nonmonotonic timestamp or Missing data (used for missing data and missing timestamp)
+
+Parameter 4 Delta < lower bound OR Delta > upper bound
+
+Parameter 5 Increment < lower bound OR Increment > upper bound
+
+Parameter 6 Outlier < lower bound OR Outlier > upper bound
+
+Parameter 7 Corrupt data 
+
 
 # Python Scripts 
 

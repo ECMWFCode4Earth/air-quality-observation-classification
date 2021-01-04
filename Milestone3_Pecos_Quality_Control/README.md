@@ -90,11 +90,17 @@ Milestone3_UserManual_Pecos_Quality_Control.pdf
 
 # Parameters 
 
-1 Higher bound
+1 Higher bound for OpenAQ Measurements 
+
 2 Lower Bound 
+
 3 Timestep of expected measurements
+
 4 The higher bound and lower bound that designate stagnant measurements  
-5 Increment over measurements 
+
+5 Largest increment over measurements 
+
+6 Outlier high bound 
 
 # Presentation results
 
@@ -105,7 +111,7 @@ The scripts output to test_results.csv and monitoring_report.html
 
  ## 1. The Pecos Quality Control for one OpenAQ Station
 
-"Milestone3_Pecos_QualityControl_OpenAQStationimportOpenAQAPIdataset_Completed.py"
+"Milestone3_1_Pecos_QualityControl_OpenAQStation_fromOpenAQAPIdataset.py"
 
  ## 2. The Pecos Quality Control for station within a coordinate center Latitude and longitude and a radius.
 

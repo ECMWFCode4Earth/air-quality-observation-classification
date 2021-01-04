@@ -32,10 +32,6 @@ Pecos Quality Control evaluation on OpenAQ datasets to find Outliers and Errors
 
 Nearest Highway to Station compared to statistics
 
-## Milestone7_Interface_OpenAQ_Outlier_Error_Identification_Gatherminder
-
-Presentation of results of outliers using Gatherminer
-
 
 # Dependencies
 

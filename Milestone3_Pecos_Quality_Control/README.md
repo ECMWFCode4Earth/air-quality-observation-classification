@@ -39,8 +39,6 @@ Process "Milestone3_3_Pecos_QualityControl_Coordinates_OpenAQ_Deployed.py"
 ## 3 Process Pecos Quality Control analysis 
 
 
-## 4 Dashboard with performance metric and link to monitoring report
-
 
 # Aims 
 

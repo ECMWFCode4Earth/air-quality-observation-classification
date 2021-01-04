@@ -34,7 +34,15 @@ http://gordonrates.co.uk/Air_Quality/workshop/Apps/F_DATASTORE_A_IMPORT_SubFunct
   
 ## 2 Milestone 3 Pecos Quality Control and choose Pecos Quality Control search criteria 
 
+
+
+When selected OpenAQ dataset by Coordinate Centre and Radius 
+
 Process "Milestone3_3_Pecos_QualityControl_Coordinates_OpenAQ_Deployed.py"
+
+When selected OpenAQ dataset by Choosing OpenAQ station
+
+Process ""
 
 ## 3 Process Pecos Quality Control analysis 
 

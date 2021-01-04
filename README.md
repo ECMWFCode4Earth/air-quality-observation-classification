@@ -6,9 +6,9 @@ Validating and removing errors outliers from surface air quality observations fr
 
 # Aims 
 
-1 A Quality Control evaluation of openAQ dataset
+1 A Quality Control evaluation of openAQ dataset including Visual Analytics of OpenAQ Stations 
 
-2 Find Outliers and Errors 
+2 Find Outliers and Errors in OpenAQ Measurements 
 
 3 Determine Reliability of OpenAQ Stations 
 

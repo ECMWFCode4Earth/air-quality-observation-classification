@@ -46,17 +46,19 @@ Process "Milestone3_1_Pecos_QualityControl_OpenAQStation_fromOpenAQAPIdataset.py
 
 When selected OpenAQ dataset by Coordinate Centre and Radius 
 
+The Pecos Quality Control produces these results: 
+
+Monitoring reports for individual OpenAQ Stations
+
+The Outliers and Errors identified in a Excel Spreadsheet for individual OpenAQ Stations
 
 When selected OpenAQ dataset by Choosing OpenAQ station
 
 The Pecos Quality Control produces these results: 
 
-A Monitoring report 
-
+A Monitoring report
 
 The Outliers and Errors identified in a Excel Spreadsheet 
-
-
 
 
 # Aims 

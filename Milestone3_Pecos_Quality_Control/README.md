@@ -104,7 +104,7 @@ Milestone3_UserManual_Pecos_Quality_Control.pdf
 
 ## Delta 
 
-4 The higher bound and lower bound that designate stagnant or measurements  
+4 The higher bound and lower bound that designate stagnant measurements  
 
 ## Increment
 

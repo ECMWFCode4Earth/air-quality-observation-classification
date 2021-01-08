@@ -36,15 +36,17 @@ http://gordonrates.co.uk/Air_Quality/workshop/Apps/F_DATASTORE_A_IMPORT_SubFunct
 
 When selected OpenAQ dataset by Coordinate Centre and Radius 
 
-Process "Milestone3_3_Pecos_QualityControl_Coordinates_OpenAQ_Deployed.py"
+Edit Process "Milestone3_3_Pecos_QualityControl_Coordinates_OpenAQ_Deployed.py"
 
 When selected OpenAQ dataset by Choosing OpenAQ station
 
-Process "Milestone3_1_Pecos_QualityControl_OpenAQStation_fromOpenAQAPIdataset.py"
+Edit Process "Milestone3_1_Pecos_QualityControl_OpenAQStation_fromOpenAQAPIdataset.py"
 
 ## 3 Results from Pecos Quality Control analysis 
 
-When selected OpenAQ dataset by Coordinate Centre and Radius 
+When selected OpenAQ dataset by Coordinate Centre and Radius from Milestone 1 
+
+Process "Milestone3_3_Pecos_QualityControl_Coordinates_OpenAQ_Deployed.py"
 
 The Pecos Quality Control produces these results: 
 
@@ -54,12 +56,13 @@ The Outliers and Errors identified in a Excel Spreadsheet for individual OpenAQ 
 
 When selected OpenAQ dataset by Choosing OpenAQ station
 
+Process "Milestone3_1_Pecos_QualityControl_OpenAQStation_fromOpenAQAPIdataset.py"
+
 The Pecos Quality Control produces these results: 
 
 A Monitoring report
 
 The Outliers and Errors identified in a Excel Spreadsheet 
-
 
 # Aims 
 

@@ -13,7 +13,10 @@ import matplotlib.pyplot as plt
 from datetime import datetime, date, time, timezone
 import numpy as np
 import csv
-    
+import re   
+
+
+ 
 def Milestone2_Get_OpenAQ_Dataset_Wrangling_utc_index(OpenAQ_Dataset_ImportAPI):
 
    format = '%Y-%m-%d %H:%M:%S'
@@ -67,6 +70,13 @@ def Milestone2_OpenAQ_Dataset_VisualAnalytics_Histogram_Unique(df4, OpenAQStatio
    return OpenAQ_Dataset_Graph
 
 
+def Milestone2_OpenAQStation_remove_NonAlpha(OpenAQStationunique):
+    
+   OpenAQStationformatunique = re.sub(r'\W+', '', str(OpenAQStationunique))
+  
+   print(OpenAQStationformatunique)
+   
+   return OpenAQStationformatunique
 
 def Milestone2_Import_OpenAQ_CSV_plot_Unique(df4, OpenAQStationunique, xaxis, yaxis, parameter, OpenAQDataset_VisualAnalytics, xlabel='Value', ylabel='Amount of Measurements', dpi=100):
    
@@ -156,9 +166,11 @@ def Milestone3_Pecos_Complete_QC_QualityControl_OpenAQStation(OpenAQStation, Ope
       
       OpenAQCompleteDataset = Milestone3_Get_VisualAnalytics(OpenAQDataset, OpenAQunique)
       
-      OpenAQDataset_VisualAnalytics_iteration = OpenAQDataset_VisualAnalytics_iteration + " " + OpenAQunique
+      OpenAQStationcompleteunique = Milestone2_OpenAQStation_remove_NonAlpha(OpenAQunique)
       
-      Milestone3_Pecose_Quality_Control_parameters(OpenAQStation, OpenAQDataset_VisualAnalytics_iteration, OpenAQDataset)
+      OpenAQDataset_VisualAnalytics_iteration_unique = OpenAQDataset_VisualAnalytics_iteration + " " + OpenAQStationcompleteunique 
+      
+      Milestone3_Pecose_Quality_Control_parameters(OpenAQStation, OpenAQDataset_VisualAnalytics_iteration_unique, OpenAQDataset)
 
 def Milestone3_Pecose_Quality_Control_parameters(OpenAQStation, OpenAQDataset_VisualAnalytics_iteration, OpenAQDataset):
     
@@ -198,7 +210,10 @@ def Milestone3_Pecos_Complete_QualityControl_One_OpenAQStation(OpenAQStation, Op
    print(Timestep)
    
    # Step 5 Check for missing data
-   pm.check_missing()
+   
+   if(QC_CheckDatasetComplete == 1):
+
+       pm.check_missing()
    
 # Step 6 Choose acceptable value range and Check data for expected ranges
 #
@@ -242,14 +257,13 @@ def Milestone3_Pecos_Complete_QualityControl_One_OpenAQStation(OpenAQStation, Op
 #    4 Data column (default = None, which indicates that all columns are used)
 #    5 Flag indicating if the test should only check for positive delta (the min occurs before the max) or negative delta (the max occurs before the min) (default = False)
 #    6 Minimum number of consecutive failures for reporting (default = 1)
-
+#
 #  e.g. pm.check_delta([Miniumn Decrease, Min Increase], window=3600, 'value')
 #      included parametes 1-6: pm.check_delta([1, 2], window=3, key='4', 5, 6)
 #
 #  Results: When over min decrease or increase it is an outlier
  
    print("*****")
- 
   
    print("Criteria 3 : Stagnant Measurements ")
   
@@ -354,34 +368,41 @@ def Milestone3_Pecos_Complete_QualityControl_One_OpenAQStation(OpenAQStation, Op
 
    print(OpenAQStation['value'].describe())
   
-   
+    
    test_results_graphics_OpenAQ = [] 
    
    # Step 10 Generate graphics
    test_results_graphics = pecos.graphics.plot_test_results(pm.df, pm.test_results)
    
-   test_results_graphics_OpenAQ.append(test_results_graphics)
+   
+   
+ #  test_results_graphics_OpenAQ.append(test_results_graphics)
    
    test_results_graphics_OpenAQ.append(OpenAQDataset[1])
    
    test_results_graphics_OpenAQ.append(OpenAQDataset[2])
+
    
    OpenAQStation.plot(y='value', ylim=[0,MeasurementOpenAQ], figsize=(7.0,3.5))
    plt.savefig(custom, format='png', dpi=500)
 
+   print(custom)
+ 
+   test_results_graphics_OpenAQ.append(custom)
+   
    print(pm.test_results)
-
-   OpenAQDataset_VisualAnalytics_iteration = OpenAQDataset_VisualAnalytics_iteration 
+ 
+ #  OpenAQDataset_VisualAnalytics_iteration = OpenAQDataset_VisualAnalytics_iteration 
 
    # Step 11 Write test results and report files to test_results.csv and monitoringreport.html
 
    Report = 'test_results' + OpenAQDataset_VisualAnalytics_iteration  + ' Result' + '.csv' 
 
-   MonitoringReport = 'MonitoringReport ' + OpenAQDataset_VisualAnalytics_iteration + '.html'
+   MonitoringReport = 'MonitoringReport' + OpenAQDataset_VisualAnalytics_iteration + '.html'
 
    pecos.io.write_test_results(pm.test_results,filename=Report)
-   pecos.io.write_monitoring_report(pm.df, pm.test_results, test_results_graphics_OpenAQ, 
-                                 [custom], QCI,filename=MonitoringReport)
+   pecos.io.write_monitoring_report(pm.df, pm.test_results, test_results_graphics, 
+                                 test_results_graphics_OpenAQ, QCI,filename=MonitoringReport)
  
    metricsOpenAQ = Milestone3_Get_OpenAQresults(pm.test_results, pm.df, QCI)   
    
@@ -389,10 +410,9 @@ def Milestone3_Pecos_Complete_QualityControl_One_OpenAQStation(OpenAQStation, Op
    
    OpenAQDataset_VisualAnalytics_Results.append(MonitoringReport)
    
-   OpenAQDataset_VisualAnalytics_Results.append(OpenAQDataset_VisualAnalytics_iteration + 'metrics.csv')
-    
-
-   pecos.io.write_metrics(metricsOpenAQ, OpenAQDataset_VisualAnalytics_iteration + 'metrics.csv') 
+ #  OpenAQDataset_VisualAnalytics_Results.append(OpenAQDataset_VisualAnalytics_iteration + 'metrics.csv')
+  
+  # pecos.io.write_metrics(metricsOpenAQ, OpenAQDataset_VisualAnalytics_iteration + 'metrics.csv') 
 
    return pm.test_results
 
@@ -461,8 +481,7 @@ def Milestone3_Get_Imported_OpenAQ_Dataset(OpenAQDatasetSelect):
    ImportOpenAQimported = pd.read_csv(OpenAQ_Dataset_LatlngCSV_Download) 
    
    print(ImportOpenAQimported['parameter'])
-   
-   
+  
    return ImportOpenAQimported 
 
 def Milestone3_Get_Imported_OpenAQ_Dataset_OpenAQDataset_Test(): 
@@ -472,12 +491,10 @@ def Milestone3_Get_Imported_OpenAQ_Dataset_OpenAQDataset_Test():
    ImportOpenAQimported = pd.read_csv(OpenAQ_Dataset_LatlngCSV_Download)
     
    print(ImportOpenAQimported['parameter'])
-   
-
+ 
    return ImportOpenAQimported 
 
 def Milestone3_Get_OpenAQresults(OpenAQDFResults, OpenAQDataset, QCI):
-    
   
    OpenAQappend = [] 
 
@@ -494,8 +511,7 @@ def Milestone3_Get_OpenAQresults(OpenAQDFResults, OpenAQDataset, QCI):
       
       OpenAQappend.append(str(Outlier))
      
-   OpenAQappend.append("QCI") 
-    
+   OpenAQappend.append("QCI")   
  
    OpenAQappend.append(QCI.value)
    
@@ -504,25 +520,7 @@ def Milestone3_Get_OpenAQresults(OpenAQDFResults, OpenAQDataset, QCI):
         
    return OpenAQDatsetappend 
 
-
-
 OpenAQDataset_VisualAnalytics_Results = []
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # Step 1 Get Measurements from openAQ API 
 #
@@ -534,7 +532,10 @@ OpenAQDataset_VisualAnalytics_Results = []
 #
 #  2 Add unique iteration 
 #   
-#    
+#      edit  iteration_OpenAQStations = '0'
+#
+#
+#  3  
 #    Add in Coordinates and Radius
 #       
 #
@@ -555,7 +556,6 @@ print("********")
 
 print("Getting Measurements from OpenAQ API source imported in Milestone 1 from Coordinate and Radius")
 
-
 #### Edit 
 
 OpenAQDatasetSelected = 'OpenAQ_Dataset Unique selection pm25 CoordinateCentreandRadius 2020-03-01 to 2020-09-01.csv' # 'OpenAQ_Dataset AT4S406 pm25.csv' # 'OpenAQ_Dataset Unique selection pm25 CoordinateCentreandRadius 2020-03-01 to 2020-09-01.csv'
@@ -567,13 +567,13 @@ print(ImportedOpenAQimport)
 
 print("Choosen Unique Iteration ")
 
-iteration_OpenAQStations = '0'  #Edit 
+iteration_OpenAQStations = '1'  #Edit 
 
 print(iteration_OpenAQStations)
 
 print("Chosen OpenAQ Coordinates and Radius: ")
      
-OpenAQStationCountry = "24.4244,54.43375" #Edit
+OpenAQStationCountry = "default 24.4244,54.43375" #Edit
 
 Radius = 25000 # Edit in metres 
 
@@ -607,7 +607,6 @@ print("Found these Stations from Coordinates")
 OpenAQStationunique = ImportedOpenAQimport['location'].unique()
 
 print(OpenAQStationunique)
-
 
 
 print("Completed Step 3 ")
@@ -816,9 +815,9 @@ print(">")
 #
 #  Milestone3_Pecos_Complete_QualityControl_One_OpenAQStation
 #
-#  2 The iteration can be change to document every time it is processed 
+#  2 To incude completeness test to 1
 #
-#   iteration_OpenAQStations = '0'
+#  Edit  QC_CheckDatasetComplete
 
 print("  STEP 10 ")
 
@@ -827,10 +826,15 @@ print("********")
 print("Get Pecos Quality Control on OpenAQ dataset")
 
 
+QC_CheckDatasetComplete = 0 # To incude completeness test - 0 - To include  1 - To not include  
+
 print("OpenAQ Pecos Quality Control Search Criteria: ")
 
 
+
 Milestone3_Pecos_Complete_QC_QualityControl_OpenAQStation(ImportedOpenAQimport, OpenAQDataset_VisualAnalytics_iteration, OpenAQStationunique, OpenAQDataset)
+
+
 
 print(" **** ")
 

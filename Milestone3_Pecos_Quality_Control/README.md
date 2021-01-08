@@ -66,27 +66,27 @@ The Outliers and Errors identified in a Excel Spreadsheet
 
 # Aims 
 
-1 Choose an upper bound of values and identify value over to be outliers by searching openAQ dataset
+## 1 Choose an upper bound of values and identify value over to be outliers by searching openAQ dataset
 
 Quality Control Defininition: "check if data is within expected bounds. i.e. below Upper Bound. Range tests are very flexible. The test can be used to check for expected range on the raw data or using modified data"
 
-2 Choose a lower bound of values 
+## 2 Choose a lower bound of values 
 
 Quality Control Defininition: "check if data is over expected lower bounds. Range tests are very flexible. The test can be used to check for expected range on the raw data or using modified data"
 
-3 Choose an increment on measurements that is acceptable for both increasing and decreasing values 
+## 3 Choose an increment on measurements that is acceptable for both increasing and decreasing values 
 
 Quality Control Defininition: "check for stagnant data and abrupt changes in data. Checks if the difference between consecutive data values (or other specified increment) is within expected bounds"
 
-4 Find how many stations don’t measure every 15 minutes through a day and when these are
+## 4 Find how many stations don’t measure every 15 minutes through a day and when these are
 
 Quality Control Defininition: "check the time index for missing, duplicate, and non-monotonic indexes"
 
-5 Find stagnant measurements that don't change over a chosen amount 
+## 5 Find stagnant measurements that don't change over a chosen amount 
 
 Quality Control Defininition: "check for stagnant data and abrupt changes in data. The test checks if the difference between the minimum and maximum data value within a moving window is within expected bounds"
 
-6 Find outliers due to a test on a selection of measurements. 
+## 6 Find outliers due to a test on a selection of measurements. 
 
 Quality Control Definition: "check if normalized data falls outside expected bounds. Data is normalized using the mean and standard deviation, using either a moving window or using the entire data set."
 

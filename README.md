@@ -22,6 +22,8 @@ Importing OpenAQ datasets to dataframes
 
 ## Milestone2_Identifying_reliable_stations
 
+Data Wrangling on OpenAQ entries 
+
 Visual Analytics on OpenAQ datasets
 
 ## Milestone3_Pecos_Quality_Control

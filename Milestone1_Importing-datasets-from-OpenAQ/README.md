@@ -10,102 +10,134 @@ and ESoWC 2020
 
 # Aims 
 
-1 Import OpenAQ dataset from many sources i.e. csv, ndjson or through api 
+1 Import OpenAQ dataset from API source i.e. through the pyOpenAQ API  
 
-2 Import latest measurements for chosen OpenAQ stations 
+2 Import OpenAQ dataset from bulk download i.e. through ndjson download from AWS server 
 
-3 Import measurement for 6 months for choosen OpenAQ stations  
+# Aims in other patches 
 
-4 Import measurements for 18 months for choosen OpenAQ stations
-
-5 Import measurements for every OpenAQ station and parameter
-
-6 Import measurements for Stations, Cities, Country or Choosen Coordinate Centre and Radius
-
-7 Get information about OpenAQ Dataset
-
-# Implementation 
-
-# 1 Importing from API and export to CSV 
-
-## Importing datasets from pyAPI  
-
-One Station
-
-"Milestone1_Import_API_OpenAQStation_OpenAQ.py"
-
-Coordinates and Radius 
-
-"Milestone1_Import_API_CoordinateRadius_OpenAQ.py"
-
-Country 
-
-"Milestone1_Import_API_Country_OpenAQ.py"
-
-# 2 Importing from CSV, Ndjson and API 
+1 Importing OpenAQ dataset from many sources csv, ndjson or through OpenAQ api 
 
 In the wegiangb-patch1
 
-## Milestone 1 Importing datasets from OpenAQ from csv 
-
-"Milestone_1_Import_OpenAQ_applying_Datasetcsv.py"
-
-## Importing from ndjson 
-
-"Milestone_1_Import_OpenAQ_applying_Dataset_Wrangling.py"
-
-## Import from OpenAQ API
-
-"Milestone1_Import_OpenAQ_API_Download.py"
-
-# 2 Import from choose stations 
-
-Edit the Station in above
-
-# 3 and 4 Time Schedule 
-
-Change Begin and End Dates in above
-
-# 5 Every OpenAQ Station 
-
-Process for every station by name or region
-
-# 6 Selected Dataset 
-
-Change selection in above 
-
-# 7 About the OpenAQ Dataset
-
-## Getting Cities in Choosen Country
-
-"Milestone1_Import_OpenAQ_Cities.py"
-
-## Getting Station in Choosen Country 
-
-"Milestone1_Import_OpenAQ_Countries.py"
-
-
 # User Manual
 
-## Importing from a csv 
+# Aim 1 Import OpenAQ dataset from API source i.e. through the pyOpenAQ API 
 
-Step 1 Download OpenAQ dataset from openAQ
+# Step 1 
 
-Step 2 Convert to csv 
+1 Get the dependencies. These are identified below.  
 
-Step 3 Change csv requested in the script
+2 Make sure the OpenAQ api initiatises
 
-in "Milestone1_Import_API_CoordinateRadius_OpenAQ.py"
+# Steps 2 - 6 Choose Selection Features 
+
+1 Import latest measurements for chosen OpenAQ stations 
+
+## Aim 1 Step 2 Choose OpenAQ download by selecting: 
+
+## One OpenAQ Station
+
+1 Input Parameter: OpenAQ Station 
+
+Other parameters can be choosen if change from the default
+
+(other parameter defaults: )
+
+Method: Gets the Measurements for chosen OpenAQ station. 
+
+2 Ouput: Spreadsheet in format Comma seperated value (CSV) for One OpenAQ Station can be inputed to visual analytics and Quality Control i.e. Milestone 2, 3, 4
+
+## Or 
+
+## Aim 1 Step 2 Choose OpenAQ Stations download by selecting: 
+
+## Many OpenAQ Stations by choosing Coordinate Lat, Lng Centre with Radius 
+
+1 Input: Coordinate Lat, Lng for Centre and Radius 
+
+Other parameters can be choosen if change from the default
+
+(other parameter defaults: )
+
+Method: Finds the OpenAQ station within the Radius. It gets the choosen measurements for these OpenAQ stations
+
+2 Output: Seperate Spreadsheets or CSV's for the choosen OpenAQ Stations 
+
+# Aim 1 Step 3 Choose parameter 
+
+1 Choose the parameters to import from the OpenAQ stations i.e. 'pm25', 'pm10', 'No2', 'o3' etc  from these https://api.openaq.org/v1/parameters
+
+{"id":"bc","name":"BC","description":"Black Carbon","preferredUnit":"µg/m³"},
+
+{"id":"co","name":"CO","description":"Carbon Monoxide","preferredUnit":"ppm"},
+
+{"id":"no2","name":"NO2","description":"Nitrogen Dioxide","preferredUnit":"ppm"},
+
+{"id":"o3","name":"O3","description":"Ozone","preferredUnit":"ppm"},
+
+{"id":"pm10","name":"PM10","description":"Particulate matter less than 10 micrometers in diameter","preferredUnit":"µg/m³"},
+
+{"id":"pm25","name":"PM2.5","description":"Particulate matter less than 2.5 micrometers in diameter","preferredUnit":"µg/m³"},
+
+{"id":"so2","name":"SO2","description":"Sulfur Dioxide","preferredUnit":"ppm"}
+
+
+# Aim 1 Step 4 Choose 3 and 4 Time Schedule 
+
+1 Choose date begin and date end i.e (2018,1,20)
+
+# Aim 1 Step 5 Get the measurements 
+
+1 Find OpenAQ Stations 
+
+# Aim 1 Step 6 
+
+1 Choose the iteration of the OpenAQ download 
+
+2 Export to CSV to apply 
+
+# Aim 2 Import OpenAQ dataset from bulk download i.e. through ndjson download from AWS server 
+
+# Step 1 
+
+1 Get dependencies 
+
+## Aim 2 Step 2 - 6 Select OpenAQ Stations from bulk download 
+
+# Implementation 
+
+# Aim 1 Importing from API and export to CSV 
+
+## Importing datasets from pyAPI  
+
+One OpenAQ Station
+
+"Milestone1_Import_API_OpenAQStation_OpenAQ.py"
+
+from Coordinates and Radius 
+
+"Milestone1_Import_API_CoordinateRadius_OpenAQ.py"
+
+# Other Aims Importing from CSV, Ndjson and OpenAQ API 
+
+In the wegiangb-patch1
 
 ## Other implementations
 
-In the python script
-
+In the wegiangb-patch1
 
 # Dependencies
 
 Numpy 
 
-Pandas 
+Pandas import json_normalize
 
-openAQ
+datetime 
+
+openAQ (Not required for Aim 2)
+
+http://dhhagan.github.io/py-openaq/tutorial/api.html
+
+csv
+

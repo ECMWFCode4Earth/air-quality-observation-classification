@@ -24,13 +24,13 @@ In the wegiangb-patch1
 
 # Aim 1 Import OpenAQ dataset from API source i.e. through the pyOpenAQ API 
 
-# Step 1 
+# Aim 1 Step 1 
 
 1 Get the dependencies. These are identified below.  
 
 2 Make sure the OpenAQ api initiatises
 
-# Steps 2 - 6 Choose Selection Features 
+# Aim 1 Steps 2 - 6 Choose Selection Features 
 
 1 Import latest measurements for chosen OpenAQ stations 
 
@@ -64,7 +64,7 @@ Method: Finds the OpenAQ station within the Radius. It gets the choosen measurem
 
 2 Output: Seperate Spreadsheets or CSV's for the choosen OpenAQ Stations 
 
-# Aim 1 Step 3 Choose parameter 
+## Aim 1 Step 3 Choose parameter 
 
 1 Choose the parameters to import from the OpenAQ stations i.e. 'pm25', 'pm10', 'No2', 'o3' etc  from these https://api.openaq.org/v1/parameters
 
@@ -83,15 +83,15 @@ Method: Finds the OpenAQ station within the Radius. It gets the choosen measurem
 {"id":"so2","name":"SO2","description":"Sulfur Dioxide","preferredUnit":"ppm"}
 
 
-# Aim 1 Step 4 Choose 3 and 4 Time Schedule 
+## Aim 1 Step 4 Choose 3 and 4 Time Schedule 
 
 1 Choose date begin and date end i.e (2018,1,20)
 
-# Aim 1 Step 5 Get the measurements 
+## Aim 1 Step 5 Get the measurements 
 
 1 Find OpenAQ Stations 
 
-# Aim 1 Step 6 
+## Aim 1 Step 6 
 
 1 Choose the iteration of the OpenAQ download 
 
@@ -103,7 +103,7 @@ Method: Finds the OpenAQ station within the Radius. It gets the choosen measurem
 
 1 Get dependencies 
 
-## Aim 2 Step 2 - 6 Select OpenAQ Stations from bulk download 
+# Aim 2 Step 2 - 6 Select OpenAQ Stations from bulk download 
 
 # Implementation 
 
@@ -118,6 +118,8 @@ One OpenAQ Station
 from Coordinates and Radius 
 
 "Milestone1_Import_API_CoordinateRadius_OpenAQ.py"
+
+# Aim 2 Import OpenAQ dataset from bulk download
 
 # Other Aims Importing from CSV, Ndjson and OpenAQ API 
 

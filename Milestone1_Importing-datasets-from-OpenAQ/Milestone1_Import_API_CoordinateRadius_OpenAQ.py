@@ -106,7 +106,7 @@ print(OpenAQStationCoordinates)
 
 print(Radius)
 
-print("Completed Step 1 ")
+print("Completed Step 2 ")
 
 print(">")
 
@@ -122,6 +122,11 @@ print("Parameter chosen")
 parameter = 'pm25'
 
 print(parameter)
+
+
+print("Completed Step 3 ")
+
+print(">")
 
 
 #Step 4 Choose time schedule 
@@ -151,6 +156,12 @@ print(" for one OpenAQ Station and one parameter ")
 
 
 
+
+print("Completed Step 4 ")
+
+print(">")
+
+
 # Step 5 Get Measurements from openAQ API 
 #
 #
@@ -174,6 +185,9 @@ OpenAQStationunique = res2['location'].unique()
 
 print(OpenAQStationunique)
 
+print("Completed Step 5 ")
+
+print(">")
 
 # Step 6 Get Measurements CSV
 #  
@@ -193,3 +207,8 @@ SelectionOpenAQ = 1
 SelectionOpenAQChoose = "Unique selection"
 
 Milestone1_Get_Measurements_CSV_OpenAQStation(res2, SelectionOpenAQChoose, parameter, SelectionOpenAQ, dt_begin, dt_end)
+
+
+print("Completed Step 6 ")
+
+print(">")

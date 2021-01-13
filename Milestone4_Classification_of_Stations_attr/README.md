@@ -13,7 +13,7 @@ Completed for ECMWF European Centre for Medium Weather Forecast 2020 and ESoWC 2
 
 1 Distance to Nearest Highway
 
-openAQ_100Latlngattr13000_OpenAQStations.csv
+openAQ_copy100Latlngattr13000_OpenAQStations.csv
 
 1 - OpenAQ Lat
 
@@ -29,11 +29,12 @@ openAQ_100Latlngattr13000_OpenAQStations.csv
 
 2 Get Nearest Highway and Mean of OpenAQ
 
-Milestone4_Latlng_Complete 
+Process: 
 
+# User Manual 
 
-# User Manual
+Step 1 Download Dataset for one AQ Station from the dataset from openAQ.org using Milestone 1
 
-Steps identified in python script 
+Step 2 Change the csv requested in the  script to chosen OpenAQ Stations 
 
-OpenAQ_Latlng_DistancetoNearestHighway.csv
+Other Steps identified in python script 

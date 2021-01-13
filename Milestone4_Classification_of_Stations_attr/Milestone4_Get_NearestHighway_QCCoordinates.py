@@ -16,6 +16,8 @@ import numpy as np
 
 import csv
 
+import re
+
 
 OpenAQDatasetLatlng = []
 
@@ -42,6 +44,16 @@ def Milestone2_Import_OpenAQ_Scatter_many(OpenAQdatasetlatlngunique, parameter, 
           Milestone2_Import_OpenAQ_Scatter(OpenAQStationparameter['DistanceKM'], OpenAQStationparameter['Statistics'], OpenAQStationparameter['parameter'], OpenAQStation, xlabel, ylabel)
       
         
+
+def Milestone2_OpenAQStation_remove_NonAlpha(OpenAQStationunique):
+    
+   OpenAQStationformatunique = re.sub(r'\W+', '', str(OpenAQStationunique))
+  
+   print(OpenAQStationformatunique)
+   
+   return OpenAQStationformatunique
+
+
 
 def Milestone2_Import_OpenAQ_Scatter(Xaxis_Measurement, Yaxis, parameter, title, xlabel, ylabel):
     
@@ -125,6 +137,10 @@ def Milestone4_Get_NearestHighway_OpenAQStations_OneStation(OpenAQLatlng, OpenAQ
      OpenAQStationDatasetLatlng[0] = float(OpenAQStationDatasetLatlng[0])
      
      OpenAQStationDatasetLatlng[1] = float(OpenAQStationDatasetLatlng[1])
+     
+     if(len(OpenAQStationDatasetLatlng) == 6):
+         
+        OpenAQStationDatasetLatlng[5] = float(OpenAQStationDatasetLatlng[5])
      
      if(float(OpenAQStationDatasetLatlng[0]) == float(OpenAQLatlng.iloc[0]['coordinates.latitude'])):
          
@@ -246,24 +262,26 @@ def Milestone4_Get_NearestHighway_OpenAQStations_QCalt_Station(df4, parameter, O
            
            if(OpenAQStation == 2):
            
-              OpenAQStationLatlng_NearestHighway[1].append(0) 
-              OpenAQStationLatlng_NearestHighway[1].append(0)
+              OpenAQStationLatlng_NearestHighway[1].append('0') 
+              OpenAQStationLatlng_NearestHighway[1].append('0')
           
            if(OpenAQStation == 3):
                
-              OpenAQStationLatlng_NearestHighway[1].append(0) 
-              OpenAQStationLatlng_NearestHighway[1].append(0) 
-              OpenAQStationLatlng_NearestHighway[1].append(0)   
+              OpenAQStationLatlng_NearestHighway[1].append('0') 
+              OpenAQStationLatlng_NearestHighway[1].append('0') 
+              OpenAQStationLatlng_NearestHighway[1].append('0')   
    
            if(OpenAQStation == 4):
                
-              OpenAQStationLatlng_NearestHighway[1].append(0)
-              OpenAQStationLatlng_NearestHighway[1].append(0)   
-              OpenAQStationLatlng_NearestHighway[1].append(0)
-              OpenAQStationLatlng_NearestHighway[1].append(0)
+              OpenAQStationLatlng_NearestHighway[1].append('0')
+              OpenAQStationLatlng_NearestHighway[1].append('0')   
+              OpenAQStationLatlng_NearestHighway[1].append('0')
+              OpenAQStationLatlng_NearestHighway[1].append('0')
 
 
-         OpenAQStationLatlng_NearestHighway[1].append(OpenAQunique)  
+         OpenAQStationunique = Milestone2_OpenAQStation_remove_NonAlpha(OpenAQunique)
+
+         OpenAQStationLatlng_NearestHighway[1].append(OpenAQStationunique)  
       
          OpenAQStationLatlng_NearestHighway[1].append(parameter)
            
@@ -305,7 +323,7 @@ print("  STEP 1 ")
 
 print("********")
 
-OpenAQ_Dataset_LatlngCSV_Download = 'OpenAQ_Dataset Unique selection Radius 25000 pm25 Selection 2020-03-01 to 2020-09-01.csv'
+OpenAQ_Dataset_LatlngCSV_Download = 'OpenAQ_Dataset Unique selection Radius 25000 select  pm25 Selection 2020-03-01 to 2020-09-01.csv'
 
 
 # 'OpenAQ_Dataset Unique selection pm25 CoordinateCentreandRadius 2020-03-01 to 2020-09-01.csv'
@@ -366,7 +384,7 @@ xlabel='Distance to Nearest Highway in Km'
    
 ylabel='Mean of Measurements'
    
-Milestone2_Import_OpenAQ_Scatter_many(OpenAQStationsdatasetmeasurements, parameter_selection, title, xlabel, ylabel)
+# Milestone2_Import_OpenAQ_Scatter_many(OpenAQStationsdatasetmeasurements, parameter_selection, title, xlabel, ylabel)
    
 print("Found these Stations in selection")
 

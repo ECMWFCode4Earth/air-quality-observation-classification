@@ -9,6 +9,8 @@ Completed for ECMWF European Centre for Medium Weather Forecast 2020 and ESoWC 2
 
 1 Get Distance to Nearest Highway from OpenAQ stations
 
+2 Get Scatter plot of Nearest Highway to openAQ stations and Mean of OpenAQ measurements 
+
 # Implementation
 
 1 Distance to Nearest Highway
@@ -29,12 +31,12 @@ openAQ_copy100Latlngattr13000_OpenAQStations.csv
 
 2 Get Nearest Highway and Mean of OpenAQ
 
-Process: 
+Process: "Milestone4_Get_NearestHighway_QCCoordinates.py"
 
 # User Manual 
 
 Step 1 Download Dataset for one AQ Station from the dataset from openAQ.org using Milestone 1
 
-Step 2 Change the csv requested in the  script to chosen OpenAQ Stations 
+Step 2 Change the csv requested in the "Milestone4_Get_NearestHighway_QCCoordinates.py" script to chosen OpenAQ Stations 
 
 Other Steps identified in python script 

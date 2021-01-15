@@ -38,9 +38,15 @@ print("OpenAQ pyOpenAPI begun")
 def Milestone1_Get_OpnenAQ_Dataset_Measurement_perStation(StationOpenAQCoordinates, Radius, parameter, dt_begin, dt_end):
     
 #Step 1 Choose the measurement coordinate centre radius to import and parameter 
-    
-   res1 = api.measurements(coordinates=StationOpenAQCoordinates, parameter=parameter, radius=Radius, date_to=dt_end, date_from=dt_begin, df=True, limit=10000)
+   
+   if(len(parameter) == 1):
+       
+      res1 = api.measurements(coordinates=StationOpenAQCoordinates, parameter=parameter[0], radius=Radius, date_to=dt_end, date_from=dt_begin, df=True, limit=10000)
   
+   else:  
+   
+      res1 = api.measurements(coordinates=StationOpenAQCoordinates, radius=Radius, date_to=dt_end, date_from=dt_begin, df=True, limit=10000)
+      
    
    print("Completed measurements ")
 
@@ -85,20 +91,23 @@ def Milestone1_Print_CSV_OpenAQ_Import(OpenAQ_Dataset):
 
 print("Get the OpenAQ measurements for stations within raduis of chosen Coordinates from OpenAQ and doing Quality Control on it")
 
-#Step 3 Choose the measurement country to import and parameter
+#Step 2 Choose the measurement coordinates and Radius to import and parameter
 #
-# Choose the station
+# Choose the coordinates latitude, longitude and Radius
 #
 # OpenAQStationCoordinates = ''
-
+#
+# Radius = ''  in metres
 
 print("  STEP 2 ")
 
 print("********")
 
 print("Chosen OpenAQ Coordinates Lat/lng and Radius: ")
+    
+ 
      
-OpenAQStationCoordinates = "24.4244,54.43375" #Edit
+OpenAQStationCoordinates = "-34.60638,-58.43194" #Edit Lat, Lng
 
 Radius = 25000 # Edit in metres 
 
@@ -111,17 +120,37 @@ print("Completed Step 2 ")
 print(">")
 
 # Step 3 Choose parameter
+#
+# 1 Choose to import one parameter or all parameters for OpenAQ Station
+#
+#
+# Change to 1 All OpenAQ parameters or 0 - One parameter and select it
+#
+# Change parameter = '' to selected
+
 
 print("  STEP 3 ")
 
 print("********")
 
+SelectEveryParameter_YesorNo = 1 # Edit 1 Yes 0 No just one 
+
+parameter = 'pm25'  # Edit
+
+parameter_selection = []
 
 print("Parameter chosen")
 
-parameter = 'pm25'
+if(SelectEveryParameter_YesorNo == 0):
+    
+   parameter_selection.append(parameter)
 
-print(parameter)
+   print(parameter_selection)
+
+if(SelectEveryParameter_YesorNo == 1):
+    
+   print("Every parameter at selected or chosen OpenAQ station") 
+
 
 
 print("Completed Step 3 ")
@@ -177,7 +206,7 @@ print("********")
 
 print("Getting Measurements from OpenAQ API source")
 
-res2 = Milestone1_Get_OpnenAQ_Dataset_Measurement_perStation(OpenAQStationCoordinates, Radius, parameter, dt_begin, dt_end)
+res2 = Milestone1_Get_OpnenAQ_Dataset_Measurement_perStation(OpenAQStationCoordinates, Radius, parameter_selection, dt_begin, dt_end)
 
 print("Found these Stations in Coordinates")
 
@@ -204,7 +233,7 @@ print("Getting Measurements to CSV ")
 
 SelectionOpenAQ = 1
 
-SelectionOpenAQChoose = "Unique selection"
+SelectionOpenAQChoose = "Unique selection 24.4244 54.43375"
 
 Milestone1_Get_Measurements_CSV_OpenAQStation(res2, SelectionOpenAQChoose, parameter, SelectionOpenAQ, dt_begin, dt_end)
 

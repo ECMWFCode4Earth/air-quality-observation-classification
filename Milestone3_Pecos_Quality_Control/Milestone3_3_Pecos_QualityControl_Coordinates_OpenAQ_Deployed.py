@@ -14,9 +14,15 @@ from pandas import json_normalize
 import matplotlib.pyplot as plt
 from datetime import datetime, date, time, timezone
 import numpy as np
+from scipy import stats
 import csv
 import re   
+from matplotlib.colors import LinearSegmentedColormap
+from matplotlib.colors import rgb2hex
 
+
+
+dashboard_content = {}  # Initialize the dashboard content dictionary
 
  
 def Milestone2_Get_OpenAQ_Dataset_Wrangling_utc_index(OpenAQ_Dataset_ImportAPI):
@@ -140,7 +146,9 @@ def Milestone2_OpenAQ_Dataset_VisualAnalytics_Histogram(df4, parameter, OpenAQDa
     
    plt.gca().set(title=title, xlabel=xlabel, ylabel=ylabel)
    
-   plt.hist(df4['value'], bins=np.arange(1,df4['value'].max()))
+   plt.hist(df4['value'], bins="auto")
+            
+           # bins=np.arange(1,df4['value'].max()))
    
    OpenAQ_Dataset =  OpenAQDataset_VisualAnalytics_iteration + " Histogram" + ".png"
       
@@ -207,14 +215,18 @@ def Milestone3_Get_VisualAnalytics(OpenAQDataset, OpenAQStation):
            
     return OpenAQdfDataset       
            
-def Milestone3_Pecos_Complete_QC_QualityControl_OpenAQStation(OpenAQStation, OpenAQDataset_VisualAnalytics_iteration, OpenAQStationunique, OpenAQDataset):
+def Milestone3_Pecos_Complete_QC_QualityControl_OpenAQStation(OpenAQStation, OpenAQDataset_VisualAnalytics_iteration, OpenAQStationunique, OpenAQDataset, yaml_include):
     
    iteration = 0 
+    
+   OpenAQSearchCriteria = ""
     
    for OpenAQunique in OpenAQStationunique:
         
       print(OpenAQunique) 
-       
+   
+      OpenAQSearchCriteria = OpenAQSearchCriteria + ""
+      
       OpenAQAPIdatasetunique = OpenAQStation[OpenAQStation['location'] == OpenAQunique]
       
       OpenAQCompleteDataset = Milestone3_Get_VisualAnalytics(OpenAQDataset, OpenAQunique)
@@ -223,12 +235,12 @@ def Milestone3_Pecos_Complete_QC_QualityControl_OpenAQStation(OpenAQStation, Ope
       
       OpenAQDataset_VisualAnalytics_iteration_unique = OpenAQDataset_VisualAnalytics_iteration + " " + OpenAQStationcompleteunique 
       
-      Milestone3_Pecos_Quality_Control_parameters(OpenAQStation, OpenAQDataset_VisualAnalytics_iteration_unique, OpenAQDataset[iteration][1])
+      Milestone3_Pecos_Quality_Control_parameters(OpenAQStation, OpenAQDataset_VisualAnalytics_iteration_unique, OpenAQDataset[iteration][1], OpenAQSearchCriteria, yaml_include, OpenAQunique)
 
       iteration = iteration + 1
 
 
-def Milestone3_Pecos_Quality_Control_parameters(OpenAQStation, OpenAQDataset_VisualAnalytics_iteration, OpenAQDataset):
+def Milestone3_Pecos_Quality_Control_parameters(OpenAQStation, OpenAQDataset_VisualAnalytics_iteration, OpenAQDataset, OpenAQSearchCriteria, yaml_include, OpenAQunique):
     
     OpenAQparameterunique = OpenAQStation['parameter'].unique()
     
@@ -236,19 +248,31 @@ def Milestone3_Pecos_Quality_Control_parameters(OpenAQStation, OpenAQDataset_Vis
     
     for OpenAQStationparameter in OpenAQparameterunique:
         
+       OpenAQSearchCriteria1 = OpenAQSearchCriteria + "" + OpenAQStationparameter
+        
        OpenAQDatasetStation = Milestone1_Get_Parameter(OpenAQStation, OpenAQStationparameter)
 
        OpenAQDataset_VisualAnalytics_iteration = OpenAQDataset_VisualAnalytics_iteration + " " + OpenAQStationparameter 
 
-       Milestone3_Pecos_Complete_QualityControl_One_OpenAQStation(OpenAQDatasetStation, OpenAQDataset_VisualAnalytics_iteration, OpenAQDataset[iteration]) 
+       if(yaml_include == 1):
    
+           (DA, QCI) =Milestone3_Pecos_Complete_QualityControl_SearchCriteriaOne_OpenAQStation(OpenAQDatasetStation, OpenAQDataset_VisualAnalytics_iteration, OpenAQDataset[iteration], OpenAQSearchCriteria1)
+           dashboard_cell = generate_dashboard_cell(DA, QCI)
+           dashboard_content[(OpenAQunique, OpenAQStationparameter)] = dashboard_cell
+           
+       else:    
+ 
+           (DA, QCI) = Milestone3_Pecos_Complete_QualityControl_One_OpenAQStation(OpenAQDatasetStation, OpenAQDataset_VisualAnalytics_iteration, OpenAQDataset[iteration]) 
+           dashboard_cell = generate_dashboard_cell(DA, QCI)
+           dashboard_content[(OpenAQunique, OpenAQStationparameter)] = dashboard_cell
+          
        iteration = iteration + 1        
 
 def Milestone3_Pecos_Complete_QualityControl_One_OpenAQStation(OpenAQStation, OpenAQDataset_VisualAnalytics_iteration, OpenAQDataset):
 
    # Step 2 Initialize logger and Create a Pecos PerformanceMonitoring data object
    pecos.logger.initialize()
- 
+   
    pm = pecos.monitoring.PerformanceMonitoring()
 
    # Step 3 Append Dataframe to Pecos PerformanceMonitoring data object
@@ -475,6 +499,404 @@ def Milestone3_Pecos_Complete_QualityControl_One_OpenAQStation(OpenAQStation, Op
 
    return pm.test_results
 
+
+def Milestone3_Get_Pecos_QualityControl_SearchCriteria(OpenAQSearchCriteria):
+  
+   if(yaml_Yes == 1):
+       
+     import yaml 
+  
+     config_file = OpenAQSearchCriteria + '_config.yml'
+     fid = open(config_file, 'r')
+     config = yaml.load(fid)
+     fid.close()
+   else:
+     
+     config = PecosQC
+       
+   return config  
+    
+
+def Milestone3_Pecos_Complete_QualityControl_SearchCriteriaOne_OpenAQStation(OpenAQStation, OpenAQDataset_VisualAnalytics_iteration, OpenAQDataset, OpenAQSearchCriteria):
+
+   # Step 2 Initialize logger, Get search criteria and Create a Pecos PerformanceMonitoring data object
+   pecos.logger.initialize()
+   
+   PecosQualityControlSearchCriteria = Milestone3_Get_Pecos_QualityControl_SearchCriteria(OpenAQSearchCriteria)
+  
+   pm = pecos.monitoring.PerformanceMonitoring()
+
+   # Step 3 Append Dataframe to Pecos PerformanceMonitoring data object
+   
+      
+   time_increment_mode = get_time_increment_mode(OpenAQStation)
+
+   
+   OpenAQStation = cleanup_dataframe(OpenAQStation, time_increment_mode)
+
+   pm.add_dataframe(OpenAQStation)
+
+   # Step 4 Check the expected frequency of the timestamp
+   #
+   # 1 Edit timestep when 900 is 15 mins     
+
+   Timestep = PecosQualityControlSearchCriteria['Criteria1Timestep']['Timestep'] 
+   
+
+  
+   no_missing_values = OpenAQStation.value.isna().sum()
+   data_availability = (len(OpenAQStation.index) - no_missing_values) / len(OpenAQStation.index)
+
+   print("data availabilty: ", no_missing_values, data_availability)
+
+
+   
+   # Default 900 # Edit
+   
+   pm.check_timestamp(Timestep)
+
+   print("*****")
+
+   print("Criteria 1 : Timestep ")
+   
+   print(Timestep)
+   
+   # Step 5 Check for missing data
+   
+   if(QC_CheckDatasetComplete == 1):
+
+       pm.check_missing()
+   
+# Step 6 Choose acceptable value range and Check data for expected ranges
+#
+# Parameters
+#  
+#  1 Lower bound of values
+#  2 Higher Bound of values
+#  3 Data column (default = None, which indicates that all columns are used)
+#  4 Minimum number of consecutive failures for reporting (default = 1)le increment from measurements of 15 minutes and check for abrupt changes between consecutive time steps
+#
+#   e.g pm.check_range([0, 200], key='value')  
+#         pm.check_range([1, 2], key='3',4)
+#
+# Results: Any value outside of the range is an outlier
+
+   LowerBound =  PecosQualityControlSearchCriteria['Criteria2LowerHigherBound']['LowerBound']
+   
+   # Defualt None # Edit 
+   
+   HigherBound =  PecosQualityControlSearchCriteria['Criteria2LowerHigherBound']['HigherBound']
+      
+   # Default 400 # Edit
+
+   pm.check_range([LowerBound, HigherBound], key='value')
+ 
+   print("*****")
+   
+   print("Criteria 2 : Lower Bound and Higher Bound ")
+  
+   print("Lower Bound ")
+   
+   print(LowerBound)   
+   
+   print("Higher Bound")
+   
+   print(HigherBound)
+   
+# Step 7 Choose the min amount that is acceptable to change from measurements 
+#
+# Parameters:
+#
+#    1 Lower bound to decrease by
+#    2 Upper bound to increase by
+#    3 Size of the moving window used to compute the difference between the minimum and maximum
+#    4 Data column (default = None, which indicates that all columns are used)
+#    5 Flag indicating if the test should only check for positive delta (the min occurs before the max) or negative delta (the max occurs before the min) (default = False)
+#    6 Minimum number of consecutive failures for reporting (default = 1)
+#
+#  e.g. pm.check_delta([Miniumn Decrease, Min Increase], window=3600, 'value')
+#      included parametes 1-6: pm.check_delta([1, 2], window=3, key='4', 5, 6)
+#
+#  Results: When over min decrease or increase it is an outlier
+ 
+   print("*****")
+  
+   print("Criteria 3 : Stagnant Measurements ")
+  
+   DeltaLowerBound =  PecosQualityControlSearchCriteria['Criteria3Stagnant']['min']
+   
+   
+   # Default None # Edit
+   
+   DeltaHigherBound =  PecosQualityControlSearchCriteria['Criteria3Stagnant']['max']
+   
+   # Default 10 # Edit
+   
+   DeltaTimeSchedule =  PecosQualityControlSearchCriteria['Criteria3Stagnant']['TimeSchedule']
+   
+   # Default 3600 # Edit
+      
+   MinbeforeMaxandMaxMin = PecosQualityControlSearchCriteria['Criteria3Stagnant']['MinbeforeMaxandMaxMin']
+     
+   MinConsectiveFailures = PecosQualityControlSearchCriteria['Criteria3Stagnant']['MinConsectiveFailures']  
+   
+   pm.check_delta([DeltaLowerBound, DeltaHigherBound], window=DeltaTimeSchedule, direction=MinbeforeMaxandMaxMin, min_failures=MinConsectiveFailures, key='value')
+
+   print(" Measurement that increase by " )
+   
+   print(DeltaHigherBound )
+   
+   print("in Time Schedule")
+   
+   print(DeltaTimeSchedule)
+
+   print("Delta Lower Bound")
+
+   print(DeltaLowerBound)
+
+# Step 8 Choose acceptable increment on measurements 
+#
+# Parameters
+#  
+#  1 Lower bound to de increment by
+#  2 Higher Bound to increment by
+#  3 Data column (default = None, which indicates that all columns are used)
+#  4 Increment used for difference calculation (default = 1 timestamp)
+#  5 Flag indicating if the absolute value of the increment is used in the test (default = True)
+#  6 Minimum number of consecutive failures for reporting (default = 1)
+#
+# e.g pm.check_increment([None, 20], 'value') 
+#    included parametes 1- 4:  pm.check_increment([1, 2], key='3', 4, 5, 6) 
+#
+# Results: Any measurement that has a larger increment or de increment by choosen value is an outlier
+
+   print("*****")
+ 
+   print("Criteria 4 : Maximum Increment of Measurements ")
+
+   Increment_Increase = PecosQualityControlSearchCriteria['Criteria4Increment']['max']
+   
+   # Default 20 # Edit
+   
+   Increment_Decrease = PecosQualityControlSearchCriteria['Criteria4Increment']['min']
+   
+   # Default None # Edit
+  
+   pm.check_increment([Increment_Decrease, Increment_Increase], key='value') 
+
+   print("Increment Increase")
+   
+   print(Increment_Increase)
+
+   print("Increment Decrease")
+   
+   print(Increment_Decrease)
+
+   print("*****")
+
+   print("Criteria 5: Outlier")
+   
+   print("UpperBound")
+
+   UpperBoundOutlier = PecosQualityControlSearchCriteria['Criteria5Outlier']['UpperBound']
+   
+   
+   # Default 3 # Edit
+
+   LowerBoundOutlier = PecosQualityControlSearchCriteria['Criteria5Outlier']['LowerBound']
+  
+   
+   # None # Edit
+   
+   print(UpperBoundOutlier)
+   
+   print("Time Schedule")
+     
+   TimeSchedule = PecosQualityControlSearchCriteria['Criteria5Outlier']['TimeSchedule']
+   
+   # Default 12*3600 # Edit
+   
+   print(TimeSchedule)
+   
+   pm.check_outlier([LowerBoundOutlier, UpperBoundOutlier], window=TimeSchedule, key='value')
+
+   # Step 9 Compute the quality control index for value
+   mask = pm.mask[['value']]
+       
+   QCI = pecos.metrics.qci(mask)
+
+   print("*****")
+
+   print("OpenAQ Dataset Results ")
+
+   print("Mask")
+  
+   print(pm.mask) 
+   
+ #  print(pm.cleaned_data[pm.cleaned_data['value'] == 'NaN'])
+   
+   print("Performance Metrics")
+
+   print(QCI)
+
+   custom = 'custom' + OpenAQDataset_VisualAnalytics_iteration + '.png'
+
+   custom_graphics_graph = '.png' 
+
+   MeasurementOpenAQ = int(OpenAQStation['value'].max())
+
+   print(OpenAQStation['value'].describe())
+  
+    
+   test_results_graphics_OpenAQ = [] 
+   
+   # Step 10 Generate graphics
+   test_results_graphics = pecos.graphics.plot_test_results(pm.df, pm.test_results, filename_root=OpenAQDataset_VisualAnalytics_iteration)
+   
+   
+   
+ #  test_results_graphics_OpenAQ.append(test_results_graphics)
+   
+   test_results_graphics_OpenAQ.append(OpenAQDataset[1])
+   
+   test_results_graphics_OpenAQ.append(OpenAQDataset[2])
+
+   
+   OpenAQStation.plot(y='value', ylim=[0,MeasurementOpenAQ], figsize=(7.0,3.5))
+   plt.savefig(custom, format='png', dpi=500)
+
+   print(custom)
+ 
+   test_results_graphics_OpenAQ.append(custom)
+   
+   print(pm.test_results)
+ 
+ #  OpenAQDataset_VisualAnalytics_iteration = OpenAQDataset_VisualAnalytics_iteration 
+
+   # Step 11 Write test results and report files to test_results.csv and monitoringreport.html
+
+   Report = 'test_results' + OpenAQDataset_VisualAnalytics_iteration  + ' Result' + '.csv' 
+
+   MonitoringReport = 'MonitoringReport' + OpenAQDataset_VisualAnalytics_iteration + '.html'
+
+   pecos.io.write_test_results(pm.test_results,filename=Report)
+   pecos.io.write_monitoring_report(pm.df, pm.test_results, test_results_graphics, 
+                                 test_results_graphics_OpenAQ, QCI,filename=MonitoringReport)
+ 
+   metricsOpenAQ = Milestone3_Get_OpenAQresults(pm.test_results, pm.df, QCI)   
+   
+   OpenAQDataset_VisualAnalytics_Results.append(Report)
+   
+   OpenAQDataset_VisualAnalytics_Results.append(MonitoringReport)
+   
+ #  OpenAQDataset_VisualAnalytics_Results.append(OpenAQDataset_VisualAnalytics_iteration + 'metrics.csv')
+  
+  # pecos.io.write_metrics(metricsOpenAQ, OpenAQDataset_VisualAnalytics_iteration + 'metrics.csv') 
+
+   return (data_availability, QCI.value)
+
+
+
+def create_pecos_dashboard(parameter_list, location_list, Dashboard):
+    footnote = "DA = Data availability <br>QCI = Quality control index"
+
+    for location in location_list:
+        for parameter in parameter_list:
+            if (location, parameter) not in dashboard_content:
+                dashboard_content[(location, parameter)] = "&nbsp;"
+
+    pecos.io.write_dashboard(
+        parameter_list,
+        location_list,dashboard_content,
+        footnote=footnote,
+        filename=Dashboard,
+    )
+    
+    OpenAQDataset_VisualAnalytics_Results.append(Dashboard)
+    
+    return
+
+
+def Milestone3_Get_Pecos_QualityControl_SearchCriteria(OpenAQSearchCriteria):
+  
+   if(yaml_Yes == 1):
+       
+     import yaml 
+  
+     config_file = OpenAQSearchCriteria + "_default"  + '_config.yml'
+     fid = open(config_file, 'r')
+     config = yaml.load(fid)
+     fid.close()
+   else:
+     
+     config = PecosQC
+       
+   return config  
+    
+
+def color_value(val):
+
+    nThresholds = 10
+    colors = [(0.75, 0.15, 0.15), (1, 0.75, 0.15), (0.15, 0.75, 0.15)]
+    cmap = LinearSegmentedColormap.from_list(
+        name="custom", colors=colors, N=nThresholds
+    )
+
+    # print("color val", val)
+    return_color = ""
+    if np.isnan(val):
+        return_color = "background-color: gray"
+    elif val > 1:
+        return_color = "background-color: gray"
+    elif val < 0:
+        return_color = "background-color: gray"
+    else:
+        binned_value = int(np.floor(val * 10))
+        rgb_color = cmap(binned_value)[:3]
+        hex_color = rgb2hex(rgb_color)
+        return_color = "background-color: " + hex_color
+
+    return return_color
+
+
+def cleanup_dataframe(df, time_increment_mode):
+    """replace OpenAQ missing value with np.nan and insert nans where ther are gaps"""
+    start_index = df.index[0]
+    end_index = df.index[-1]
+    idx = pd.date_range(
+        start_index, end_index, freq="{}S".format(int(time_increment_mode))
+    )
+
+    df = df.reindex(idx, fill_value=np.nan)
+    # df.value.replace(-999, np.nan)
+    # df.value[df.value < 0] = np.nan
+    df.value = np.where(df.value < 0, np.nan, df.value)
+
+    return df
+
+
+def get_time_increment_mode(df):
+
+    time_diff = (df.index[1:] - df.index[:-1]).values
+    mode = stats.mode(time_diff).mode[0]
+    time_increment_mode = mode / np.timedelta64(1, "s")
+    return time_increment_mode
+
+def generate_dashboard_cell(DA, QCI):
+
+    metrics = pd.DataFrame(data=np.array([DA, QCI]), columns=[""], index=["DA", "QCI"])
+
+    # Apply color and formatting to metrics table
+    style_table = (
+        metrics.style.format("{:.2f}")
+        .applymap(color_value)
+        .highlight_null(null_color="gray")
+        .render()
+    )
+
+    # Store content to be displayed in the dashboard
+    content = {"table": style_table}
+    return content
 def Milestone3_Get_Imported_OpenAQ_DatasetOutlier(OpenAQ_QC_Dataset):
     
    Delta = "Check for stagnant data and/or abrupt changes in the data using the difference between max and min values (delta) within a rolling window"
@@ -617,7 +1039,13 @@ print("Getting Measurements from OpenAQ API source imported in Milestone 1 from 
 
 #### Edit 
 
-OpenAQDatasetSelected = 'OpenAQ_Dataset Unique selection pm25 CoordinateCentreandRadius 2020-03-01 to 2020-09-01.csv' # 'OpenAQ_Dataset AT4S406 pm25.csv' # 'OpenAQ_Dataset Unique selection pm25 CoordinateCentreandRadius 2020-03-01 to 2020-09-01.csv'
+OpenAQDatasetSelected = 'OpenAQ_Dataset Unique selection pm25 One Station 2020-03-01 to 2020-09-01.csv'
+
+
+# 'OpenAQ_Dataset Unique selection 24.4244 54.43375 pm25 CoordinateCentreandRadius 2020-03-01 to 2020-09-01.csv'
+
+
+# 'OpenAQ_Dataset Unique selection pm25 CoordinateCentreandRadius 2020-03-01 to 2020-09-01.csv' # 'OpenAQ_Dataset AT4S406 pm25.csv' # 'OpenAQ_Dataset Unique selection pm25 CoordinateCentreandRadius 2020-03-01 to 2020-09-01.csv'
 
 ImportedOpenAQimport = Milestone3_Get_Imported_OpenAQ_Dataset(OpenAQDatasetSelected)
 
@@ -692,8 +1120,17 @@ Parameter_Default = 'pm25' # Edit
 
 OnlyOneParameter = 0 # Edit 0 - No and 1 Yes
 
+
 if(OnlyOneParameter == 1):
-  ImportedOpenAQimport = Milestone1_Get_Parameter(ImportedOpenAQimport, Parameter_Default)
+    ImportedOpenAQimport = Milestone1_Get_Parameter(ImportedOpenAQimport, Parameter_Default)
+
+    parameter_selection = []
+    
+    parameter_selection.append(Parameter_Default)
+
+else:
+  
+    parameter_selection = ImportedOpenAQimport['parameter'].unique()
 
 print("Completed Step 4 ")
 
@@ -876,12 +1313,23 @@ print(">")
 #  2 To incude completeness test to 1
 #
 #  Edit  QC_CheckDatasetComplete
+#
+#  3 To use YAML for Search Criteria 
+#
+#  Change yaml_Yes to 1  
+#
+
 
 print("  STEP 10 ")
 
 print("********")
 
 print("Get Pecos Quality Control on OpenAQ dataset")
+
+yaml_Yes = 1
+
+
+DASHBOARDPATH = f"openaq_dashboard.html"
 
 
 QC_CheckDatasetComplete = 0 # To incude completeness test - 0 - To include  1 - To not include  
@@ -890,7 +1338,9 @@ print("OpenAQ Pecos Quality Control Search Criteria: ")
 
 
 
-Milestone3_Pecos_Complete_QC_QualityControl_OpenAQStation(ImportedOpenAQimport, OpenAQDataset_VisualAnalytics_iteration, OpenAQStationunique, OpenAQDataset)
+Milestone3_Pecos_Complete_QC_QualityControl_OpenAQStation(ImportedOpenAQimport, OpenAQDataset_VisualAnalytics_iteration, OpenAQStationunique, OpenAQDataset, yaml_Yes)
+
+create_pecos_dashboard(parameter_selection, OpenAQStationunique, DASHBOARDPATH)
 
 
 

@@ -72,7 +72,7 @@ def Milestone3_Get_Imported_OpenAQ_Dataset_Test(OpenAQ_Dataset_OpenAQCSV_Downloa
    Milestone3_Get_Imported_OpenAQ_Dataset(OpenAQ_Dataset_OpenAQCSV_Download_Test)
     
 
-def Milestone3_Get_Imported_OpenAQ_Dataset(OpenAQ_Dataset_OpenAQCSV_Download): 
+def Milestone1_Get_Imported_OpenAQ_Dataset(OpenAQ_Dataset_OpenAQCSV_Download): 
     
    OpenAQ_Dataset_LatlngCSV_Download = '../Milestone1_Importing-datasets-from-OpenAQ/'
     
@@ -169,7 +169,7 @@ def Milestone2_OpenAQ_VisualAnalytics_parameters(df4,OpenAQselectunique, OpenAQD
        
        yaxishistogram = "Amount of Measurements " + OpenAQStationparameter
               
-       OpenAQ_Dataset_df = Milestone2_OpenAQ_Dataset_VisualAnalytics_Histogram(OpenAQdfunique, OpenAQStationparameter, OpenAQDataset_VisualAnalyticsplt, title=OpenAQDataset_VisualAnalytic, xlabel='Value', ylabel=yaxishistogram, dpi=100)
+       OpenAQ_Dataset_df = Milestone2_OpenAQ_Dataset_VisualAnalytics_Histogram(OpenAQdfunique, OpenAQStationparameter, OpenAQDataset_VisualAnalyticsplt, title=OpenAQDataset_VisualAnalytic, xlabel=yaxishistogram, ylabel='Value', dpi=100)
       
        OpenAQ_Dataset_Graph.append(OpenAQ_Dataset_df)
       
@@ -204,9 +204,9 @@ def Milestone2_Import_OpenAQ_CSV_plot_Unique(df4, OpenAQStationunique, xaxis, ya
        
       OpenAQAPIdatasetunique = df4[df4['location'] == OpenAQunique]
       
-      Milestone2_Import_OpenAQ_CSV_plot(OpenAQAPIdataset, xaxis, yaxis, parameter, OpenAQ_Dataset, title=OpenAQDataset_VisualAnalytics, xlabel='Value', ylabel='Amount of Measurements', dpi=100)
+      Milestone2_Import_OpenAQ_CSV_plot(OpenAQAPIdataset, xaxis, yaxis, parameter, OpenAQ_Dataset, title=OpenAQDataset_VisualAnalytics, xlabel='Value', ylabel='Value''Amount of Measurements', dpi=100)
 
-def Milestone2_OpenAQ_Dataset_VisualAnalytics_Histogram(df4, parameter, OpenAQDataset_VisualAnalytics_iteration, title="", xlabel='Value', ylabel='Amount of Measurements', dpi=100):
+def Milestone2_OpenAQ_Dataset_VisualAnalytics_Histogram(df4, parameter, OpenAQDataset_VisualAnalytics_iteration, title="", xlabel='Amount of Measurements', ylabel='Value', dpi=100):
     
 # Step Create a Histogram of the OpenAQ Dataset for parameter
    
@@ -214,7 +214,12 @@ def Milestone2_OpenAQ_Dataset_VisualAnalytics_Histogram(df4, parameter, OpenAQDa
     
    plt.gca().set(title=title, xlabel=xlabel, ylabel=ylabel)
    
-   plt.hist(df4['value'], bins=np.arange(1,df4['value'].max()))
+   print(df4['value'].min())
+   
+   plt.hist(df4['value'], bins='auto')
+            
+         
+        #    bins=np.arange(float(0.0),float(df4['value'].max())))
    
    OpenAQ_Dataset =  OpenAQDataset_VisualAnalytics_iteration + " Histogram" + ".png"
       
@@ -252,9 +257,13 @@ print("Getting Measurements from OpenAQ API source imported in Milestone 1 from 
 
 #### Edit 
 
-OpenAQDatasetSelected = 'OpenAQ_Dataset Unique selection pm25 CoordinateCentreandRadius 2020-03-01 to 2020-09-01.csv'
+OpenAQDatasetSelected = 'OpenAQ_Dataset Unique selection pm25 One Station 2020-03-01 to 2020-09-01.csv'
 
-ImportedOpenAQimport = Milestone3_Get_Imported_OpenAQ_Dataset(OpenAQDatasetSelected)
+# 'OpenAQ_Dataset Unique selection 24.4244 54.43375 pm25 CoordinateCentreandRadius 2020-03-01 to 2020-09-01.csv'
+
+#'OpenAQ_Dataset Unique selection pm25 CoordinateCentreandRadius 2020-03-01 to 2020-09-01.csv'
+
+ImportedOpenAQimport = Milestone1_Get_Imported_OpenAQ_Dataset(OpenAQDatasetSelected)
 
 print("Completed Step 1 ")
 
@@ -474,8 +483,6 @@ OpenAQDataset_VisualAnalytics = "OpenAQ Dataset QC" + " " + " Time Schedule " + 
 OpenAQDataset_VisualAnalytics_iteration = "OpenAQDataset QC " + " "  + " iteration " + iteration_OpenAQStations
 
 OpenAQDataset = Milestone2_OpenAQ_Dataset_VisualAnalytics_Histogram_Unique(OpenAQAPIdataset, OpenAQStationunique, OpenAQDataset_VisualAnalytics, OpenAQDataset_VisualAnalytics_iteration)
-
-#Milestone3_Get_Imported_OpenAQ_Dataset_parameter_unique_Test(ImportedOpenAQimport,OpenAQDataset, 1,"Test unique parameter")
 
 
 print("Completed Step 9 ")

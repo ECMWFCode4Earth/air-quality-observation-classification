@@ -39,7 +39,7 @@ def Milestone2_Import_OpenAQ_Scatter_many(OpenAQdatasetlatlngunique, parameter, 
        
           print(OpenAQStationparameter)    
          
-          OpenAQStation = title + " " + OpenAQStationparameter['location'] + OpenAQStationparameter['parameter']    
+          OpenAQStation = title + " " # + OpenAQStationparameter['location'] + OpenAQStationparameter['parameter']    
           
           Milestone2_Import_OpenAQ_Scatter(OpenAQStationparameter['DistanceKM'], OpenAQStationparameter['Statistics'], OpenAQStationparameter['parameter'], OpenAQStation, xlabel, ylabel)
       
@@ -57,16 +57,22 @@ def Milestone2_OpenAQStation_remove_NonAlpha(OpenAQStationunique):
 
 def Milestone2_Import_OpenAQ_Scatter(Xaxis_Measurement, Yaxis, parameter, title, xlabel, ylabel):
     
-   fig, ax = plt.subplots()
+
    scale = 20.0 
    
    print(Yaxis)
    
-   ax.scatter(Xaxis_Measurement, Yaxis, c='tab:blue', s=scale, label=parameter, alpha=0.3, edgecolors='none')
+   plt.figure()
    
-   ax.legend()
-   ax.grid(True)
- #  plt.gca().set(title=title, xlabel=xlabel, ylabel=ylabel)
+   plt.scatter(Xaxis_Measurement, Yaxis, c='tab:blue', s=scale, label=parameter, alpha=0.3, edgecolors='none')
+   
+ #  plt.title(title')
+ 
+     
+   plt.legend()
+   plt.grid(True)
+   
+   plt.gca().set(xlabel=xlabel, ylabel=ylabel)
    
    plt.show()
 
@@ -323,7 +329,13 @@ print("  STEP 1 ")
 
 print("********")
 
-OpenAQ_Dataset_LatlngCSV_Download = 'OpenAQ_Dataset Unique selection Radius 25000 select  pm25 Selection 2020-03-01 to 2020-09-01.csv'
+OpenAQ_Dataset_LatlngCSV_Download = 'OpenAQ_Dataset Unique selection pm25 One Station 2020-03-01 to 2020-09-01.csv'
+
+
+# 'OpenAQ_Dataset Unique selection 24.4244 54.43375 pm25 CoordinateCentreandRadius 2020-03-01 to 2020-09-01.csv'
+
+
+#'OpenAQ_Dataset Unique selection Radius 25000 select  pm25 Selection 2020-03-01 to 2020-09-01.csv'
 
 
 # 'OpenAQ_Dataset Unique selection pm25 CoordinateCentreandRadius 2020-03-01 to 2020-09-01.csv'
@@ -380,9 +392,9 @@ print("Scatter plot of Nearest Highway to Mean for OpenAQ stations ")
 
 title="Distance Nearest Highway"
    
-xlabel='Distance to Nearest Highway in Km'
+xlabel="Distance to Nearest Highway in Km"
    
-ylabel='Mean of Measurements'
+ylabel="Mean of Measurements"
    
 # Milestone2_Import_OpenAQ_Scatter_many(OpenAQStationsdatasetmeasurements, parameter_selection, title, xlabel, ylabel)
    

@@ -218,9 +218,6 @@ def Milestone2_OpenAQ_Dataset_VisualAnalytics_Histogram(df4, parameter, OpenAQDa
    
    plt.hist(df4['value'], bins='auto')
             
-         
-        #    bins=np.arange(float(0.0),float(df4['value'].max())))
-   
    OpenAQ_Dataset =  OpenAQDataset_VisualAnalytics_iteration + " Histogram" + ".png"
       
    plt.savefig(OpenAQ_Dataset)
@@ -258,10 +255,6 @@ print("Getting Measurements from OpenAQ API source imported in Milestone 1 from 
 #### Edit 
 
 OpenAQDatasetSelected = 'OpenAQ_Dataset Unique selection pm25 One Station 2020-03-01 to 2020-09-01.csv'
-
-# 'OpenAQ_Dataset Unique selection 24.4244 54.43375 pm25 CoordinateCentreandRadius 2020-03-01 to 2020-09-01.csv'
-
-#'OpenAQ_Dataset Unique selection pm25 CoordinateCentreandRadius 2020-03-01 to 2020-09-01.csv'
 
 ImportedOpenAQimport = Milestone1_Get_Imported_OpenAQ_Dataset(OpenAQDatasetSelected)
 

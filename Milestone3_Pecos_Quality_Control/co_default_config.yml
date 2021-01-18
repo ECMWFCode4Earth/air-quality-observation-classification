@@ -1,0 +1,23 @@
+Criteria1Timestep: 
+  Timestep: 900
+  
+Criteria2LowerHigherBound:
+  LowerBound: None
+  HigherBound: 500
+
+Criteria3Stagnant: 
+  min: None
+  max: 10
+  TimeSchedule: 3600
+  MinbeforeMaxandMaxMin: positive 
+  MinConsectiveFailures: 1
+  
+Criteria4Increment: 
+  min: None
+  max: 10
+  TimeSchedule: 3600
+
+Criteria5Outlier: 
+  UpperBound: 300
+  LowerBound: None
+  TimeSchedule: 3600

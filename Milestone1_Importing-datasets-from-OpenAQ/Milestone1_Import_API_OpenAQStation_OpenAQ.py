@@ -15,10 +15,16 @@ from pandas import json_normalize
 
 from datetime import datetime, date, time, timezone
 
+import time
+
 import numpy as np
 
 import csv
 
+
+MAX_RETRIES = 10
+
+RetriesPassed_YesNo = 1
 
 # Step 1 Initiatlise pyOpenAQ API
 #
@@ -39,8 +45,34 @@ print("OpenAQ pyOpenAPI begun")
 def Milestone1_Get_OpnenAQ_Dataset_Measurement_OpenAQStation_perStation(StationOpenAQ, parameter):
     
 #Step 1 Choose the measurement country to import and parameter 
+   
+   res1 = 0
+  
+   for ii in range(1, MAX_RETRIES + 1):
+
     
-   res1 = api.measurements(location=StationOpenAQ, parameter=parameter, date_to=dt_end, date_from=dt_begin, limit=10000, df=True)
+      try:
+       
+         res1 = api.measurements(
+             location=StationOpenAQ,
+             parameter=parameter,
+             date_to=dt_end,
+             date_from=dt_begin,
+             limit=10000,
+             df=True)
+ 
+    
+      except openaq.exceptions.ApiError:
+            time.sleep(5)
+            if(ii == MAX_RETRIES):
+                RetriesPassed_YesNo = 0
+            continue
+            
+      else:
+            break
+
+  
+   print(res1) 
 
    print("Completed measurements ")
 
@@ -95,7 +127,7 @@ print("  STEP 2 ")
 
 print("********")
 
-print("Chosen OpenAQ Coordinates Lat/lng and Radius: ")
+print("Chosen OpenAQ Station: ")
      
 OpenAQStation = 'US Diplomatic Post: Abu Dhabi' #Edit
 
@@ -164,11 +196,28 @@ print("Getting Measurements from OpenAQ API source")
 
 res2 = Milestone1_Get_OpnenAQ_Dataset_Measurement_OpenAQStation_perStation(OpenAQStation, parameter)
 
-print("Found these Stations in Coordinates")
 
-OpenAQStationunique = res2['location'].unique()
 
-print(OpenAQStationunique)
+if(RetriesPassed_YesNo == 1):
+
+   print("Found these Stations in Coordinates")
+
+   OpenAQStationunique = res2['location'].unique()
+
+   print(OpenAQStationunique)
+
+
+if(RetriesPassed_YesNo == 0):
+  
+  print("*****") 
+  
+  print("API Error")
+    
+  print("The API returned an error because it was unavailable after trying this many requests ")  
+  
+  print(MAX_RETRIES)
+  
+  print("Try to the process again after a few minutes")
 
 
 # Step 6 Get Measurements CSV

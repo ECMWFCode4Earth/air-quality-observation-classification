@@ -17,7 +17,7 @@ import matplotlib.pyplot as plt
 
 from datetime import datetime, date, time, timezone
 
-import pecos
+import time
 
 import seaborn
 
@@ -27,7 +27,7 @@ import csv
 
 df_DF = [];
 
-
+MAX_RETRIES = 10
 
 # Step 1 Initiatlise pyOpenAQ API
 #
@@ -62,6 +62,46 @@ def Milestone1_Get_Import_OpenAQ_Countries():
    return df3
 
 
+def Milestone1_Get_OpenAQ_Dataset_Measurement_OpenAQStation_perStation(StationOpenAQ, parameter):
+    
+#Step 1 Choose the measurement country to import and parameter 
+    
+    res1 = None
+
+    for ii in range(1, MAX_RETRIES + 1):
+
+       try:
+            if(len(parameter) == 1): 
+                res1 = api.measurements(
+                    country=StationOpenAQ, 
+                    parameter=parameter[0], 
+                    date_to=dt_end, 
+                    date_from=dt_begin,
+                    limit=10000, 
+                    df=True
+                 )
+               
+            else: 
+               
+                res1 = api.measurements(
+                    country=StationOpenAQ,  
+                    date_to=dt_end, 
+                    date_from=dt_begin,
+                    limit=10000, 
+                    df=True
+                )
+       
+       except openaq.exceptions.ApiError:
+            time.sleep(5)
+            continue
+       else:
+            break
+        
+        
+    print("Completed measurements ")
+
+    return res1
+
 
 def Milestone1_Get_Import_OpenAQ_Dataset_One_Staton(OpenAQStation, parameter, iterationamount):
 
@@ -69,7 +109,7 @@ def Milestone1_Get_Import_OpenAQ_Dataset_One_Staton(OpenAQStation, parameter, it
 
    Completedreq = 0
    
-   res_1 = 0
+   res_1 = None
    
    # Step 1 Get Measurements for station
    try: 
@@ -109,7 +149,7 @@ def Milestone1_Get_Measurement_OpenAQStations(OpenAQ_Stations, Completed_QC_Proc
           
           OpenAQStation_ImportDataset = Milestone1_Get_Import_OpenAQ_Dataset_One_Staton(OpenAQStation, parameter, iteration1[iterationamount])
           DF_OpenAQDataset.append(OpenAQStation_ImportDataset)
-          OpenAQStation_Dataset.append(OpenAQStation_ImportDataset, ignore_index=True) 
+       #   OpenAQStation_Dataset.append(OpenAQStation_ImportDataset, ignore_index=True) 
           print(OpenAQStation_ImportDataset)
           
       iterationamount = iterationamount + 1
@@ -193,11 +233,11 @@ def Milestone1_Get_Measurements_CSV_OpenAQStation(OpenAQ_Stations, SelectionOpen
 
 CountryCode = 'AR'
 
-print("Choose from ")
+# print("Choose from ")
 
-OpenAQ_Countries = Milestone1_Get_Import_OpenAQ_Countries()
+#OpenAQ_Countries = Milestone1_Get_Import_OpenAQ_Countries()
 
-OpenAQStations = Milestone1_Get_Import_OpenAQ_EveryStation_inChoosenCountry(CountryCode)
+#OpenAQStations = Milestone1_Get_Import_OpenAQ_EveryStation_inChoosenCountry(CountryCode)
 
 dt_begin = date(2020,3,1)  # Edit
 dt_end = date(2020,9,1)  # Edit
@@ -212,23 +252,69 @@ print(" for every OpenAQ Station and parameter ")
 
 # Step 2 Choose parameter 
 #
-# 1 Change parameter to pm25, pm10, no2, bc, so2, o3
 #
+# 1 Choose to import one parameter or all parameters for OpenAQ Station
 #
+#  Change parameter to pm25, pm10, no2, bc, so2, o3
+#
+#  Change to 1 All OpenAQ parameters or 0 - One parameter and select it
+#
+# Change parameter = '' to selected
 
-parameter = 'pm25'
+
+print("  STEP 2 ")
+
+print("********")
+
+SelectEveryParameter_YesorNo = 1 # Edit 1 Yes 0 No just one 
+
+parameter = 'pm25'  # Edit
+
+parameter_selection = []
+
+print("Parameter chosen")
+
+if(SelectEveryParameter_YesorNo == 0):
+    
+   parameter_selection.append(parameter)
+
+   print(parameter_selection)
+
+if(SelectEveryParameter_YesorNo == 1):
+    
+   print("Every parameter at selected or chosen OpenAQ station") 
 
 
-print(parameter)
 
-
-print("Found these Stations in selection")
-
-print(OpenAQStations)
 
 Completed_QC_Processes = 0
 
-OpenAQDataset = Milestone1_Get_Measurement_OpenAQStations(OpenAQStations, Completed_QC_Processes, parameter)
+OpenAQDataset = Milestone1_Get_OpenAQ_Dataset_Measurement_OpenAQStation_perStation(CountryCode, parameter_selection)
+
+if(OpenAQStations != None):
+
+   print("Found these Stations in selection")
+
+
+   OpenAQStations = OpenAQDataset['location'].unique()
+
+
+   print(OpenAQStations)
+
+
+if(OpenAQDataset == None):
+  
+  print("*****") 
+  
+  print("API Error")
+    
+  print("The API returned an error because it was unavailable after trying this many requests ")  
+  
+  print(MAX_RETRIES)
+  
+  print("Try to the process again after a few minutes")
+
+
 
 
 SelectionOpenAQChoose = "unique AG"
@@ -237,8 +323,8 @@ SelectionOpenAQ = 2
 
 SelectionDatasetOpenAQ = 0 
 
-Milestone1_Get_Measurements_CSV_OpenAQStation(OpenAQDataset[0], SelectionOpenAQChoose, parameter, SelectionOpenAQ, dt_begin, dt_end, SelectionDatasetOpenAQ)
+Milestone1_Get_Measurements_CSV_OpenAQStation(OpenAQDataset, SelectionOpenAQChoose, parameter, SelectionOpenAQ, dt_begin, dt_end, SelectionDatasetOpenAQ)
 
 SelectionDatasetOpenAQ = 1
 
-Milestone1_Get_Measurements_CSV_OpenAQStation(OpenAQDataset[1], SelectionOpenAQChoose, parameter, SelectionOpenAQ, dt_begin, dt_end, SelectionDatasetOpenAQ)
+# Milestone1_Get_Measurements_CSV_OpenAQStation(OpenAQDataset[1], SelectionOpenAQChoose, parameter, SelectionOpenAQ, dt_begin, dt_end, SelectionDatasetOpenAQ)

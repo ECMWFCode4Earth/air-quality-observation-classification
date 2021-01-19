@@ -14,6 +14,47 @@ Validating and removing errors outliers from surface air quality observations fr
 
 4 Allowing further analysis of openAQ dataset
 
+# User Manual 
+
+# Milestone 1
+
+## Step 1 Open Milestone1 
+
+## Step 2 See User Manual and edit OpenAQ dataset parameters 
+
+## Step 3 Processes selected Process 
+
+## Step 4 Copy address of resulting CSV download
+
+# Milestone 2
+
+## Step 1 Open Milestone 2 
+
+## Step 2 See User Manual and change CSV download address to downloaded
+
+## Step 3 Process ""
+
+# Milestone 3
+
+## Step 1 Open Milestone 3
+
+## Step 2 See User Manual and change CSV download address to download
+
+## Step 3 Change Quality Control Search Criteria in YML text file for the parameters i.e. default_03_paramters.yml 
+
+## Step 4 Process ""
+
+## Step 5 View results in Monitoring report for OpenAQ Stations or dashboard of selected OpenAQ stations
+
+# Milestone 4
+
+## Step 1 Open Milestone 3
+
+## Step 2 See User Manual and change CSV download address to download
+
+## Step 3 Process 
+
+
 # Implementation 
 
 ## Milestone1_Importing-datasets-from-OpenAQ

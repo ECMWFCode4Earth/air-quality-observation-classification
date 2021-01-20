@@ -11,7 +11,7 @@ import openaq
 
 import pandas as pd
 
-from pandas.io.json import json_normalize
+from pandas import json_normalize
 
 import matplotlib.pyplot as plt
 
@@ -78,16 +78,18 @@ def Milestone1_Get_OpenAQ_Dataset_Measurement_OpenAQStation_perStation(StationOp
                     date_to=dt_end, 
                     date_from=dt_begin,
                     limit=10000, 
+                    index="utc",
                     df=True
                  )
                
             else: 
                
                 res1 = api.measurements(
-                    country=StationOpenAQ,  
+                    country='AG', 
+                    # 'StationOpenAQ,  
                     date_to=dt_end, 
                     date_from=dt_begin,
-                    limit=10000, 
+                    limit=1000, 
                     df=True
                 )
        
@@ -231,11 +233,11 @@ def Milestone1_Get_Measurements_CSV_OpenAQStation(OpenAQ_Stations, SelectionOpen
 #
 # Test_Milestone3_Import_OpenAQ_Dataset_StationOpenAQ('Altınova-MTHM')
 
-CountryCode = 'AR'
+CountryCode = 'TR'
 
 # print("Choose from ")
 
-#OpenAQ_Countries = Milestone1_Get_Import_OpenAQ_Countries()
+# OpenAQ_Countries = Milestone1_Get_Import_OpenAQ_Countries()
 
 #OpenAQStations = Milestone1_Get_Import_OpenAQ_EveryStation_inChoosenCountry(CountryCode)
 
@@ -291,28 +293,28 @@ Completed_QC_Processes = 0
 
 OpenAQDataset = Milestone1_Get_OpenAQ_Dataset_Measurement_OpenAQStation_perStation(CountryCode, parameter_selection)
 
-if(OpenAQStations != None):
+#if(len(OpenAQDataset) > None):
 
-   print("Found these Stations in selection")
-
-
-   OpenAQStations = OpenAQDataset['location'].unique()
+ #  print("Found these Stations in selection")
 
 
-   print(OpenAQStations)
+ #  OpenAQStations = OpenAQDataset['location'].unique()
 
 
-if(OpenAQDataset == None):
+ #  print(OpenAQStations)
+
+
+#if(OpenAQDataset == None):
   
-  print("*****") 
+ # print("*****") 
   
-  print("API Error")
+ # print("API Error")
     
-  print("The API returned an error because it was unavailable after trying this many requests ")  
+ # print("The API returned an error because it was unavailable after trying this many requests ")  
   
-  print(MAX_RETRIES)
+ # print(MAX_RETRIES)
   
-  print("Try to the process again after a few minutes")
+ #  print("Try to the process again after a few minutes")
 
 
 

@@ -84,7 +84,7 @@ def Milestone1_Get_OpenAQ_Dataset_Measurement_perStation(StationOpenAQCoordinate
              
          else:  
      
-           res1 = Milestone1_Get_OpenAQ_Dataset_Measurementexception_perStation(StationOpenAQCoordinates, Radius, parameter, dt_begin, dt_end)    
+            res1 = Milestone1_Get_OpenAQ_Dataset_Measurementexception_perStation(StationOpenAQCoordinates, Radius, parameter, dt_begin, dt_end)    
          
           #  res1 = api.measurements(coordinates=StationOpenAQCoordinates, radius=Radius, date_to=dt_end, date_from=dt_begin, df=True, limit=10000)
             
@@ -97,7 +97,10 @@ def Milestone1_Get_OpenAQ_Dataset_Measurement_perStation(StationOpenAQCoordinate
           #     df=True, 
           #     limit=10000
           #     )
-      
+           # print(res1)
+            
+          #  res1.append(res)
+            
       except openaq.exceptions.ApiError:
             time.sleep(5)
             continue
@@ -105,7 +108,7 @@ def Milestone1_Get_OpenAQ_Dataset_Measurement_perStation(StationOpenAQCoordinate
             break
     
   # OpenAQStation.append(res1)
-   
+   res1.append([])
    print("Completed measurements ")
 
    return res1
@@ -132,7 +135,7 @@ def Milestone1_Get_OpenAQ_Dataset_Measurementexception_perStation(StationOpenAQC
          
        print(OpenAQselection)
          
-       res1 = api.measurements(coordinates=StationOpenAQCoordinates, radius=Radius,date_to=dt_end, date_from=dt_begin, index="utc", df=True, limit=10000)
+       res1 = api.measurements(coordinates=StationOpenAQCoordinates, radius=Radius,date_to=dt_end, date_from=dt_begin, df=True, limit=10000)
             
        #  print(res1)
          
@@ -151,7 +154,6 @@ def Milestone1_Get_OpenAQ_Dataset_Measurementexception_perStation(StationOpenAQC
       
    except openaq.exceptions.ApiError:
        time.sleep(5)
-       OpenAQStations.append([])
        pass
    else:
        print(" Exception ")
@@ -160,10 +162,10 @@ def Milestone1_Get_OpenAQ_Dataset_Measurementexception_perStation(StationOpenAQC
        
     #  print(status)
          
-         
+   
    iteration = iteration + 1
    
-   print(OpenAQStations[0])   
+#   print(OpenAQStations[0])   
    
    return OpenAQStations  
           
@@ -188,20 +190,20 @@ def Milestone1_Get_Measurements_CSV_OpenAQStation(OpenAQ_Stations, SelectionOpen
    
    
    
-   for parameters in OpenAQ_Stations:
+  # for parameters in OpenAQ_Stations:
    
-      parameter_selections = OpenAQ_Stations[iteration]['parameter'].unique()   
+ #  parameter_selections = OpenAQ_Stations[iteration]['parameter'].unique()   
    
-      OpenAQDatasetcomplete = OpenAQDataset + " " + SelectionOpenAQChoose + " " + parameter_selections[0] + " " + SelectedOpenAQ + " " +  str(dt_begin) + " to " + str(dt_end) + ".csv" 
+   OpenAQDatasetcomplete = OpenAQDataset + " " + SelectionOpenAQChoose + " " + " " + SelectedOpenAQ + " " +  str(dt_begin) + " to " + str(dt_end) + ".csv" 
     
-      print("Printed OpenAQ import to ")
+   print("Printed OpenAQ import to ")
    
-      print( OpenAQDatasetcomplete)
+   print( OpenAQDatasetcomplete)
    
     
-      OpenAQ_Stations[iteration].to_csv(OpenAQDatasetcomplete,index=False)                       
+   OpenAQ_Stations[iteration].to_csv(OpenAQDatasetcomplete,index=False)                       
     
-      iteration = iteration + 1
+  # iteration = iteration + 1
      
 
 def Milestone1_Print_CSV_OpenAQ_Import(OpenAQ_Dataset):
@@ -232,10 +234,11 @@ print("Chosen OpenAQ Coordinates Lat/lng and Radius: ")
     
  
      
-OpenAQStationCoordinates = "34.60638,58.43194" # "24.4244,54.43375"
+OpenAQStationCoordinates = "24.4244,54.43375"
 
+# "35.945993, 96.960939" # 
 
-#"-34.60638,-58.43194" #Edit Lat, Lng
+# "-34.60638,-58.43194" #Edit Lat, Lng
 
 Radius = 2500000 # Edit in metres 
 

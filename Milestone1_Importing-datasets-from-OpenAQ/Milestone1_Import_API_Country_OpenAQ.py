@@ -23,6 +23,8 @@ import seaborn
 
 import numpy as np
 
+import json
+
 import csv
 
 df_DF = [];
@@ -41,8 +43,10 @@ print("Initialise pyOpenAQ API")
 
 api = openaq.OpenAQ()
 
+ETCDIR = f"../etc"
 
 print("OpenAQ pyOpenAPI begun")
+
 
 def Milestone1_Get_Import_OpenAQ_Countries():
 
@@ -62,34 +66,75 @@ def Milestone1_Get_Import_OpenAQ_Countries():
    return df3
 
 
-def Milestone1_Get_OpenAQ_Dataset_Measurement_OpenAQStation_perStation(StationOpenAQ, parameter):
+def Milestone1_Get_Measurements_OpenAQStations(StationOpenAQ, parameter): 
+
+   OpenAQStations = []
+   
+   if(len(parameter) > 0):
+     status, OpenAQmeasurementsrespno_pages = api.measurements(country='BE', parameter='pm25', date_to=dt_end, date_from=dt_begin,order_by="date", sort="asc", limit=10000)
+   
+   if(len(parameter) == 0): 
+  
+     status, OpenAQmeasurementsrespno_pages = api.measurements(country='BE',date_to=dt_end, date_from=dt_begin,order_by="date", sort="asc", limit=10000)
+   
+ #  print(OpenAQmeasurementsrespno_pages)  
+  
+   OpenAQmeasurementsno_pages = int(OpenAQmeasurementsrespno_pages["meta"]["pages"]) 
+ 
+   
+   print(OpenAQmeasurementsno_pages)
+   
+   
+   for page_num in range(1, OpenAQmeasurementsno_pages + 1):
+
+      print(page_num)        
+
+      res1 = Milestone1_Get_OpenAQ_Dataset_Measurement_OpenAQStation_perStation(StationOpenAQ, parameter, page_num) 
+    
+    #  print(res1)
+      
+      
+    
+      OpenAQStations.append(res1)
+      
+   return OpenAQStations 
+
+def Milestone1_Get_OpenAQ_Dataset_Measurement_OpenAQStation_perStation(StationOpenAQ, parameter, page_num):
     
 #Step 1 Choose the measurement country to import and parameter 
     
     res1 = None
 
+    #StationOpenAQ
+ 
     for ii in range(1, MAX_RETRIES + 1):
 
        try:
             if(len(parameter) == 1): 
                 res1 = api.measurements(
-                    country=StationOpenAQ, 
-                    parameter=parameter[0], 
+                    country='BE', 
+                    parameter=parameterselected, 
                     date_to=dt_end, 
                     date_from=dt_begin,
                     limit=10000, 
-                    index="utc",
+                    page=page_num,
                     df=True
                  )
                
             else: 
                
+                print(parameter)
+                
+              
                 res1 = api.measurements(
-                    country='AG', 
+                    country='BE', 
                     # 'StationOpenAQ,  
                     date_to=dt_end, 
                     date_from=dt_begin,
-                    limit=1000, 
+                    order_by="date",
+                    sort="asc",
+                    limit=10000,
+                    page=page_num,
                     df=True
                 )
        
@@ -104,6 +149,38 @@ def Milestone1_Get_OpenAQ_Dataset_Measurement_OpenAQStation_perStation(StationOp
 
     return res1
 
+def Milestone1_Get_Import_Count_OpenAQ_Station():
+    
+#   {ETCDIR}/ 
+    
+   OpenAQStations = open(f"all_openaq_locations.json")
+   OpenAQlocations = json.loads(OpenAQStations.read())
+   OpenAQStationslength = len(OpenAQlocations)
+   
+   print(type(OpenAQlocations))
+   
+   OpenAQStationcount = 0
+   
+   SelectionOpenAQ = 0
+   
+   df = pd.DataFrame(OpenAQlocations)
+   
+   print(df[df['country']=='AE'].dtypes)
+    
+   print(df[df['country']=='AE']['countsByMeasurement'])
+   
+    
+   print(df[df['country']=='AE']['count'])
+   
+   
+   start_dt = datetime.strptime(OpenAQlocations[SelectionOpenAQ]["firstUpdated"], "%Y-%m-%dT%H:%M:%S.%fZ")
+   end_dt = datetime.strptime(OpenAQlocations[SelectionOpenAQ]["lastUpdated"], "%Y-%m-%dT%H:%M:%S.%fZ")
+
+   print(start_dt)
+
+   print(end_dt)    
+
+   
 
 def Milestone1_Get_Import_OpenAQ_Dataset_One_Staton(OpenAQStation, parameter, iterationamount):
 
@@ -117,7 +194,8 @@ def Milestone1_Get_Import_OpenAQ_Dataset_One_Staton(OpenAQStation, parameter, it
    try: 
     
      res_1 = api.measurements(location=OpenAQStation, parameter=parameter, date_to=dt_end, date_from=dt_begin, df=True, limit=10000)
-    
+     print(res_1)
+  
    except:
      pass   
     
@@ -208,7 +286,7 @@ def Milestone1_Get_Measurements_CSV_OpenAQStation(OpenAQ_Stations, SelectionOpen
     OpenAQ_Stations.to_csv(OpenAQDataset, mode='w', index=False)                       
  
    if(SelectionDatasetOpenAQ == 1):
-    OpenAQ_Stations.to_csv(OpenAQDataset, mode='a+', index=False) 
+    OpenAQ_Stations.to_csv(OpenAQDataset, index=False, mode='a+') 
 
 #Step 1 Choose the measurement country to import and Time Schedule
 #
@@ -233,7 +311,7 @@ def Milestone1_Get_Measurements_CSV_OpenAQStation(OpenAQ_Stations, SelectionOpen
 #
 # Test_Milestone3_Import_OpenAQ_Dataset_StationOpenAQ('Altınova-MTHM')
 
-CountryCode = 'TR'
+CountryCode = 'AG'
 
 # print("Choose from ")
 
@@ -268,9 +346,9 @@ print("  STEP 2 ")
 
 print("********")
 
-SelectEveryParameter_YesorNo = 1 # Edit 1 Yes 0 No just one 
+SelectEveryParameter_YesorNo = 0 # Edit 1 Yes 0 No just one 
 
-parameter = 'pm25'  # Edit
+parameterselected = 'pm25'  # Edit
 
 parameter_selection = []
 
@@ -278,7 +356,7 @@ print("Parameter chosen")
 
 if(SelectEveryParameter_YesorNo == 0):
     
-   parameter_selection.append(parameter)
+   parameter_selection.append(parameterselected)
 
    print(parameter_selection)
 
@@ -291,7 +369,25 @@ if(SelectEveryParameter_YesorNo == 1):
 
 Completed_QC_Processes = 0
 
-OpenAQDataset = Milestone1_Get_OpenAQ_Dataset_Measurement_OpenAQStation_perStation(CountryCode, parameter_selection)
+# OpenAQDataset = Milestone1_Get_OpenAQ_Dataset_Measurement_OpenAQStation_perStation(CountryCode, parameter_selection, 1)
+
+StationOpenAQ = 'AE'
+
+OpenAQDatasetselection = Milestone1_Get_Measurements_OpenAQStations(StationOpenAQ, parameter_selection)
+
+print(OpenAQDatasetselection)
+
+# Selection = ['ET']
+
+SelectionchooseOpenAQ = 'BE'
+
+# OpenAQStation = 'Algiers'
+
+# iterationamount = 0
+
+# Milestone1_Get_Import_Count_OpenAQ_Station()
+
+# Milestone1_Get_Import_OpenAQ_Dataset_One_Staton(OpenAQStation, parameterselected, iterationamount)
 
 #if(len(OpenAQDataset) > None):
 
@@ -319,14 +415,23 @@ OpenAQDataset = Milestone1_Get_OpenAQ_Dataset_Measurement_OpenAQStation_perStati
 
 
 
-SelectionOpenAQChoose = "unique AG"
+SelectionOpenAQChoose = "unique  " + SelectionchooseOpenAQ
 
 SelectionOpenAQ = 2
 
 SelectionDatasetOpenAQ = 0 
 
-Milestone1_Get_Measurements_CSV_OpenAQStation(OpenAQDataset, SelectionOpenAQChoose, parameter, SelectionOpenAQ, dt_begin, dt_end, SelectionDatasetOpenAQ)
+Milestone1_Get_Measurements_CSV_OpenAQStation(OpenAQDatasetselection[0], SelectionOpenAQChoose, parameterselected, SelectionOpenAQ, dt_begin, dt_end, SelectionDatasetOpenAQ)
 
 SelectionDatasetOpenAQ = 1
 
-# Milestone1_Get_Measurements_CSV_OpenAQStation(OpenAQDataset[1], SelectionOpenAQChoose, parameter, SelectionOpenAQ, dt_begin, dt_end, SelectionDatasetOpenAQ)
+iterationamount = 1
+
+for OpenAQ_Station in OpenAQDatasetselection:
+
+    
+   if(len(OpenAQDatasetselection) > iterationamount):
+     
+     Milestone1_Get_Measurements_CSV_OpenAQStation(OpenAQDatasetselection[iterationamount], SelectionOpenAQChoose, parameterselected, SelectionOpenAQ, dt_begin, dt_end, SelectionDatasetOpenAQ)
+
+     iterationamount = iterationamount + 1 

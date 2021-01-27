@@ -286,7 +286,7 @@ def Milestone1_Get_Measurements_CSV_OpenAQStation(OpenAQ_Stations, SelectionOpen
     OpenAQ_Stations.to_csv(OpenAQDataset, mode='w', index=False)                       
  
    if(SelectionDatasetOpenAQ == 1):
-    OpenAQ_Stations.to_csv(OpenAQDataset, index=False, mode='a+') 
+    OpenAQ_Stations.to_csv(OpenAQDataset, header=False, index=False, mode='a+') 
 
 #Step 1 Choose the measurement country to import and Time Schedule
 #

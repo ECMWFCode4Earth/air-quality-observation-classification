@@ -110,8 +110,6 @@ def Milestone1_Get_OpenAQ_Dataset_Measurement_OpenAQStation_perStation(StationOp
     
     res1 = None
 
-    #StationOpenAQ
- 
     for ii in range(1, MAX_RETRIES + 1):
 
        try:
@@ -155,9 +153,7 @@ def Milestone1_Get_OpenAQ_Dataset_Measurement_OpenAQStation_perStation(StationOp
     return res1
 
 def Milestone1_Get_Import_Count_OpenAQ_Station(OpenAQSelect):
-    
-#   {ETCDIR}/ 
-    
+ 
    OpenAQStations = open(f"all_openaq_locations.json")
    OpenAQlocations = json.loads(OpenAQStations.read())
    OpenAQStationslength = len(OpenAQlocations)
@@ -236,8 +232,15 @@ def Milestone1_OpenAQ_API_Get_Measurements_APIoneStation(OpenAQSelects, OpenAQve
    #  print(parametersort)
      
    
+     parameterrequest1 = "https://docs.openaq.org/v1/measurements?" 
+   
+     paramerterrequestv2 = "https://docs.openaq.org/v2/measurements?"
+    
+    
+    
      parameterrequest = "https://u50g7n0cbj.execute-api.us-east-1.amazonaws.com/v1/measurements?date_from=" + str(dt_begin.year) + Reqparameter[0] +  Reqparameter[1]  + "T00%3A00%3A00%2B00%3A00&date_to=" + "2021" + Reqparameter[2]  + Reqparameter[3] + "T12%3A00%3A00%2B00%3A00&limit=10000&sort=desc&" + "country=" + OpenAQSelects['country'] + "&radius=1&order_by=datetime"
      
+     # https://u50g7n0cbj.execute-api.us-east-1.amazonaws.com/
      
    #  response = requests.get("https://u50g7n0cbj.execute-api.us-east-1.amazonaws.com/v1/measurements?date_from=" + str(dt_begin.year) + Reqparameter[0] +  Reqparameter[1]  + "T00%3A00%3A00%2B00%3A00&date_to=" + "2021" + Reqparameter[2]  + Reqparameter[3] + "T12%3A00%3A00%2B00%3A00&limit=10000&sort=desc&" + "country=" + OpenAQSelects['country'] + "&radius=1&order_by=datetime")
   
@@ -275,21 +278,22 @@ def Milestone1_OpenAQ_API_Get_Measurements_APIoneStation(OpenAQSelects, OpenAQve
      OpenAQdf.append(OpenAQdfresp)
         
      
-     OpenAQreq = range(1, responseno)
+     OpenAQreq = range(2, responseno)
    
      
      print(OpenAQreq)
      
      
-     for page_num in range(1, responseno):
+     for page_num in range(2, responseno + 1):
 
         print(" append ") 
-        print(type(page_num)) 
-        OpenAQrequestparameterrequest = parameterrequest + "&page=1" # + str(page_num)           
+        print(str(page_num)) 
+        OpenAQrequestparameterrequest = parameterrequest + "&page=" + str(page_num)           
 
         response = requests.get(OpenAQrequestparameterrequest)
      
-        print(response.json())
+     #  print(response.json())
+      
         if(response.status_code == 200):
             resp = response.json()["results"]
     
@@ -323,72 +327,59 @@ def Milestone1_OpenAQ_API_Get_Measurements_APIoneStation(OpenAQSelects, OpenAQve
       pass
   
    print(response.status_code)
-
    
-       
+   print(OpenAQdf)
+   
    return OpenAQdf
 
 
 
 def Milestone2_Convert_DateFormat(DatasetOpenAQ):
     
-
 #How to split column into two columns
 #https://www.geeksforgeeks.org/split-a-text-column-into-two-columns-in-pandas-dataframe/
-
-    
-   print(DatasetOpenAQ.dtypes) 
+ 
+  # print(DatasetOpenAQ.dtypes) 
 
    DatasetOpenAQ[['Dateutc','Datelocal']] = DatasetOpenAQ.date.apply(lambda x: pd.Series(str(x).split(",")))
 
 
    Dataset_split = DatasetOpenAQ.Dateutc.apply(lambda x: pd.Series(str(x).split("':")))
 
-    #print(Dataset_split)
 
    DatasetOpenAQ['date.utc'] = pd.to_datetime(Dataset_split[1])
 
-#print(Dataset.dtypes)
+ #  print(DatasetOpenAQ)
 
-   print(DatasetOpenAQ)
-
-   print(DatasetOpenAQ['value'])
-
+  # print(DatasetOpenAQ['value'])
 
    pd.to_datetime(DatasetOpenAQ['date.utc'])
 
    return DatasetOpenAQ
 
 
-
-
-
 def Milestone1_Get_Import_OpenAQ_Dataset_One_Statonselect(OpenAQSelects, iterationamount,  OpenAQrequest):
 
-    
-
-
+ 
    if(OpenAQrequest == 0):    
 
        OpenAQversion = 1      
 
        Sortres = Milestone1_OpenAQ_API_Get_Measurements_APIoneStation(OpenAQSelects, OpenAQversion)
 
-    #   Sortres.append(df4) 
+       print(Sortres)
 
    if(OpenAQrequest == 1):    
        
        OpenAQversion = 2
        
        Sortres = Milestone1_OpenAQ_API_Get_Measurements_APIoneStation(OpenAQSelects, OpenAQversion)
-
-    #   Sortres.append(df4) 
-
-
+ 
+ 
+    
    if(OpenAQrequest == 2):    
 
        Sortres = [] 
-       
 
        Sort = Milestone1_Get_Import_Count_OpenAQ_Station(OpenAQSelects['country']) 
 
@@ -396,7 +387,6 @@ def Milestone1_Get_Import_OpenAQ_Dataset_One_Statonselect(OpenAQSelects, iterati
    
        for SortAppend in Sort: 
    
-       
            print(type(SortAppend))
      
            res = Milestone1_Get_Import_OpenAQ_Dataset_One_Station(SortAppend, OpenAQSelects['parameter'], iterationamount, OpenAQSelects)
@@ -412,7 +402,9 @@ def Milestone1_Get_Import_OpenAQ_Dataset_One_Statonselect(OpenAQSelects, iterati
      
        Sortres.append(df4)
         
-   print(Sortres)
+   if(OpenAQrequest > 3):
+        
+       print(Sortres)
    
    return Sortres   
            
@@ -545,6 +537,8 @@ def Milestone1_Get_Measurements_CSV_OpenAQStation(OpenAQ_Stations, SelectionOpen
 #
 # 1 Choose from output of Country Codes 
 #
+# SelectionchooseOpenAQ
+#
 # 2 Change country code in CountryCode
 #
 # dt_begin = date(2020,3,1)  # Edit
@@ -555,7 +549,7 @@ def Milestone1_Get_Measurements_CSV_OpenAQStation(OpenAQ_Stations, SelectionOpen
 # 3 Test un comment   
 #
 
-# CountryCode = 'AG'
+#  SelectionchooseOpenAQ = 'AG'
 
 # reports measurements for station
 # 
@@ -575,7 +569,7 @@ SelectionchooseOpenAQ = 'BE' # 'AE'  # Edit
 dt_begin = date(2020,3,1)  # Edit
 dt_end = date(2020,3,4)  # Edit
 
-print("Getting OpenAQ dataset applying pyOpenAQ API from ") 
+print("Getting OpenAQ dataset from OpenAQ API from ") 
 print(dt_begin)
 print(" to ")
 print(dt_end)
@@ -616,7 +610,7 @@ if(SelectEveryParameter_YesorNo == 1):
     
    print("Every parameter at selected or chosen OpenAQ station") 
 
-# 
+# Step 3
 #
 # 1 Choose Source
 #
@@ -627,16 +621,16 @@ if(SelectEveryParameter_YesorNo == 1):
 #
 #
 #
-# 
+#  
 #
-#  OpenAQrequest = 
-
-OpenAQrequest = 0 # Edit 0 - The OpenAQ API version 1 from source or 1 OpenAQ API version 2 from source or 2 - The py-OpenAQ API using select every Location 3 - The py-OpenAQ using select Country
-
+#  OpenAQrequest = 0 
 
 print("  STEP 3 ")
 
 print("********")
+
+
+OpenAQrequest = 0 # Edit 0 - The OpenAQ API version 1 from source or 1 OpenAQ API version 2 from source or 2 - The py-OpenAQ API using select every Location 3 - The py-OpenAQ using select Country
 
 print("Source of OpenAQ requests")
 
@@ -653,45 +647,62 @@ OpenAQselection = Milestone1_Get_Import_OpenAQ_Dataset_One_Statonselect(OpenAQSe
 
 Completed_QC_Processes = 0
 
-
 # OpenAQDataset = Milestone1_Get_OpenAQ_Dataset_Measurement_OpenAQStation_perStation(CountryCode, parameter_selection, 1)
-
-
 
 # OpenAQDatasetselection = Milestone1_Get_Measurements_OpenAQStations(StationOpenAQ, parameter_selection)
 
 print(OpenAQselection)
 
-
 # Milestone1_Get_Import_Count_OpenAQ_Station()
 
 # Milestone1_Get_Import_OpenAQ_Dataset_One_Staton(OpenAQStation, parameterselected, iterationamount)
 
-#if(len(OpenAQDataset) > None):
 
- #  print("Found these Stations in selection")
+print("  STEP 4 ")
 
+print("********")
 
- #  OpenAQStations = OpenAQDataset['location'].unique()
+print("Results")
 
-
- #  print(OpenAQStations)
-
-
-#if(OpenAQDataset == None):
+if(len(OpenAQselection) == 0):
   
- # print("*****") 
+  print("*****") 
   
- # print("API Error")
+  print("API Error")
     
- # print("The API returned an error because it was unavailable after trying this many requests ")  
+  print("The API returned an error because") 
+ 
+  if(OpenAQrequest < 2): 
+      
+     print("the request was inaccurate")
+      
+     print("The API parameters may have been edited please check OpenAQ.org API page")
+        
+  if(OpenAQrequest > 1):
+        
+     print("it was unavailable after trying this many requests ")  
   
- # print(MAX_RETRIES)
+     print(MAX_RETRIES)
   
- #  print("Try to the process again after a few minutes")
+     print("Try to the process again after a few minutes")
 
 
+if(len(OpenAQselection) > 0):
+ 
+   print("Found these Stations in selection")
 
+
+   for OpenAQ_Station in OpenAQselection:
+    
+      OpenAQStations = OpenAQ_Station['location'].unique()
+
+      print(OpenAQStations)
+      
+print("  STEP 5 ")
+
+print("********")
+
+print("print results to CSV")
 
 SelectionOpenAQChoose = "unique debug" + SelectionchooseOpenAQ
 

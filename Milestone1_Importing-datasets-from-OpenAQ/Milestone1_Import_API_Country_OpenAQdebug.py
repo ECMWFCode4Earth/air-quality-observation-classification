@@ -71,7 +71,7 @@ def Milestone1_Get_Measurements_OpenAQStations(StationOpenAQ, parameter):
    OpenAQStations = []
    
    if(len(parameter) > 0):
-     status, OpenAQmeasurementsrespno_pages = api.measurements(radius=1, date_to=dt_end, date_from=dt_begin, order_by="datetime", sort="asc",offset=0, page=1, limit=10000)
+     status, OpenAQmeasurementsrespno_pages = api.measurements(country='BE', radius=1, date_to=dt_end, date_from=dt_begin, sort="asc", page=1, limit=10000)
    
 #    country='US', 
    # 'BE' 
@@ -193,7 +193,7 @@ def Milestone1_Getparameter(Reqparameter):
 
     else:
 
-        Requestparameter = Reqparameter 
+        Requestparameter = "-" + Reqparameter 
         
     return Requestparameter
     
@@ -232,36 +232,48 @@ def Milestone1_OpenAQ_API_Get_Measurements_APIoneStation(OpenAQSelects, OpenAQve
    #  print(parametersort)
      
    
-     parameterrequest1 = "https://docs.openaq.org/v1/measurements?" 
+     parameterrequest1 = "https://u50g7n0cbj.execute-api.us-east-1.amazonaws.com/v1/measurements?" 
    
-     paramerterrequestv2 = "https://docs.openaq.org/v2/measurements?"
+     paramerterrequestv2 = "https://u50g7n0cbj.execute-api.us-east-1.amazonaws.com/v2/measurements?"
     
-    
-    
-     parameterrequest = "https://u50g7n0cbj.execute-api.us-east-1.amazonaws.com/v1/measurements?date_from=" + str(dt_begin.year) + Reqparameter[0] +  Reqparameter[1]  + "T00%3A00%3A00%2B00%3A00&date_to=" + "2021" + Reqparameter[2]  + Reqparameter[3] + "T12%3A00%3A00%2B00%3A00&limit=10000&sort=desc&" + "country=" + OpenAQSelects['country'] + "&radius=1&order_by=datetime"
      
-     # https://u50g7n0cbj.execute-api.us-east-1.amazonaws.com/
+     if(OpenAQversion == 0): 
+        
+         parameterrequest =  parameterrequest1 + "date_from=" + str(dt_begin.year) + Reqparameter[0] +  Reqparameter[1]  + "T00%3A00%3A00%2B00%3A00&date_to=" + str(dt_end.year)  + Reqparameter[2]  + Reqparameter[3] + "T00%3A00%3A00%2B00%3A00&limit=10000&sort=desc&" + "country=" + OpenAQSelects['country'] + "&radius=1&order_by=datetime"
+        
+     if(OpenAQversion == 1):
      
-   #  response = requests.get("https://u50g7n0cbj.execute-api.us-east-1.amazonaws.com/v1/measurements?date_from=" + str(dt_begin.year) + Reqparameter[0] +  Reqparameter[1]  + "T00%3A00%3A00%2B00%3A00&date_to=" + "2021" + Reqparameter[2]  + Reqparameter[3] + "T12%3A00%3A00%2B00%3A00&limit=10000&sort=desc&" + "country=" + OpenAQSelects['country'] + "&radius=1&order_by=datetime")
-  
-  #   responseno = response["meta"]["pages"]
-   
+         parameterrequest = paramerterrequestv2 + "date_from="  + str(dt_begin.year) + Reqparameter[0] +  Reqparameter[1]  + "T00%3A00%3A00%2B00%3A00&date_to=" + str(dt_end.year)  + Reqparameter[2]  + Reqparameter[3] + "T00%3A00%3A00%2B00%3A00&limit=10000&offset=1&sort=desc&" + "country=" + OpenAQSelects['country'] + "&radius=1&order_by=datetime"
+ 
+     
+    
+
+     
      print(OpenAQSelects['parameter'])
      
      if(len(OpenAQSelects['parameter']) > 0):
          
          parameterrequest += "&parameter=" + OpenAQSelects['parameter'][0] 
+        
+         parameterrequest += "&page="
+         
      
-     response = requests.get(parameterrequest)
+     
+     print(parameterrequest)      
+     
+     response = requests.get(parameterrequest + "1")
    
-     responseno = response.json()["meta"]# ["found"]/10000
+     responseno = response.json()["meta"]
+     
+     print("Found results ")
+     
+     print(responseno["found"])
      
      responseno = int(responseno["found"]/OpenAQSelects["limit"])
      
-     print("request")
-     
      print(responseno)  
    
+    
    #  print(response.json()) 
  
      
@@ -269,7 +281,7 @@ def Milestone1_OpenAQ_API_Get_Measurements_APIoneStation(OpenAQSelects, OpenAQve
             resp = response.json()["results"]
     
             OpenAQdfresp = pd.DataFrame(resp)
-            print(OpenAQdfresp["date"])  
+          #  print(OpenAQdfresp["date"])  
             OpenAQdfresp = Milestone2_Convert_DateFormat(OpenAQdfresp)
 
             OpenAQdfresp.index = OpenAQdfresp['date.utc']
@@ -281,14 +293,17 @@ def Milestone1_OpenAQ_API_Get_Measurements_APIoneStation(OpenAQSelects, OpenAQve
      OpenAQreq = range(2, responseno)
    
      
-     print(OpenAQreq)
+   #  print(OpenAQreq)
      
      
      for page_num in range(2, responseno + 1):
 
-        print(" append ") 
+        print(" Request append results ") 
         print(str(page_num)) 
-        OpenAQrequestparameterrequest = parameterrequest + "&page=" + str(page_num)           
+                
+        OpenAQrequestparameterrequest = parameterrequest + str(page_num)           
+
+
 
         response = requests.get(OpenAQrequestparameterrequest)
      
@@ -298,7 +313,7 @@ def Milestone1_OpenAQ_API_Get_Measurements_APIoneStation(OpenAQSelects, OpenAQve
             resp = response.json()["results"]
     
             OpenAQdfresp = pd.DataFrame(resp)
-            print(OpenAQdfresp["date"])  
+          #  print(OpenAQdfresp["date"])  
             OpenAQdfresp = Milestone2_Convert_DateFormat(OpenAQdfresp)
 
             OpenAQdfresp.index = OpenAQdfresp['date.utc']
@@ -326,9 +341,9 @@ def Milestone1_OpenAQ_API_Get_Measurements_APIoneStation(OpenAQSelects, OpenAQve
    
       pass
   
-   print(response.status_code)
+ #  print(response.status_code)
    
-   print(OpenAQdf)
+ #  print(OpenAQdf)
    
    return OpenAQdf
 
@@ -358,21 +373,18 @@ def Milestone2_Convert_DateFormat(DatasetOpenAQ):
    return DatasetOpenAQ
 
 
-def Milestone1_Get_Import_OpenAQ_Dataset_One_Statonselect(OpenAQSelects, iterationamount,  OpenAQrequest):
+def Milestone1_Get_Import_OpenAQ_Dataset_One_Statonselect(OpenAQSelects, iterationamount,  OpenAQversion):
 
  
    if(OpenAQrequest == 0):    
-
-       OpenAQversion = 1      
+   
 
        Sortres = Milestone1_OpenAQ_API_Get_Measurements_APIoneStation(OpenAQSelects, OpenAQversion)
 
        print(Sortres)
 
    if(OpenAQrequest == 1):    
-       
-       OpenAQversion = 2
-       
+              
        Sortres = Milestone1_OpenAQ_API_Get_Measurements_APIoneStation(OpenAQSelects, OpenAQversion)
  
  
@@ -387,11 +399,11 @@ def Milestone1_Get_Import_OpenAQ_Dataset_One_Statonselect(OpenAQSelects, iterati
    
        for SortAppend in Sort: 
    
-           print(type(SortAppend))
-     
            res = Milestone1_Get_Import_OpenAQ_Dataset_One_Station(SortAppend, OpenAQSelects['parameter'], iterationamount, OpenAQSelects)
 
-           Sortres.append(res)
+           if(len(res) > 0):
+               
+              Sortres.append(res)
    
    if(OpenAQrequest == 3):    
 
@@ -403,35 +415,41 @@ def Milestone1_Get_Import_OpenAQ_Dataset_One_Statonselect(OpenAQSelects, iterati
        Sortres.append(df4)
         
    if(OpenAQrequest > 3):
-        
-       print(Sortres)
+    
+       Sortres = []    
+    
+   if(OpenAQrequest < 0):
+    
+       Sortres = []    
+       
+   print(Sortres)
    
    return Sortres   
            
 
 def Milestone1_Get_Import_OpenAQ_Dataset_One_Station(OpenAQStation, parameter, iterationamount, OpenAQSelect):
 
-   print(type(OpenAQStation))  
+ #  print(type(OpenAQStation))  
 
-   Completedreq = 0
-   
-   res_1 = None
+   res_1 = []
    
    # Step 1 Get Measurements for station
    try: 
     
      res_1 = api.measurements(location=OpenAQStation, parameter=parameter, date_to=dt_end, date_from=dt_begin, df=True, limit=10000)
+  
      print(res_1)
   
    except:
+     res_1 = []
+     
+     print("Not Complete")  
      pass   
     
    
 
    return res_1
 
- #   https://u50g7n0cbj.execute-api.us-east-1.amazonaws.com/v1/measurements?date_from=2000-01-01T00%3A00%3A00%2B00%3A00&date_to=2021-02-08T12%3A15%3A00%2B00%3A00&limit=100&page=1&offset=0&sort=desc&radius=1000&location=US%20Diplomatic%20Post%3A%20Abu%20Dhabi&location=US%20Diplomatic%20Post%3A%20Dubai%2C%20Dubai&location=Abu%20Dhabi&order_by=datetime
-    
 def Milestone1_Get_Measurement_OpenAQStations(OpenAQ_Stations, Completed_QC_Processes, parameter):
      
     
@@ -573,7 +591,7 @@ print("Getting OpenAQ dataset from OpenAQ API from ")
 print(dt_begin)
 print(" to ")
 print(dt_end)
-print(" for every OpenAQ Station and parameter ")
+print(" for every OpenAQ Station and parameter selection ")
 
 
 # Step 2 Choose parameter 
@@ -630,7 +648,7 @@ print("  STEP 3 ")
 print("********")
 
 
-OpenAQrequest = 0 # Edit 0 - The OpenAQ API version 1 from source or 1 OpenAQ API version 2 from source or 2 - The py-OpenAQ API using select every Location 3 - The py-OpenAQ using select Country
+OpenAQrequest = 3 # Edit 0 - The OpenAQ API version 1 from source or 1 OpenAQ API version 2 from source or 2 - The py-OpenAQ API using select every Location 3 - The py-OpenAQ using select Country
 
 print("Source of OpenAQ requests")
 
@@ -691,12 +709,25 @@ if(len(OpenAQselection) > 0):
  
    print("Found these Stations in selection")
 
+   OpenAQStations = []
 
    for OpenAQ_Station in OpenAQselection:
     
-      OpenAQStations = OpenAQ_Station['location'].unique()
+       
+      print(OpenAQ_Station)
+      
+      OpenAQStationsselect = OpenAQ_Station['location'].unique()
 
-      print(OpenAQStations)
+      for OpenAQStationsunique in OpenAQStationsselect:
+
+         OpenAQStations.append(OpenAQStationsunique)
+          
+  
+      
+   OpenAQStations = pd.DataFrame(OpenAQStations, columns=["locations"])
+
+
+   print(OpenAQStations['locations'].unique())
       
 print("  STEP 5 ")
 

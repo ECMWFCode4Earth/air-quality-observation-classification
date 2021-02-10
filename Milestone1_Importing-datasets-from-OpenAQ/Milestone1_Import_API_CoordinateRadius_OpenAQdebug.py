@@ -174,9 +174,9 @@ def Milestone1_OpenAQ_API_Get_Measurements_APIoneStation(OpenAQSelects, OpenAQve
          print(parameterrequest)
     
   
-        if(len(OpenAQSelects['parameter']) > 0):
+         if(len(OpenAQSelects['parameter']) > 0):
          
-           parameterrequest += "&parameter=" + OpenAQSelects['parameter'][0] 
+            parameterrequest += "&parameter=" + OpenAQSelects['parameter'][0] 
         
      
      print(OpenAQSelects['parameter'])

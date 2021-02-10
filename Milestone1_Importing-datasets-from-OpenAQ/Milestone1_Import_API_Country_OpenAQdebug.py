@@ -648,7 +648,7 @@ print("  STEP 3 ")
 print("********")
 
 
-OpenAQrequest = 3 # Edit 0 - The OpenAQ API version 1 from source or 1 OpenAQ API version 2 from source or 2 - The py-OpenAQ API using select every Location 3 - The py-OpenAQ using select Country
+OpenAQrequest = 0 # Edit 0 - The OpenAQ API version 1 from source or 1 OpenAQ API version 2 from source or 2 - The py-OpenAQ API using select every Location 3 - The py-OpenAQ using select Country
 
 print("Source of OpenAQ requests")
 

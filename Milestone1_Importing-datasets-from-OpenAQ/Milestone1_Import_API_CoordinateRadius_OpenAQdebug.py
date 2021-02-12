@@ -216,6 +216,8 @@ def Milestone1_OpenAQ_API_Get_Measurements_APIoneStation(OpenAQSelects, OpenAQve
             resp = response.json()["results"]
     
             OpenAQdfresp = pd.DataFrame(resp)
+            OpenAQdfresp = Milestone2_Convert_Latlng(OpenAQdfresp)
+           
           #  print(OpenAQdfresp["date"])  
             OpenAQdfresp = Milestone2_Convert_DateFormat(OpenAQdfresp)
 
@@ -249,8 +251,10 @@ def Milestone1_OpenAQ_API_Get_Measurements_APIoneStation(OpenAQSelects, OpenAQve
     
             OpenAQdfresp = pd.DataFrame(resp)
           #  print(OpenAQdfresp["date"])  
+           
+            OpenAQdfresp = Milestone2_Convert_Latlng(OpenAQdfresp)
             OpenAQdfresp = Milestone2_Convert_DateFormat(OpenAQdfresp)
-
+           
             OpenAQdfresp.index = OpenAQdfresp['date.utc']
        
      
@@ -322,7 +326,6 @@ def Milestone1_Get_Import_Count_OpenAQ_Stations(OpenAQselection):
    
    if(len(OpenAQselection) > 0):
  
-      print("Found these Stations in selection")
 
 
       OpenAQStations = []
@@ -355,7 +358,8 @@ def Milestone1_Get_Import_Count_OpenAQ_Stations(OpenAQselection):
             OpenAQuniqueStations.append(OpenAQStationsunique)
           
   
-      
+      print("Found these Stations in selection")
+
       OpenAQStations = pd.DataFrame(OpenAQStations, columns=["locations"])
 
       OpenAQStationdfunique = pd.DataFrame(OpenAQuniqueStations, columns=["city"])
@@ -363,6 +367,31 @@ def Milestone1_Get_Import_Count_OpenAQ_Stations(OpenAQselection):
       print(OpenAQStationdfunique['city'].unique())
 
       print(OpenAQStations['locations'].unique())
+      
+      
+def Milestone2_Convert_Latlng(DatasetOpenAQ):
+    
+#How to split column into two columns
+#https://www.geeksforgeeks.org/split-a-text-column-into-two-columns-in-pandas-dataframe/
+ 
+#   print(DatasetOpenAQ.dtypes) 
+ 
+  # {  'latitude': 40.437622, 'longitude': -79.979849}
+
+   DatasetOpenAQ[['lat','lng']] = DatasetOpenAQ.coordinates.apply(lambda x: pd.Series(str(x).split(",")))
+  
+   Dataset_split = DatasetOpenAQ.lat.apply(lambda x: pd.Series(str(x).split("'latitude':")))
+
+   DatasetOpenAQ.insert(loc=len(DatasetOpenAQ.columns), column="coordinate.latitude",value=Dataset_split[1])
+
+   Dataset_split = DatasetOpenAQ.lng.apply(lambda x: pd.Series(str(x).split("':")))
+
+   DatasetOpenAQ.insert(loc=len(DatasetOpenAQ.columns), column="coordinate.longitude",value=Dataset_split[1])
+
+   DatasetOpenAQ.drop(['lat','lng','coordinates'], axis=1)
+
+   return DatasetOpenAQ
+      
 def Milestone2_Convert_DateFormat(DatasetOpenAQ):
     
 #How to split column into two columns
@@ -374,8 +403,7 @@ def Milestone2_Convert_DateFormat(DatasetOpenAQ):
 
 
    Dataset_split = DatasetOpenAQ.Dateutc.apply(lambda x: pd.Series(str(x).split("':")))
-
-
+  
    DatasetOpenAQ['date.utc'] = pd.to_datetime(Dataset_split[1])
 
  #  print(DatasetOpenAQ)
@@ -383,6 +411,9 @@ def Milestone2_Convert_DateFormat(DatasetOpenAQ):
   # print(DatasetOpenAQ['value'])
 
    pd.to_datetime(DatasetOpenAQ['date.utc'])
+
+   DatasetOpenAQ.drop(['Dateutc','Datelocal','date'], axis=1)
+
 
    return DatasetOpenAQ
 
@@ -519,7 +550,7 @@ OpenAQStationCoordinates = "24.4244%2C54.4337"
 
 # "-34.60638,-58.43194" #Edit Lat, Lng
 
-Radius = 5 # Edit in metres 
+Radius = 100 # Edit in metres 
 
 print(OpenAQStationCoordinates)
 
@@ -636,13 +667,7 @@ res2 = Milestone1_OpenAQ_API_Get_Measurements_APIoneStation(OpenAQSelects, OpenA
 
 Milestone1_Get_Import_Count_OpenAQ_Stations(res2)
 
-print("Found these Stations in Coordinates")
 
-if(len(res2[0]) > 0):
-
-  OpenAQStationunique = res2[0]['location'].unique()
-
-  print(OpenAQStationunique)
 
 if(len(res2[0]) == 0):
   
@@ -675,14 +700,15 @@ print("Getting Measurements to CSV ")
 
 SelectionOpenAQ = 1
 
-SelectionOpenAQChoose = "Unique debugged 24.4244 54.43375"
+SelectionOpenAQChoose = "Unique debugged " + OpenAQStationCoordinates
 
 
 
 if(len(res2[0]) > 0):
     
     SelectionDatasetOpenAQ = 0
-    
+  #  res2[0].drop(['B', 'C'], axis=1)
+
     Milestone1_Get_Measurements_CSV_OpenAQStation(res2[0], SelectionOpenAQChoose, parameter_selection, SelectionOpenAQ, dt_begin, dt_end, SelectionDatasetOpenAQ)
 
 
@@ -694,7 +720,9 @@ for OpenAQ_Station in res2:
 
     
    if(len(res2) > iterationamount):
-     
+   
+   #  res2[iterationamount].drop(['B', 'C'], axis=1)
+   
      Milestone1_Get_Measurements_CSV_OpenAQStation(res2[iterationamount], SelectionOpenAQChoose, parameter_selection, SelectionOpenAQ, dt_begin, dt_end, SelectionDatasetOpenAQ)
 
      iterationamount = iterationamount + 1 

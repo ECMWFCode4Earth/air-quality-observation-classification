@@ -169,7 +169,7 @@ def Milestone1_OpenAQ_API_Get_Measurements_APIoneStation(OpenAQSelects, OpenAQve
         
      if(OpenAQversion == 1):
      
-         parameterrequest = paramerterrequestv2 + "date_from="  + str(dt_begin.year) + Reqparameter[0] +  Reqparameter[1]  + "T00%3A00%3A00%2B00%3A00&date_to=" + str(dt_end.year)  + Reqparameter[2]  + Reqparameter[3] + "T00%3A00%3A00%2B00%3A00&limit=10000&page=1&offset=1&sort=desc&" + str(OpenAQSelects['coordinates']) + "&radius="  + str(OpenAQSelects['radius']) + "&order_by=datetime"
+         parameterrequest = paramerterrequestv2 + "date_from="  + str(dt_begin.year) + Reqparameter[0] +  Reqparameter[1]  + "T00%3A00%3A00%2B00%3A00&date_to=" + str(dt_end.year)  + Reqparameter[2]  + Reqparameter[3] + "T00%3A00%3A00%2B00%3A00&limit=10000&page=1&offset=1&sort=desc&" + "coordinates="  + str(OpenAQSelects['coordinates']) + "&radius="  + str(OpenAQSelects['radius']) + "&order_by=datetime"
  
          print(parameterrequest)
     
@@ -315,6 +315,54 @@ def Milestone1_Getparameter(Reqparameter):
     
 
 
+def Milestone1_Get_Import_Count_OpenAQ_Stations(OpenAQselection):
+   
+   print(OpenAQselection)
+   
+   
+   if(len(OpenAQselection) > 0):
+ 
+      print("Found these Stations in selection")
+
+
+      OpenAQStations = []
+
+      OpenAQStation = []
+
+      OpenAQuniqueStations = []
+
+
+      for OpenAQ_Station in OpenAQselection:
+    
+       
+      #   print(OpenAQ_Station)
+       
+         OpenAQStationunique = OpenAQ_Station['country'].unique()
+         
+         print(OpenAQStationunique)   
+         
+         OpenAQStationsunique = OpenAQ_Station['city'].unique()
+
+         for OpenAQStationsunique in OpenAQStationsunique:
+
+            OpenAQStations.append(OpenAQStationsunique)
+         
+         
+         OpenAQStationsselect = OpenAQ_Station['location'].unique()
+
+         for OpenAQStationsunique in OpenAQStationsselect:
+
+            OpenAQuniqueStations.append(OpenAQStationsunique)
+          
+  
+      
+      OpenAQStations = pd.DataFrame(OpenAQStations, columns=["locations"])
+
+      OpenAQStationdfunique = pd.DataFrame(OpenAQuniqueStations, columns=["city"])
+
+      print(OpenAQStationdfunique['city'].unique())
+
+      print(OpenAQStations['locations'].unique())
 def Milestone2_Convert_DateFormat(DatasetOpenAQ):
     
 #How to split column into two columns
@@ -471,7 +519,7 @@ OpenAQStationCoordinates = "24.4244%2C54.4337"
 
 # "-34.60638,-58.43194" #Edit Lat, Lng
 
-Radius = 1 # Edit in metres 
+Radius = 5 # Edit in metres 
 
 print(OpenAQStationCoordinates)
 
@@ -586,7 +634,7 @@ res2 = Milestone1_OpenAQ_API_Get_Measurements_APIoneStation(OpenAQSelects, OpenA
 # OpenAQselection = Milestone1_Get_Import_OpenAQ_Dataset_One_Statonselect(OpenAQSelects, iterationamount, OpenAQrequest)
 
 
-
+Milestone1_Get_Import_Count_OpenAQ_Stations(res2)
 
 print("Found these Stations in Coordinates")
 
@@ -627,7 +675,7 @@ print("Getting Measurements to CSV ")
 
 SelectionOpenAQ = 1
 
-SelectionOpenAQChoose = "Unique selection 24.4244 54.43375"
+SelectionOpenAQChoose = "Unique debugged 24.4244 54.43375"
 
 
 

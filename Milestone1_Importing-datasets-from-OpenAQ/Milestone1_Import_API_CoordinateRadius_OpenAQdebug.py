@@ -54,6 +54,41 @@ def Milestone1_notGet_OpenAQ_Dataset_Measurement_perStation(StationOpenAQCoordin
    return res1
 
 
+def Milestone1_Get_Import_OpenAQ_Countries_OpenAQStations(OpenAQSelect):
+
+   print(OpenAQSelect)  
+     
+   resp_attribute = api.locations(country=OpenAQSelect, df=True)
+ 
+   print(resp_attribute['location'])
+    
+   return resp_attribute
+
+def Milestone1_Get_Import_OpenAQ_Countries(OpenAQSelect):
+
+ #  status, resp = api.cities()
+
+   #print(resp)
+
+   if(len(OpenAQSelect) == 0):
+
+     resp_attribute = api.countries(df=True)
+
+   else:
+     
+     print(OpenAQSelect)  
+     
+     resp_attribute = api.countries(country=OpenAQSelect, df=True)
+  
+
+   df2 = resp_attribute.code
+
+   df3 = pd.DataFrame(df2)
+
+   print(resp_attribute)
+
+
+   return resp_attribute
 
 def Milestone1_Get_OpenAQ_Dataset_Measurement_perStation(StationOpenAQCoordinates, Radius, parameter, dt_begin, dt_end):
     
@@ -458,11 +493,15 @@ def Milestone2_Convert_Latlng(DatasetOpenAQ):
 
    DatasetOpenAQ.insert(loc=len(DatasetOpenAQ.columns), column="coordinate.latitude",value=Dataset_split[1])
 
-   Dataset_split = DatasetOpenAQ.lng.apply(lambda x: pd.Series(str(x).split("':")))
+   DatasetOpenAQ[['lngselect','lngapply']] = DatasetOpenAQ.lng.apply(lambda x: pd.Series(str(x).split("':")))
 
-   DatasetOpenAQ.insert(loc=len(DatasetOpenAQ.columns), column="coordinate.longitude",value=Dataset_split[1])
+ #  print()
 
-   DatasetOpenAQ.drop(['lat','lng','coordinates'], axis=1, inplace=True)
+   SelectStationlng = DatasetOpenAQ.lngapply.apply(lambda x: pd.Series(str(x).split("}")))
+
+   DatasetOpenAQ.insert(loc=len(DatasetOpenAQ.columns), column="coordinate.longitude",value=SelectStationlng[0])
+
+   DatasetOpenAQ.drop(['lat','lng','coordinates','lngselect','lngapply'], axis=1, inplace=True)
 
    print(DatasetOpenAQ.dtypes) 
 
@@ -487,6 +526,7 @@ def Milestone2_Convert_DateFormat(DatasetOpenAQ):
    DatasetOpenAQ.drop(columns=['Dateutc','Datelocal','date'], inplace=True)
 
    print(DatasetOpenAQ.dtypes) 
+   
    return DatasetOpenAQ
 
 
@@ -605,13 +645,17 @@ print("Chosen OpenAQ Coordinates Lat/lng and Radius: ")
     
  
      
-OpenAQStationCoordinates = "24.4244%2C54.4337"
+OpenAQStationCoordinates = "51.0406%2C3.7349" # "24.4244%2C54.4337" # "34.60638%2C58.43194" # "35.94599%2C96.96093" # "24.4244%2C54.4337"
 
-# "35.945993, 96.960939" # 
 
-# "-34.60638,-58.43194" #Edit Lat, Lng
+OpenAQLatselect = ["51.04068942%2C3.73497147968531"]
 
-Radius = 100 # Edit in metres must be more than 1  i.e. min 5
+
+# "35.945993%2C96.960939" # 
+
+# "-34.60638%2C-58.43194" #Edit Lat, Lng
+
+Radius = 10500 # Edit in metres must be more than 1  i.e. min 5
 
 print(OpenAQStationCoordinates)
 
@@ -635,7 +679,7 @@ print("  STEP 3 ")
 
 print("********")
 
-SelectEveryParameter_YesorNo = 0 # Edit 1 Yes 0 No just one 
+SelectEveryParameter_YesorNo = 1 # Edit 1 Yes 0 No just one 
 
 parameter = 'pm25'  # Edit
 
@@ -727,7 +771,7 @@ OpenAQSelects = Milestone1_Get_Parameters(OpenAQStationCoordinates, Radius, para
 
 print(OpenAQSelects)
 
-OpenAQversion = 1
+OpenAQversion = 1 # Edit 0 Version 1 and 1 Version  2 OpenAQ API request
 
 res2 = Milestone1_OpenAQ_API_Get_Measurements_APIoneStation(OpenAQSelects, OpenAQversion)
 
@@ -769,7 +813,7 @@ print("Getting Measurements to CSV ")
 
 SelectionOpenAQ = 1
 
-SelectionOpenAQChoose = "Unique debugged radius " + str(Radius) # + OpenAQStationCoordinates
+SelectionOpenAQChoose = "Unique  debugged radius " + str(Radius) # + OpenAQStationCoordinates
 
 
 

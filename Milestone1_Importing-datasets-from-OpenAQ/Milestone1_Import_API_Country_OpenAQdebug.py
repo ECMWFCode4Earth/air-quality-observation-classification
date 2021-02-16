@@ -1033,9 +1033,10 @@ def Test_Milestone1_Get_Import_OpenAQ_json_Countries_OpenAQStation(OpenAQparamet
 #OpenAQStations = Milestone1_Get_Import_OpenAQ_EveryStation_inChoosenCountry(CountryCode)
 
 
-SelectionchooseOpenAQ = Test_Milestone1_Get_Import_OpenAQ_Countries()
+SelectionchooseOpenAQ = ['TJ', 'CW', 'GT', 'IT', 'TT'] # ['BE','AE'] # 'AE'  # Edit
 
-# SelectionchooseOpenAQ = ['BE','AE'] # 'AE'  # Edit
+# SelectionchooseOpenAQappend = Test_Milestone1_Get_Import_OpenAQ_Countries()
+
 
 dt_begin = date(2020,3,1)  # Edit
 dt_end = date(2020,3,4)  # Edit

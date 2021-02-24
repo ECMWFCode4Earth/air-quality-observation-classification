@@ -10,7 +10,7 @@ and ESoWC 2020
 
 # Aims 
 
-1 Import OpenAQ dataset from API source i.e. through the pyOpenAQ API  
+1 Import OpenAQ dataset from API source i.e. through the pyOpenAQ API or choose OpenAQ API request version 1 or 2 
 
 2 Import OpenAQ dataset from bulk download i.e. through ndjson download from AWS server 
 

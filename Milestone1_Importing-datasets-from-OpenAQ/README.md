@@ -135,14 +135,16 @@ In the wegiangb-patch1
 
 Numpy 
 
+requests
+
 Pandas import json_normalize
 
-
 datetime 
+
 
 openAQ (Not required for Aim 2)
 
 http://dhhagan.github.io/py-openaq/tutorial/api.html
 
-csv
 
+csv

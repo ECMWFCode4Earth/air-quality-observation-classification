@@ -30,7 +30,7 @@ Validating and removing errors outliers from surface air quality observations fr
 
 ## Milestone 2
 
-### Step 1 Open Milestone 2 
+### Step 1 Open Milestone 2 python module
 
 ### Step 2 See Milestone 2 User Manual and change CSV download address to downloaded
 
@@ -38,7 +38,7 @@ Validating and removing errors outliers from surface air quality observations fr
 
 ## Milestone 3
 
-### Step 1 Open Milestone 3
+### Step 1 Open Milestone 3 python module
 
 ### Step 2 See Milestone 3 User Manual and change CSV download address to download
 
@@ -50,13 +50,15 @@ Validating and removing errors outliers from surface air quality observations fr
 
 ## Milestone 4
 
-### Step 1 Open Milestone 4
+### Step 1 Open Milestone 4 python module
 
 ### Step 2 See User Manual Milestone 4 and change CSV download address to download
 
 ### Step 3 Process python module
 
 # Implementation 
+
+All Milestones have a python module used for processing. There is a User manual. There are sometime other import documents. There are sometime some examples of outputs. There are some debug python modules. These are being edited.  
 
 ## Milestone1_Importing-datasets-from-OpenAQ
 

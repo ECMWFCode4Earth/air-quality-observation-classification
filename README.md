@@ -12,54 +12,55 @@ Validating and removing errors outliers from surface air quality observations fr
 
 3 Determine Reliability of OpenAQ Stations 
 
-4 Allowing further analysis of openAQ dataset
+4 Find distance to Nearest Highway from OpenAQ Stations compared to OpenAQ Staion's statistics
+
+5 Allowing further analysis of openAQ dataset
 
 # User Manual 
 
-# Milestone 1
+## Milestone 1
 
-## Step 1 Open Milestone1 
+### Step 1 Open Milestone 1 python module
 
-## Step 2 See User Manual and edit OpenAQ dataset parameters 
+### Step 2 See Milestone 1 User Manual and edit OpenAQ dataset selection parameters 
 
-## Step 3 Processes selected Process 
+### Step 3 Process selected Processes 
 
-## Step 4 Copy address of resulting CSV download
+### Step 4 Copy address of resulting CSV download
 
-# Milestone 2
+## Milestone 2
 
-## Step 1 Open Milestone 2 
+### Step 1 Open Milestone 2 
 
-## Step 2 See User Manual and change CSV download address to downloaded
+### Step 2 See Milestone 2 User Manual and change CSV download address to downloaded
 
-## Step 3 Process ""
+### Step 3 Process selected python module
 
-# Milestone 3
+## Milestone 3
 
-## Step 1 Open Milestone 3
+### Step 1 Open Milestone 3
 
-## Step 2 See User Manual and change CSV download address to download
+### Step 2 See Milestone 3 User Manual and change CSV download address to download
 
-## Step 3 Change Quality Control Search Criteria in YML text file for the parameters i.e. default_03_paramters.yml 
+### Step 3 Change Quality Control Search Criteria in YML text file for the parameters i.e. default_03_paramters.yml or in python module
 
-## Step 4 Process ""
+### Step 4 Process python module
 
-## Step 5 View results in Monitoring report for OpenAQ Stations or dashboard of selected OpenAQ stations
+### Step 5 View results in Monitoring report for OpenAQ Stations or dashboard of selected OpenAQ stations
 
-# Milestone 4
+## Milestone 4
 
-## Step 1 Open Milestone 3
+### Step 1 Open Milestone 4
 
-## Step 2 See User Manual and change CSV download address to download
+### Step 2 See User Manual Milestone 4 and change CSV download address to download
 
-## Step 3 Process 
-
+### Step 3 Process python module
 
 # Implementation 
 
 ## Milestone1_Importing-datasets-from-OpenAQ
 
-Importing OpenAQ datasets to dataframes
+Importing OpenAQ datasets to pandas dataframes
 
 ## Milestone2_Identifying_reliable_stations
 
@@ -85,3 +86,6 @@ https://pecos.readthedocs.io/en/latest/installation.html
 2 py-OpenAQ for Milestone 1
 
 https://github.com/dhhagan/py-openaq
+
+3 Other usual python modules : pandas, requests,  matplotlib.pyplot, datetime, time, csv, seaborn, numpy, json
+
